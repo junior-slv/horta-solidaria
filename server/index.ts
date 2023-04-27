@@ -1,11 +1,10 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3001
+import db from './models'
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+db.sequelize.sync().then(() =>{
+  app.listen(port, () =>{
+    console.log(`Rodando na porta: ${port}`)
+  })
 })
