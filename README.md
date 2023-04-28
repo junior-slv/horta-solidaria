@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!-- concluído -->
 <a name="readme-top" id="readme-top"></a>
 
@@ -183,3 +184,6 @@ Algumas ferramentas e conteúdos que nos ajudarão a concluir esse projeto
 [Sequelize.js]: https://img.shields.io/badge/Sequelize-52B0E7?style=for-the-badge&logo=sequelize&logoColor=white
 [Sequelize-url]: https://sequelize.org/
 
+=======
+# horta-solidaria
+>>>>>>> 26dfc93a9360acf21717e5a6b626139f6e8e1020
