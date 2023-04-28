@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<!-- concluído -->
 <a name="readme-top" id="readme-top"></a>
 
 <!-- Concluído -->
