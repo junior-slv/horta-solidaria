@@ -1,101 +1,151 @@
+// Imports para o componente
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; //importação do componente
 import {
-  faArrowRightFromBracket,
+  faArrowRightToBracket,
   faHouse,
   faMagnifyingGlass,
   faBars,
+  faArrowRight,
+  faChevronDown,
+  faGauge,
+  faGear,
+  faTree,
+  faDiagramProject,
 } from "@fortawesome/free-solid-svg-icons"; // importação do icone individual
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-
-
+// componente SideBar
 const Sidebar = () => {
+  //varíavel para armazenar o estado atual da side bar
+  const [open, setOpen] = useState(true);
+  const [subMenuOpen, setSubMenuOpen] = useState(false);
 
-  const [width, setWidth] = useState('w-20'); // Define a largura inicial como 64 (250px)
+  // Objeto para armazenar itens do menu
+  const Menus = [
+    { title: "DashBoard", icon: <FontAwesomeIcon icon={faGauge} /> },
+    { title: "Configurações", icon: <FontAwesomeIcon icon={faGear} /> },
+    { title: "Hortas", icon: <FontAwesomeIcon icon={faTree} />, spacing: true },
+    {
+      title: "Projetos",
+      icon: <FontAwesomeIcon icon={faDiagramProject} />,
+      submenu: true,
+      subMenuItens: [{ title: "Projeto1" }, { title: "Projeto2" }],
+    },
+    {
+      title: "SignOut",
+      icon: <FontAwesomeIcon icon={faArrowRightToBracket} />,
+    },
+  ];
 
-  const [isVisible, setIsVisible] = useState(false); // Define o estado inicial como visível
-
-
-  const handleButtonClick = () => {
-    if (width === 'w-64') {
-      setWidth('w-20'); // Alterna para 64 (250px) se a largura for 20 (80px)
-      setIsVisible(false); // Define o estado como invisível quando o botão é clicado
-    } else {
-      setWidth('w-64'); // Alterna para 20 (80px) se a largura for diferente de 20 (80px)
-      setIsVisible(true); // Define o estado como invisível quando o botão é clicado
-    }
-  };
-
-
+  //Componente
   return (
-    <div className="body h-screen w-screen bg-white">
-      <nav className={`fixed h-full top-0 left-0 ${width} px-3.5 py-3.5 z-50 bg-beige duration-300 block`}>
-      <FontAwesomeIcon icon={faBars} onClick={handleButtonClick}/> 
-              {/* header section */}
-        <header className="relative">
-          <div className="image-text flex items-center justify-center text-white">
-            <div className="text flex flex-col text-lightGreen text-base font-medium whitespace-nowrap opacity-100">
-              {isVisible && (
-              <span className="text-3xl font-semibold">Dashboard</span>
-              )}
-            </div>
-          </div>
-        </header>
-        {/* body navbar section */}
-        <div className="menuBar h-full pb-14 flex flex-col justify-between">
-          {/* content navBar section */}
-          <div className="menu mt-10">
-            <li className="rounded-md bg-primary-color-light cursor-pointer transition duration-500 ease-in-out h-16 list-none flex items-center mt-4 p-0">
-                  <span className="flex mx-3 p-0">
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
-                  </span>
-                  {isVisible && (
-                  <input className="h-full w-full outline-none border-none bg-primary-color-light text-text-color rounded-md text-base font-medium transition duration-500 ease-in-out p-0" type="text" placeholder="Search" />
-                  )}
-                  </li>
-            {/* navlinks */}
-            <ul className="navlinks block list-disc my-4 mx-0">
-              <li className="navLink h-12 list-none flex items-center mt-2">
-                <a href="#" className="list-none h-full bg-transparent flex items-center w-full transition duration-300 ease-in-out">
-                  <span className="flex mx-3">
-                    <FontAwesomeIcon icon={faHouse} />
-                  </span>
-                  {isVisible && (
-                  <span className="text-base font-medium whitespace-nowrap opacity-100">
-                    DashBoard
-                  </span>
-                  )}
-                </a>
-              </li>
-            </ul>
-          </div>
-          {/* bottom navbar section */}
-          <div className="bottomNavBar flex">
-            <li className="h-50 list-none flex items-center mt-10">
-              <a
-                href="#"
-                className="list-none h-full bg-transparent flex items-center w-full rounded-md no-underline transition duration-300"
-              >
-                <span className="flex mx-3">
-                  <FontAwesomeIcon icon={faArrowRightFromBracket} />
-                </span>
-                {isVisible && (
-                <span className="text-base font-medium whitespace-nowrap opacity-100">
-                  LogOut
-                </span>
-                )}
-              </a>
-            </li>
-          </div>
+    // Side Bar
+    <div className="flex">
+      <div
+        className={`${
+          open ? "w-72" : "w-20"
+        } bg-lightGreen h-screen p-5 pt-8 duration-300 relative`}
+      >
+        {/* Recolher icone */}
+        <FontAwesomeIcon
+          icon={faArrowRight}
+          className={`${
+            !open && "rotate-180"
+          } bg-white text-lightGreen text-xl rounded-full absolute -right-3 top-9 border border-lightGreen cursor-pointer p-1`}
+          onClick={() => setOpen(!open)}
+        />
+        {/* Links */}
+        {/* fist item */}
+        <div className="inline-flex">
+          <FontAwesomeIcon
+            icon={faHouse}
+            className={`${
+              open && "rotate-[360deg]"
+            } text-3xl rounded cursor-pointer block float-left mr-2 duration 500 text-white`}
+          />
+          <h1
+            className={`${
+              !open && "scale-0"
+            } text-white origin-left font-medium text-2xl duration-300 ml-2`}
+          >
+            DashBoard
+          </h1>
         </div>
-      </nav>
-      {/* Sessão para conteúdo da página */}
-      <div>
-        <section className="home absolute h-screen	top-0 left-64 ">
-          <div className="text-3xl font-medium text-lightGreen px-16 py-3.5 duration-300">
-            SideBar
-          </div>
-        </section>
+
+        {/* Search Item */}
+        <div
+          className={`${
+            !open ? "px-2.5" : "px-4"
+          } py-2 my-5 flex items-center rounded-md bg-darkGreen`}
+        >
+          <FontAwesomeIcon
+            icon={faMagnifyingGlass}
+            className={`${
+              open && "mr-2"
+            } text-white text-lg block float-left cursor-pointer`}
+          />
+          <input
+            type={"search"}
+            placeholder="Pesquisar..."
+            className={`${
+              !open && "hidden"
+            } text-base bg-beige w-full text-lightGreen focus:outline-none border-none`}
+          />
+        </div>
+        {/* All itens */}
+        <ul className="pt-2">
+          {Menus.map((menu, index) => (
+            <>
+              <li
+                key={index}
+                // essa variavel menu spacing futuramente será utilizada para separar os menus
+                className={`${
+                  menu.spacing ? "mt-9" : "mt-2"
+                } text-white text-sm flex items-center gap-x-4 curson-pointer p-2 hover:bg-darkGreen rounded-md`}
+              >
+                <span className="text-2xl block float-left">
+                  {menu.icon ? menu.icon : <FontAwesomeIcon icon={faBars} />}
+                </span>
+                <span
+                  className={`${
+                    !open && "hidden"
+                  } text-lg font-medium flex-1 duration-200`}
+                >
+                  {menu.title}
+                </span>
+                {/* variável que será utilizada para subitens dentro do menu */}
+                <span>
+                  {menu.submenu && open && (
+                    <FontAwesomeIcon
+                      icon={faChevronDown}
+                      className={`${subMenuOpen && "rotate-180 duration-200"}`}
+                      onClick={() => setSubMenuOpen(!subMenuOpen)}
+                    />
+                  )}
+                </span>
+              </li>
+
+              {/* SubMenus Show */}
+              {menu.submenu && subMenuOpen && open && (
+                <ul>
+                  {menu.subMenuItens.map((subMenuItem, index) => (
+                    <li
+                      key={index}
+                      className="text-white text-sm flex items-center gap-x-4 curson-pointer p-2 hover:bg-darkGreen rounded-md p-2 px-5 duration-300"
+                    >
+                      {subMenuItem.title}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </>
+          ))}
+        </ul>
+      </div>
+
+      {/* // Page Content */}
+      <div className="p-7">
+        <h1 className="text-2xl font-semibold text-lightGreen">SlideBar</h1>
       </div>
     </div>
   );
