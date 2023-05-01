@@ -16,6 +16,11 @@ const createUser = async () => {
 }
 createUser();
 
+//rotas
+const rotaDoacao = require('./routes/doacaoRotas')
+app.use('/api/doacao', rotaDoacao)
+//
+
 db.sequelize.sync().then(() =>{
   app.listen(port, () =>{
     console.log(`Rodando na porta: ${port}`)
