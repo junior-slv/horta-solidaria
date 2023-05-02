@@ -7,7 +7,8 @@ const Users = () => {
       <main className="flex">
         <Sidebar />
         <div className="flex">
-          <div>usuarios</div>
+          <div>
+          </div>
         </div>
       </main>
     </>
