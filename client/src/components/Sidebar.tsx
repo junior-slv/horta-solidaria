@@ -11,6 +11,7 @@ import {
   faGear,
   faTree,
   faDiagramProject,
+  faBoxArchive,
 } from "@fortawesome/free-solid-svg-icons"; // importação do icone individual
 import React, { useState } from "react";
 
@@ -24,13 +25,17 @@ const Sidebar = () => {
   const Menus = [
     { title: "DashBoard", icon: <FontAwesomeIcon icon={faGauge} /> },
     { title: "Configurações", icon: <FontAwesomeIcon icon={faGear} /> },
-    { title: "Hortas", icon: <FontAwesomeIcon icon={faTree} />, spacing: true },
+    { title: "Hortas", icon: <FontAwesomeIcon icon={faTree}/>, spacing: false, },
+    { title: "Doações", icon: <FontAwesomeIcon icon={faBoxArchive} /> },
     {
       title: "Projetos",
       icon: <FontAwesomeIcon icon={faDiagramProject} />,
       submenu: true,
       subMenuItens: [{ title: "Projeto1" }, { title: "Projeto2" }],
     },
+  ];
+
+  const SignOut = [
     {
       title: "SignOut",
       icon: <FontAwesomeIcon icon={faArrowRightToBracket} />,
@@ -50,13 +55,13 @@ const Sidebar = () => {
         <FontAwesomeIcon
           icon={faArrowRight}
           className={`${
-            !open && "rotate-180"
-          } bg-white text-lightGreen text-xl rounded-full absolute -right-3 top-9 border border-lightGreen cursor-pointer p-1`}
+            open && "rotate-180"
+          } bg-white text-lightGreen text-xl rounded-full absolute -right-3 top-9 border border-lightGreen cursor-pointer p-1 duration-200`}
           onClick={() => setOpen(!open)}
         />
         {/* Links */}
         {/* fist item */}
-        <div className="inline-flex">
+        <div className="inline-flex duration-200">
           <FontAwesomeIcon
             icon={faHouse}
             className={`${
@@ -89,7 +94,7 @@ const Sidebar = () => {
             placeholder="Pesquisar..."
             className={`${
               !open && "hidden"
-            } text-base bg-beige w-full text-lightGreen focus:outline-none border-none`}
+            } text-base bg-transparent w-full text-white focus:outline-none border-none placeholder-white`}
           />
         </div>
         {/* All itens */}
@@ -131,7 +136,7 @@ const Sidebar = () => {
                   {menu.subMenuItens.map((subMenuItem, index) => (
                     <li
                       key={index}
-                      className="text-white text-sm flex items-center gap-x-4 curson-pointer p-2 hover:bg-darkGreen rounded-md p-2 px-5 duration-300"
+                      className="text-white text-sm flex items-center gap-x-4 curson-pointer hover:bg-darkGreen rounded-md p-2 px-5 duration-300"
                     >
                       {subMenuItem.title}
                     </li>
@@ -141,11 +146,16 @@ const Sidebar = () => {
             </>
           ))}
         </ul>
-      </div>
-
-      {/* // Page Content */}
-      <div className="p-7">
-        <h1 className="text-2xl font-semibold text-lightGreen">SlideBar</h1>
+        <div className="bottom-0 flex fixed">
+          {SignOut.map((signOut, index) => (
+            <div key={index}>
+              <span className=" mt-9 mb-4 text-white flex items-center gap-x-4 curson-pointer p-2 hover:bg-darkGreen rounded-md text-xl font-medium flex-1 duration-200">
+                {signOut.icon}
+                <span className={`${!open && "hidden"}`}>{signOut.title}</span>
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
