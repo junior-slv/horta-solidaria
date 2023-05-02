@@ -1,11 +1,11 @@
 import { Model, DataTypes } from "sequelize";
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Usuario extends Model {
+  class Pessoa extends Model {
     static associate(models: any) {
-      // Usuario.belongsTo(models.Cargo, { foreignKey: 'cargoId' });
+
     }
   }
-  Usuario.init(
+  Pessoa.init(
     {
       id: {
         type: DataTypes.INTEGER.UNSIGNED,
@@ -33,27 +33,12 @@ module.exports = (sequelize: any, DataTypes: any) => {
       rendaFamiliar: DataTypes.STRING,
       telefoneRecado: DataTypes.STRING,
       objetivo: DataTypes.STRING,
-      login: {
-        type: DataTypes.STRING,
-        unique: true,
-      },
-      senha: DataTypes.STRING,
       horta: DataTypes.STRING,
-      cargoId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: "cargos",
-          key: "id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-      },
     },
     {
       sequelize,
-      modelName: "Usuario",
+      modelName: "Pessoa",
     }
   );
-  return Usuario;
+  return Pessoa;
 };
