@@ -64,26 +64,9 @@ module.exports = {
       },
       objetivo: {
         type: Sequelize.STRING
-      },
-      login: {
-        type: Sequelize.STRING,
-        unique: true
-      },
-      senha: {
-        type: Sequelize.STRING
-      },
+      },  
       horta: {
         type: Sequelize.STRING
-      },
-      cargoId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'cargos',
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
@@ -96,6 +79,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Usuarios');
+    await queryInterface.dropTable('Pessoas');
   }
 };
