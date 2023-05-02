@@ -1,4 +1,5 @@
 import { Model } from 'sequelize'
+import bcrypt from 'bcrypt';
 interface AtributosUsuario {
   id: number,
   login: string,
@@ -21,6 +22,14 @@ module.exports = (sequelize: any, DataTypes: any) => {
     static associate(models: any) {
 
     }
+    static async hashPassword(user: Usuario): Promise<void> {
+      const saltRounds = 10;
+      if (user.changed('senha')) {
+        user.senha = await bcrypt.hash(user.senha, saltRounds);
+      }
+    
+    
+  }
   }
   Usuario.init(
     {
@@ -53,5 +62,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
       modelName: 'Usuario',
     }
   );
+  Usuario.beforeSave(Usuario.hashPassword);
+
   return Usuario;
 };

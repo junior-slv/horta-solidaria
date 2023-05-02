@@ -2,7 +2,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
 
-    await queryInterface.createTable('Usuarios', {
+    await queryInterface.createTable('Pessoas', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -10,63 +10,63 @@ module.exports = {
         allowNull: false
       },
       nome: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING(256),
         allowNull: false
       },
       email: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING(256),
       },
       rua: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING(256),
       },
       numero: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING(256),
       },
       complemento: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING(256),
       },
       bairro: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING(256),
       },
       cidade: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING(256),
       },
       estado: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING(256),
       },
       cpf: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING(256),
         unique: true
       },
       dataNascimento: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING(256),
       },
       genero: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING(256),
       },
       etnia: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING(256),
       },
       estadoCivil: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING(256),
       },
       telefone: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING(256),
       },
       dependentes: {
         type: Sequelize.INTEGER
       },
       rendaFamiliar: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING(256),
       },
       telefoneRecado: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING(256),
       },
       objetivo: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING(256),
       },  
       horta: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING(256),
       },
       createdAt: {
         allowNull: false,

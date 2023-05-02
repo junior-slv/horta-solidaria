@@ -4,6 +4,7 @@ const port = process.env.PORT || 3001
 const cors = require('cors')
 import db from './models'
 import { seedDoacao } from './seeders/seedDoacao'
+import { seedPessoa } from './seeders/seedPessoa'
 import { seedUsuario } from './seeders/seedUsuario'
 var corsOptions = {
   origin: "http://localhost:3000"
@@ -29,7 +30,18 @@ const createUser = async () => {
     console.error(err);
   }
 }
-createUser();
+const createPessoa = async () => {
+  try {
+    for (const pesssoa of seedPessoa) {
+      await db.Pessoa.create(pesssoa);
+    }
+    console.log("Usuarios criados com sucesso.");
+  } catch (err) {
+    console.error(err);
+  }
+}
+// createPessoa()
+// createUser();
 
 //middleware
 app.use(cors(corsOptions))
@@ -45,8 +57,10 @@ app.use((err:any, req:any, res:any, next:any) => {
 //rotas
 const rotaDoacao = require('./routes/doacaoRotas')
 app.use('/api/doacao', rotaDoacao)
-const rotaUsuario = require('./routes/rotaUsuario')
+const rotaUsuario = require('./routes/rotaUsuario') 
 app.use('/api/usuario', rotaUsuario)
+const rotaPessoas = require('./routes/rotaPessoas')
+app.use('/api/pessoa', rotaPessoas)
 //
 
 db.sequelize.sync().then(() =>{
