@@ -6,23 +6,27 @@ const todosDoacao = async (req: any, res: any) => {
         res.status(200).send(doacoes)
     } catch (error){
         console.log(error);
-        res.status(412);
+        res.sendStatus(412)
     }
 }
 
 const adicionarDoacao = async (req:any, res: any) => {
     try {
-        let informacoes = {
+        if (!req.body || !req.body.doador || !req.body.produto || !req.body.quantidade || !req.body.data) {
+            return res.status(400).send("Dados inválidos na solicitação");
+        }
+        
+        let info = {
             doador: req.body.doador,
             produto: req.body.produto,
             quantidade: req.body.quantidade,
             data: req.body.data,
         }
-        const doacao = await db.Doacao.create(informacoes);
-        res.status(200).send(doacao)
+        const doacao = await db.Doacao.create(info);
+        res.status(200).send(info)
     } catch(error) {
         console.log(error)
-        res.send(412)
+        res.sendStatus(412)
     }
 }
 
