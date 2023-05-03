@@ -1,5 +1,5 @@
 import db from "../models";
-import bcrypt from "bcrypt";
+const bcrypt = require('bcrypt');
 
 const todosUsuarios = async (req: any, res: any) => {
   try {
@@ -36,18 +36,25 @@ const adicionarUsuario = async (req: any, res: any) => {
   }
 };
 const logarUsuario = async (req: any, res: any) => {
-  const { login, senha } = req.body;
-  const user = await db.Usuario.findOne({ where: { login } });
-
-  if (!user) {
-    console.log("true");
-    return res.status(401).json({ message: "Usuário não encontrado" });
-  }
-
-  const passwordMatch = await bcrypt.compare(senha, user.senha);
-
-  if (!passwordMatch) {
-    return res.status(401).json({ message: "Senha incorreta" });
+  try {
+    const login = req.body.login;
+    const senha = req.body.senha;
+    const user = await db.Usuario.findOne({ where: { login } });
+  
+    if (!user) {
+      console.log("true");
+      return res.status(401).json({ message: "Usuário não encontrado" });
+    }
+  
+    const passwordMatch = await bcrypt.compare(senha, user.senha);
+  
+    if (!passwordMatch) {
+      return res.status(401).json({ message: "Senha incorreta" });
+    }
+    res.status(200).json({ message: "Usuário autenticado com sucesso" });
+  } catch(error){
+    console.log(error)
+    res.sendStatus(412)
   }
 };
 module.exports = {
