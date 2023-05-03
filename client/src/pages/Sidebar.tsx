@@ -23,7 +23,6 @@ const Sidebar = () => {
   // Objeto para armazenar itens do menu
   const Menus = [
     { title: "DashBoard", icon: <FontAwesomeIcon icon={faGauge} /> },
-    { title: "Configurações", icon: <FontAwesomeIcon icon={faGear} /> },
     { title: "Hortas", icon: <FontAwesomeIcon icon={faTree} />, spacing: true },
     {
       title: "Projetos",
@@ -31,16 +30,14 @@ const Sidebar = () => {
       submenu: true,
       subMenuItens: [{ title: "Projeto1" }, { title: "Projeto2" }],
     },
-    {
-      title: "SignOut",
-      icon: <FontAwesomeIcon icon={faArrowRightToBracket} />,
-    },
+    { title: "Configurações", icon: <FontAwesomeIcon icon={faGear} /> },
+    { title: "SignOut", icon: <FontAwesomeIcon icon={faArrowRightToBracket} /> },
   ];
 
   //Componente
   return (
     // Side Bar
-    <div className="flex">
+    <div className="flex" >
       <div
         className={`${
           open ? "w-72" : "w-20"
@@ -101,7 +98,7 @@ const Sidebar = () => {
                 // essa variavel menu spacing futuramente será utilizada para separar os menus
                 className={`${
                   menu.spacing ? "mt-9" : "mt-2"
-                } text-white text-sm flex items-center gap-x-4 curson-pointer p-2 hover:bg-darkGreen rounded-md`}
+                }  text-white text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-darkGreen rounded-md`}
               >
                 <span className="text-2xl block float-left">
                   {menu.icon ? menu.icon : <FontAwesomeIcon icon={faBars} />}
@@ -144,9 +141,6 @@ const Sidebar = () => {
       </div>
 
       {/* // Page Content */}
-      <div className="p-7">
-        <h1 className="text-2xl font-semibold text-lightGreen">SlideBar</h1>
-      </div>
     </div>
   );
 };
