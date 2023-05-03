@@ -40,8 +40,8 @@ const createPessoa = async () => {
     console.error(err);
   }
 }
-// createPessoa()
-// createUser();
+createPessoa()
+createUser();
 
 //middleware
 app.use(cors(corsOptions))
