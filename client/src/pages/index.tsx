@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { signIn } from "@/contexts/AuthContext";
 
 const baseURL = "http://localhost:3001/api/usuario/logar";
 
@@ -19,13 +20,6 @@ const Login = () => {
       .post(baseURL, {
         login: `${login}`,
         senha: `${password}`,
-      })
-      .then((res) => {
-        if(res.data.message === "True"){
-          setIsAuth(true)
-        } else {
-          setIsAuth(false)
-        }
       })
       .catch((err) => {
         console.error("Error" + err);

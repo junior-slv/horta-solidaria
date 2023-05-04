@@ -64,7 +64,7 @@ app.use((err:any, req:any, res:any, next:any) => {
 
 //rotas
 const rotaDoacao = require('./routes/doacaoRotas')
-app.use('/api/doacao',verificarToken, rotaDoacao)
+app.use('/api/doacao', rotaDoacao)
 const rotaUsuario = require('./routes/rotaUsuario') 
 app.use('/api/usuario', rotaUsuario)
 const rotaPessoas = require('./routes/rotaPessoas')
