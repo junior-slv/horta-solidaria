@@ -1,32 +1,20 @@
 import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import { signIn } from "@/contexts/AuthContext";
-
-const baseURL = "http://localhost:3001/api/usuario/logar";
+import { signIn } from "@/services/api";
+import LoadingAnimation from "@/components/LoadingAnimation";
+import Input from "@/components/Input";
+import ShowPassword, { HidePassword } from "@/components/ShowPassword";
+import LargeButton from "@/components/LargeButton";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [login, setLogin] = useState<string>();
   const [password, setPassword] = useState<string>();
-  const [isAuth, setIsAuth] = useState<boolean>();
-  const [loading, setLoading] = useState<boolean>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   const sendLogin = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault(); // Impede o comportamento padrão do navegador
-    setLoading(true)
-    axios
-      .post(baseURL, {
-        login: `${login}`,
-        senha: `${password}`,
-      })
-      .catch((err) => {
-        console.error("Error" + err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    event.preventDefault();
+    signIn(login, password);
   };
 
   return (
@@ -39,11 +27,7 @@ const Login = () => {
           >
             Usuário
           </label>
-          <input
-            type="text"
-            className="w-full bg-white border border-gray focus:border-lightGreen rounded px-3 py-3 text-lg text-black placeholder-black focus:outline-none transition duration-200 ease-in-out"
-            onChange={(e) => setLogin(e.target.value)}
-          />
+          <Input onChange={(e) => setLogin(e.target.value)} />
         </div>
 
         <div className="relative">
@@ -54,41 +38,26 @@ const Login = () => {
             Senha
           </label>
 
-          <input
+          <Input
             type={showPassword ? "text" : "password"}
-            className="relative w-full bg-white border border-gray focus:border-lightGreen rounded px-3 py-3 text-lg text-black placeholder-black focus:outline-none transition duration-200 ease-in-out"
             onChange={(e) => setPassword(e.target.value)}
           />
           {showPassword ? (
-            <div
-              className="text-black text-base cursor-pointer transition duration-200 ease-in-out select-none hover:text-darkGreen italic"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              <FontAwesomeIcon
-                className="absolute right-2 top-[50px] text-xl cursor-pointer"
-                icon={faEyeSlash}
-              />{" "}
-            </div>
+            <ShowPassword onClick={() => setShowPassword(!showPassword)} />
           ) : (
-            <div
-              className="text-black text-base cursor-pointer transition duration-200 ease-in-out select-none hover:text-darkGreen italic"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              <FontAwesomeIcon
-                className="absolute right-2 top-[50px] text-xl cursor-pointer"
-                icon={faEye}
-              />
-            </div>
+            <HidePassword onClick={() => setShowPassword(!showPassword)} />
           )}
         </div>
 
         <div className="relative top-[22px]">
-          <button
-            className="w-full text-lg bg-darkGreen hover:bg-lightGreen px-6 py-3 rounded text-white shadow transition duration-200 ease-in-out select-none"
-            onClick={sendLogin}
+            <LargeButton onClick={sendLogin}>Enviar</LargeButton>
+          <div
+            className={`flex itemns-center justify-center ${
+              loading ? "flex" : "hidden"
+            }`}
           >
-            Entrar
-          </button>
+            <LoadingAnimation />
+          </div>
         </div>
       </form>
     </div>

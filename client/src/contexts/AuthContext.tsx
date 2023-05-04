@@ -1,4 +1,3 @@
-import login from "@/services/login";
 import axios from "axios";
 import { setCookie } from "nookies";
 
@@ -15,22 +14,7 @@ type SignInData = {
 export const AuthContext = createContext({} as AuthContextType);
 
 export async function signIn({ login, password }: SignInData) {
-    let token;
-  axios
-    .post(baseURL, {
-      login: `${login}`,
-      senha: `${password}`,
-    })
-    .then((res) => {
-        token = res.data.token;
-    })
-    .catch((err) => {
-      console.error("Error" + err);
-    });
 
-//   setCookie(undefined, 'horta.token', token , {
-//     maxAge: 60 * 60 * 1 // 1 hora
-//   } )
 }
 
 export function AuthProvider({ children }: any) {
