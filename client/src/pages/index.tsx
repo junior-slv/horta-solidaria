@@ -14,9 +14,7 @@ const Login = () => {
 
   const sendLogin = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    setLoading(true);
     signIn(login, password);
-    setLoading(false);
   };
 
   return (
