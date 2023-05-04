@@ -1,4 +1,3 @@
-import login from "@/services/login";
 import axios from "axios";
 import { setCookie } from "nookies";
 
