@@ -1,18 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; //importação do componente
-import imagemDefaultCadastrarDoaçao from "../../assets/imagemDefaultCadastrarDoaçao.jpg";
-import {
-  faArrowRightToBracket,
-  faHouse,
-  faMagnifyingGlass,
-  faBars,
-  faArrowRight,
-  faChevronDown,
-  faGauge,
-  faGear,
-  faTree,
-  faDiagramProject,
-  faBoxArchive,
-} from "@fortawesome/free-solid-svg-icons"; // importação do icone individual
 import React from "react";
 import Sidebar from "@/components/Sidebar";
 
@@ -20,7 +5,7 @@ import Sidebar from "@/components/Sidebar";
 const Botao = () => {
   return (
     <>
-      <button className="text-xl bg-lightGreen px-5 py-2 rounded text-white shadow hover:bg-darkGreen font-semibold">
+      <button className="text-xl bg-lightGreen px-5 py-2 rounded text-white shadow hover:bg-darkGreen font-semibold mt-8">
         Adicionar Doação
         <span className="pl-2 text-2xl">+</span>
       </button>
@@ -53,11 +38,11 @@ const cadastroDefault = () => {
             <p className="font-bold text-lightGreen text-4xl top-5 absolute">
               {content.title}
             </p>
-            <p className="font-semibold text-gray text-2xl top-20 absolute">
+            <p className="font-semibold text-gray text-2xl top-20 absolute text-center">
               {content.subTitle}
             </p>
             <img src={content.img} alt="imagem Default Cadastrar Doaçao" />
-            <div className="mt-4">{content.botao}</div>
+            <div className="">{content.botao}</div>
           </div>
         </div>
       ))}
