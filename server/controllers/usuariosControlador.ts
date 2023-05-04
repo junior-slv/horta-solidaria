@@ -1,5 +1,6 @@
 import db from "../models";
 const bcrypt = require('bcrypt');
+import jwt from 'jsonwebtoken'
 
 const todosUsuarios = async (req: any, res: any) => {
   try {
@@ -35,6 +36,8 @@ const adicionarUsuario = async (req: any, res: any) => {
     res.sendStatus(412);
   }
 };
+
+
 const logarUsuario = async (req: any, res: any) => {
   try {
     const login = req.body.login;
@@ -42,16 +45,17 @@ const logarUsuario = async (req: any, res: any) => {
     const user = await db.Usuario.findOne({ where: { login } });
   
     if (!user) {
-      console.log("true");
-      return res.status(401).json({ message: "Usuário não encontrado" });
+      return res.status(401).json({ message: "False" });
     }
   
     const passwordMatch = await bcrypt.compare(senha, user.senha);
   
     if (!passwordMatch) {
-      return res.status(401).json({ message: "Senha incorreta" });
+      return res.status(401).json({ message: "False" });
     }
-    res.status(200).json({ message: "Usuário autenticado com sucesso" });
+
+    const token = jwt.sign({ userId: user.id }, 'chave_secreta',{expiresIn: 300});
+    res.status(200).json({ auth: true, token });
   } catch(error){
     console.log(error)
     res.sendStatus(412)
@@ -60,5 +64,5 @@ const logarUsuario = async (req: any, res: any) => {
 module.exports = {
   todosUsuarios,
   adicionarUsuario,
-  logarUsuario,
+  logarUsuario  ,
 };

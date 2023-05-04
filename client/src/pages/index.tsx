@@ -9,16 +9,29 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [login, setLogin] = useState<string>();
   const [password, setPassword] = useState<string>();
+  const [isAuth, setIsAuth] = useState<boolean>();
+  const [loading, setLoading] = useState<boolean>();
 
   const sendLogin = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault(); // Impede o comportamento padrão do navegador
+    setLoading(true)
     axios
       .post(baseURL, {
         login: `${login}`,
         senha: `${password}`,
       })
-      .catch(function (error) {
-        console.log(error);
+      .then((res) => {
+        if(res.data.message === "True"){
+          setIsAuth(true)
+        } else {
+          setIsAuth(false)
+        }
+      })
+      .catch((err) => {
+        console.error("Error" + err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
