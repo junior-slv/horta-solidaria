@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { signIn } from "@/contexts/AuthContext";
 
 const baseURL = "http://localhost:3001/api/usuario/logar";
 
@@ -9,16 +10,22 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [login, setLogin] = useState<string>();
   const [password, setPassword] = useState<string>();
+  const [isAuth, setIsAuth] = useState<boolean>();
+  const [loading, setLoading] = useState<boolean>();
 
   const sendLogin = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault(); // Impede o comportamento padrão do navegador
+    setLoading(true)
     axios
       .post(baseURL, {
         login: `${login}`,
         senha: `${password}`,
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch((err) => {
+        console.error("Error" + err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 

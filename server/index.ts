@@ -3,13 +3,21 @@ const app = express()
 const port = process.env.PORT || 3001
 const cors = require('cors')
 import db from './models'
+import jwt from 'jsonwebtoken'
 import { seedDoacao } from './seeders/seedDoacao'
 import { seedPessoa } from './seeders/seedPessoa'
 import { seedUsuario } from './seeders/seedUsuario'
 var corsOptions = {
   origin: "http://localhost:3000"
 }
-
+const verificarToken = (req: any, res: any, next: any) => {
+  const token = req.headers['x-acess-token'];
+  jwt.verify(token, 'chave_secreta', (err: any, decoded: any) => {
+    if (err) return res.status(401).end();
+    req.userId = decoded.userId;
+    next();
+  });
+};
 const createDoacao = async () => {
   try {
     for (const doador of seedDoacao) {
