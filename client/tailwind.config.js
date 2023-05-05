@@ -23,6 +23,10 @@ module.exports = {
       'lightGreen': '#72B854',
       'lightGreenOpacity': '72b854cc',
       'transparent': 'rgba(0,0,0,0.0)',
+      'lightBlue' : '#7280FF',
+      'darkBlue'  : 'rgba(17, 38, 146, 0.68)',
+      'lightGray': '#F5F5F5',
+      'darkGrey': '#9C9C9C',
     },
     fontFamily: {
       'poppins': ['poppins'],
