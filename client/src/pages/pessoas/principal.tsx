@@ -23,11 +23,11 @@ const UsersMain = () => {
   return (
     <div className="overflow-y-hidden flex">
       {/* Div Para sideBar */}
-      <div>
+      <div className="z-50">
         <Sidebar />
       </div>
       {/* Div para content */}
-      <div className="flex justify-center bg-beige items-center flex-col relative w-full">
+      <div className="flex justify-center z-0 bg-beige items-center flex-col relative w-full">
         {/* Título da página */}
         <p className="font-bold text-lightGreen text-4xl top-5 absolute">
           Pessoas
