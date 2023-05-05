@@ -27,6 +27,7 @@ module.exports = {
       'darkBlue'  : 'rgba(17, 38, 146, 0.68)',
       'lightGray': '#F5F5F5',
       'darkGrey': '#9C9C9C',
+      'darkerGrey': '#747474',
     },
     fontFamily: {
       'poppins': ['poppins'],
