@@ -18,38 +18,6 @@ const verificarToken = (req: any, res: any, next: any) => {
     next();
   });
 };
-const createDoacao = async () => {
-  try {
-    for (const doador of seedDoacao) {
-      await db.Doacao.create(doador);
-    }
-    console.log("Doadores criados com sucesso.");
-  } catch (err) {
-    console.error(err);
-  }
-}
-const createUser = async () => {
-  try {
-    for (const user of seedUsuario) {
-      await db.Usuario.create(user);
-    }
-    console.log("Usuarios criados com sucesso.");
-  } catch (err) {
-    console.error(err);
-  }
-}
-const createPessoa = async () => {
-  try {
-    for (const pesssoa of seedPessoa) {
-      await db.Pessoa.create(pesssoa);
-    }
-    console.log("Usuarios criados com sucesso.");
-  } catch (err) {
-    console.error(err);
-  }
-}
-createPessoa()
-createUser();
 
 //middleware
 app.use(cors(corsOptions))

@@ -6,20 +6,46 @@ export const instance = axios.create({
   baseURL: 'http://localhost:3001/api/'
 })
 
-export const signIn = (login: string | undefined, password: string | undefined) => {
-  instance.post("usuario/logar", { login, senha: password })
+export const signIn = (login: string | undefined, password: string | undefined ) => {
+  instance
+  .post("usuario/logar", {
+    login: `${login}`,
+    senha: `${password}`,
+  })
+  .then((res) => {
+    let auth = res.data.auth;
+    if (auth === true){
+      Router.push('/doacao/principal')
+    }
+  })
+  .catch((err) => {
+    console.error("Error" + err);
+  })
+}
+export const fetchDonations = () => {
+  return instance.get("doacao/todas")
     .then((res) => {
-      const auth = res.data.auth
-      const token = res.data.token
-      if (auth === true){
-        Router.push('/users');
-      }
-      // setCookie(undefined, 'horta.token', token, {
-      //   maxAge: 60 * 60 * 1, // 1 hora
-      //   secure: true, // Adiciona a opção secure ao cookie
-      // })
+      return res.data;
     })
-    .catch((err) => {
-      console.error("Error" + err);
-    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+interface DonationData {
+  doador?: string;
+  produto?: string;
+  quantidade?: number;
+  data?: string;
+}
+export const addDonation = (doador: string | undefined, produto: string | undefined, quantidade: number | undefined, data: string | undefined) => {
+  instance
+  .post("doacao/adicionar", {
+    doador: `${doador}`,
+    produto: `${produto}`,
+    quantidade: `${quantidade}`,
+    data: `${data}`,
+  })
+  .catch((err) => {
+    console.error("Error" + err);
+  })
 }
