@@ -1,3 +1,5 @@
+import db from "../models";
+
 export const seedUsuario = [
   {
     login: "fulano123",
@@ -18,3 +20,15 @@ export const seedUsuario = [
     cpf: "999.000.111-22"
   }
 ]
+
+
+const createUser = async () => {
+  try {
+    for (const user of seedUsuario) {
+      await db.Usuario.create(user);
+    }
+    console.log("Usuarios criados com sucesso.");
+  } catch (err) {
+    console.error(err);
+  }
+}

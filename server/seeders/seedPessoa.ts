@@ -1,3 +1,5 @@
+import db from "../models";
+
 export const seedPessoa = [
   {
     nome: "John Doe",
@@ -21,3 +23,14 @@ export const seedPessoa = [
     horta: "Sim"
   },
 ];
+
+const createPessoa = async () => {
+  try {
+    for (const pesssoa of seedPessoa) {
+      await db.Pessoa.create(pesssoa);
+    }
+    console.log("Usuarios criados com sucesso.");
+  } catch (err) {
+    console.error(err);
+  }
+}
