@@ -9,7 +9,7 @@ const cadastroDefault = () => {
       title: "Doações",
       subTitle: "Sem nenhuma doação cadastrada",
       img: "https://media.istockphoto.com/id/1143127488/pt/vetorial/food-and-clothes-donation-vector-flat-illustration-social-care-and-charity-concept.jpg?s=612x612&w=0&k=20&c=kkcNg4OCoKt5mTmI48pQBhAW6cx0S2L1S232igbZrHI=",
-      botao: <Botao>Botão</Botao>
+      botao: <Botao className="bg-lightGreen hover:bg-darkGreen">Adicionar <span className="text-2xl">+</span></Botao>
     },
   ];
 
