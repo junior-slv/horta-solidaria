@@ -68,7 +68,7 @@ const cadastroDefault = () => {
               </FormRow>
               {/* Botões */}
               <div className="justify-around flex">
-                <Botao onClick={() => Router.push("/doacao/formulario")} className="w-5/12 bg-lightBlue hover:bg-darkBlue">
+                <Botao onClick={() => Router.push("/doacao/principal")} className="w-5/12 bg-lightBlue hover:bg-darkBlue">
                   Voltar
                 </Botao>
                 <Botao onClick={handleAddDonation} className="w-5/12 bg-lightGreen hover:bg-darkGreen">
