@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { signIn } from "@/services/api";
-import LoadingAnimation from "@/components/LoadingAnimation";
-import Input from "@/components/Input";
+import LoadingAnimation from "@/components/loadings/LoadingAnimation";
+import Input from "@/components/inputs/Input";
 import ShowPassword, { HidePassword } from "@/components/ShowPassword";
-import LargeButton from "@/components/LargeButton";
+import LargeButton from "@/components/buttons/LargeButton";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);

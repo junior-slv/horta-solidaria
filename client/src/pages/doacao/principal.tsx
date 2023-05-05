@@ -1,9 +1,10 @@
 import React from "react";
-import Sidebar from "@/components/Sidebar";
-import {Botao} from '../../components/Botao'
+import Sidebar from "@/components/sidebar/Sidebar";
+import {Botao} from '../../components/buttons/Botao'
+import Router from "next/router";
 
 // Página conteúdo
-const cadastroDefault = () => {
+const DoacaoMain = () => {
   const PageContent = [
     {
       title: "Doações",
@@ -31,7 +32,7 @@ const cadastroDefault = () => {
               {content.subTitle}
             </p>
             <img src={content.img} alt="imagem Default Cadastrar Doaçao" />
-            <div className="">{content.botao}</div>
+            <div onClick={() => Router.push("/doacao/formulario")} className="">{content.botao}</div>
           </div>
         </div>
       ))}
@@ -39,4 +40,4 @@ const cadastroDefault = () => {
   );
 };
 
-export default cadastroDefault;
+export default DoacaoMain;
