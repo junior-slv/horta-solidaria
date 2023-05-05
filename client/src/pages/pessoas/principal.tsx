@@ -38,7 +38,7 @@ const UsersMain = () => {
         <img src="/images/emptyUsers.png" alt="imagem Default Cadastrar Pessoas" className="w-[550px] h-[400px]"/>
         <div onClick={() => Router.push("/pessoas")} className="">
           <Botao className="bg-lightGreen hover:bg-darkGreen">
-            Adicionar <span className="text-2xl">+</span>
+            Adicionar <span className="text-2xl">+</span> 
           </Botao>
         </div>
       </div>
@@ -47,3 +47,4 @@ const UsersMain = () => {
 };
 
 export default UsersMain;
+
