@@ -10,13 +10,22 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [login, setLogin] = useState<string>();
   const [password, setPassword] = useState<string>();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const sendLogin = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    signIn(login, password);
+    setLoading(true)
+    try {
+      signIn(login, password);
+    } catch (err){
+      console.log("Error" +err)
+    }
+    finally {
+      setLoading(false)
+      console.log(true)
+    }
   };
-
+  
   return (
     <div className="w-screen h-screen font-poppins flex items-stretch items-centes justify-center bg-darkGreen">
       <form className="bg-beige shadow-md rounded-md p-12 space-y-5 w-[32rem] h-[24rem] self-center block">
@@ -51,13 +60,7 @@ const Login = () => {
 
         <div className="relative top-[22px]">
             <LargeButton onClick={sendLogin}>Enviar</LargeButton>
-          <div
-            className={`flex itemns-center justify-center ${
-              loading ? "flex" : "hidden"
-            }`}
-          >
-            <LoadingAnimation />
-          </div>
+        <div>{loading ? <LoadingAnimation/> : <div></div>}</div>
         </div>
       </form>
     </div>
