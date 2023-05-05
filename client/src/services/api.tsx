@@ -22,3 +22,30 @@ export const signIn = (login: string | undefined, password: string | undefined )
     console.error("Error" + err);
   })
 }
+export const fetchDonations = () => {
+  return instance.get("doacao/todas")
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+interface DonationData {
+  doador?: string;
+  produto?: string;
+  quantidade?: number;
+  data?: string;
+}
+export const addDonation = (doador: string | undefined, produto: string | undefined, quantidade: number | undefined, data: string | undefined) => {
+  instance
+  .post("doacao/adicionar", {
+    doador: `${doador}`,
+    produto: `${produto}`,
+    quantidade: `${quantidade}`,
+    data: `${data}`,
+  })
+  .catch((err) => {
+    console.error("Error" + err);
+  })
+}

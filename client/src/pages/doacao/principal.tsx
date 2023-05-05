@@ -1,43 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "@/components/sidebar/Sidebar";
-import {Botao} from '../../components/buttons/Botao'
+import { Botao } from "../../components/buttons/Botao";
 import Router from "next/router";
+import { fetchDonations } from "@/services/api";
+
 
 // Página conteúdo
 const DoacaoMain = () => {
-  const PageContent = [
-    {
-      title: "Doações",
-      subTitle: "Sem nenhuma doação cadastrada",
-      img: "https://media.istockphoto.com/id/1143127488/pt/vetorial/food-and-clothes-donation-vector-flat-illustration-social-care-and-charity-concept.jpg?s=612x612&w=0&k=20&c=kkcNg4OCoKt5mTmI48pQBhAW6cx0S2L1S232igbZrHI=",
-      botao: <Botao className="bg-lightGreen hover:bg-darkGreen">Adicionar <span className="text-2xl">+</span></Botao>
-    },
-  ];
+
+  //estado que armazena as variavéis no campos
+  const [dados, setDados] = useState([]);
+
+  //atualiza as doações toda vez q recarregar a página
+  useEffect(() => {
+    fetchDonations().then((data) => {
+      setDados(data);
+      console.log(data);
+    });
+  }, []);
+
 
   return (
-    <>
-      {PageContent.map((content, index) => (
-        <div className="overflow-y-hidden flex" key={index}>
-          {/* Div Para sideBar */}
-          <div>
-            <Sidebar />
-          </div>
-          {/* Div para content */}
-          <div className="flex justify-center items-center flex-col relative w-full">
-            {/* Título da página */}
-            <p className="font-bold text-lightGreen text-4xl top-5 absolute">
-              {content.title}
-            </p>
-            <p className="font-semibold text-gray text-2xl top-20 absolute text-center">
-              {content.subTitle}
-            </p>
-            <img src={content.img} alt="imagem Default Cadastrar Doaçao" />
-            <div onClick={() => Router.push("/doacao/formulario")} className="">{content.botao}</div>
-          </div>
+    <div className="overflow-y-hidden flex">
+      {/* Div Para sideBar */}
+      <div>
+        <Sidebar />
+      </div>
+      {/* Div para content */}
+      <div className="flex justify-center items-center flex-col relative w-full">
+        {/* Título da página */}
+        <p className="font-bold text-lightGreen text-4xl top-5 absolute">
+          Doações
+        </p>
+        <p className="font-semibold text-gray text-2xl top-20 absolute text-center">
+          Sem nenhuma doação cadastrada
+        </p>
+        <img src="/images/emptyDonation.jpg" alt="imagem Default Cadastrar Doaçao" />
+        <div onClick={() => Router.push("/doacao/formulario")} className="">
+          <Botao className="bg-lightGreen hover:bg-darkGreen">
+            Adicionar <span className="text-2xl">+</span>
+          </Botao>
         </div>
-      ))}
-    </>
+      </div>
+    </div>
   );
 };
-
 export default DoacaoMain;
