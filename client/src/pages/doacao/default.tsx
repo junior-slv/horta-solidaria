@@ -13,7 +13,6 @@ const Default = () => {
   useEffect(() => {
     // Verificar se o usuário está autenticado
     if (!isAuth) {
-      router.push('/login'); // Redirecionar para a página de login se não estiver autenticado
     } else {
       // Obter doações da API ou realizar qualquer outra lógica necessária
       fetchDonations()

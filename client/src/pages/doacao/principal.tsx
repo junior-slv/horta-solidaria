@@ -41,7 +41,7 @@ const DoacaoMain = () => {
             </Botao>
           </li>
           <li className="inline-block absolute top-[125px] left-[450px]">
-            <p>1 Row Selected</p>
+            <p>1 Linha selecionada</p>
           </li>
           <li className="inline-block bg-white rounded ">
             <div
