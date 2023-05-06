@@ -1,22 +1,29 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
-import { signIn } from "@/services/api";
+// import { signIn } from "@/services/api";
 import LoadingAnimation from "@/components/loadings/LoadingAnimation";
 import Input from "@/components/inputs/Input";
 import ShowPassword, { HidePassword } from "@/components/ShowPassword";
 import LargeButton from "@/components/buttons/LargeButton";
+import { AuthContext, SignInData } from "@/contexts/AuthContext";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [login, setLogin] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const [login, setLogin] = useState<string>('');
+  const [password, setPassword] = useState<string>('');  
   const [loading, setLoading] = useState<boolean>(false);
+  const { signIn } = useContext(AuthContext);
 
   const sendLogin = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setLoading(true)
     try {
-      signIn(login, password);
+      const data: SignInData = {
+        login: login,
+        password: password,
+      };
+      signIn(data);
+    
     } catch (err){
       console.log("Error" +err)
     }
@@ -68,3 +75,4 @@ const Login = () => {
 };
 
 export default Login;
+
