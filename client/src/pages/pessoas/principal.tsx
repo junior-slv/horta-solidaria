@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { Botao } from "../../components/buttons/Botao";
 import Router from "next/router";
 import { fetchDonations } from "@/services/api";
+import { AuthContext } from "@/contexts/AuthContext";
 
-
-// Página conteúdo
 const UsersMain = () => {
+  const { isAuth } = useContext(AuthContext);
+
+  // Verificar se o usuário está autenticado
+  if (!isAuth) {
+    return null; // Ou pode exibir uma mensagem de carregamento ou redirecionar para a página de login diretamente
+  }
 
   //estado que armazena as variavéis no campos
   const [dados, setDados] = useState([]);
@@ -18,7 +23,6 @@ const UsersMain = () => {
       console.log(data);
     });
   }, []);
-
 
   return (
     <div className="overflow-y-hidden flex">
@@ -47,4 +51,3 @@ const UsersMain = () => {
 };
 
 export default UsersMain;
-

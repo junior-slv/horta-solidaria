@@ -14,9 +14,11 @@ export const signIn = (login: string | undefined, password: string | undefined )
   })
   .then((res) => {
     let auth = res.data.auth;
-    if (auth === true){
-      Router.push('/doacao/principal')
-    }
+    let token = res.data.token
+    setCookie(null, 'token', token, {
+      maxAge: 60 * 60 * 1 ,// 1hora
+      path: '/',
+    });
   })
   .catch((err) => {
     console.error("Error" + err);
