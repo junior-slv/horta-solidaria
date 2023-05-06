@@ -1,15 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { Botao } from "../../components/buttons/Botao";
 import Router from "next/router";
 import { AuthContext } from "@/contexts/AuthContext";
+import { fetchUsers } from "@/services/api";
+import router from "next/router";
 
 
 const UsersMain = () => {
   const { isAuth } = useContext(AuthContext);
-
+  const [dados, setDados] = useState([])
   // Verificar se o usuário está autenticado
   if (!isAuth) {
     return null; // Ou pode exibir uma mensagem de carregamento ou redirecionar para a página de login diretamente
@@ -35,7 +37,7 @@ const UsersMain = () => {
             </button>
           </li>
           <li className="inline-block absolute top-[80px] left-[180px]">
-            <Botao onClick={() => Router.push("/doacao/formulario")} className="bg-lightGreen hover:bg-darkGreen">
+            <Botao onClick={() => Router.push("/pessoas/principal")} className="bg-lightGreen hover:bg-darkGreen">
               {" "}
               <span className="text-2xl">+</span> Adicionar Pessoa
             </Botao>
