@@ -17,7 +17,7 @@ export const fetchDonations = () => {
     });
 };
 export const fetchUsers = () => {
-  return instance.get("pessoas/todas")
+  return instance.get("pessoa/todas")
     .then((res) => {
       return res.data;
     })
