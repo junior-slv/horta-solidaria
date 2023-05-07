@@ -4,9 +4,10 @@ const port = process.env.PORT || 3001
 const cors = require('cors')
 import db from './models'
 import jwt from 'jsonwebtoken'
-import { seedDoacao } from './seeders/seedDoacao'
-import { seedPessoa } from './seeders/seedPessoa'
-import { seedUsuario } from './seeders/seedUsuario'
+import { createEndereco } from './seeders/Endereco'
+import { createUser } from './seeders/Estado'
+import { createUsuario } from './seeders/usuario'
+
 var corsOptions = {
   origin: "http://localhost:3000"
 }
@@ -28,16 +29,16 @@ app.use((err:any, req:any, res:any, next:any) => {
   res.status(500).send('Ocorreu um erro no servidor');
 });
 //
-
+createUsuario()
 
 //rotas
 const rotaDoacao = require('./routes/doacaoRotas')
 app.use('/api/doacao', rotaDoacao)
 const rotaUsuario = require('./routes/rotaUsuario') 
 app.use('/api/usuario', rotaUsuario)
-const rotaPessoas = require('./routes/rotaPessoas')
-app.use('/api/pessoa', rotaPessoas)
-//
+
+const rotaEndereco = require('./routes/endereco')
+app.use('/api/endereco', rotaEndereco)
 
 db.sequelize.sync().then(() =>{
   app.listen(port, () =>{
