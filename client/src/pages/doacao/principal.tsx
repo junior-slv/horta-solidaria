@@ -5,6 +5,8 @@ import Sidebar from "@/components/sidebar/Sidebar";
 import { Botao } from "../../components/buttons/Botao";
 import Router from "next/router";
 import { AuthContext } from "@/contexts/AuthContext";
+import Dashboard from "@/components/doacoes/dashboard";
+import VerificaTabela from "@/components/doacoes/verificaTabela";
 
 
 const DoacaoMain = () => {
@@ -35,13 +37,16 @@ const DoacaoMain = () => {
             </button>
           </li>
           <li className="inline-block absolute top-[80px] left-[180px]">
-            <Botao onClick={() => Router.push("/doacao/formulario")} className="bg-lightGreen hover:bg-darkGreen">
+            <Botao
+              onClick={() => Router.push("/doacao/formulario")}
+              className="bg-lightGreen hover:bg-darkGreen"
+            >
               {" "}
               <span className="text-2xl">+</span> Adicionar Doação
             </Botao>
           </li>
           <li className="inline-block absolute top-[125px] left-[450px]">
-            <p>1 Linha selecionada</p>
+            <p>1 Linha selecioanada</p>
           </li>
           <li className="inline-block bg-white rounded ">
             <div
@@ -59,6 +64,14 @@ const DoacaoMain = () => {
             </div>
           </li>
         </ul>
+        <div className="grid md:grid-cols-3 gap-7 grid-cols-0">
+          <Dashboard title="Quantidade de Doações" value={10} type="" />
+          <Dashboard title="Quantidade de Doadores" value={60} type="" />
+          <Dashboard title="Quantidade doada" value={90} type="Kg" />
+        </div>
+        <div className="w-10/12 justify-center text-center">
+            <VerificaTabela />
+        </div>
       </div>
     </div>
   );

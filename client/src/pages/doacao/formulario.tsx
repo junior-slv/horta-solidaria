@@ -1,9 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faDiagramProject,
   faUser,
   faBox,
-  faCalendarDays,
   faCalendarDay,
   faBasketShopping,
 } from "@fortawesome/free-solid-svg-icons";
