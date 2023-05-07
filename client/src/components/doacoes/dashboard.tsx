@@ -12,7 +12,7 @@ function Dashboard(props: DashBoardProps) {
   const { title, value, type } = props;
   return (
     //Layout
-    <div className="md:w-[280px] w-auto  rounded-[8px] bg-white py-[10px] px-[10px] text-center shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]">
+    <div className="md:w-[280px] w-9/12  justify-center rounded-[8px] bg-white py-[10px] px-[10px] text-center shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]">
       <div className="grid grid-cols-2 grid-rows-1">
         {/* Progress Bar */}
         <div className="w-[80px] h-[80px] justify-center mx-auto">
