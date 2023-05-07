@@ -1,37 +1,40 @@
-import { Model } from 'sequelize'
-interface AtributosCargo {
-  id: number,
-  cargo: string,
+import { Model } from 'sequelize';
+
+interface AtributosHorta {
+  id: number;
+  horta: string;
 }
+
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Cargo extends Model <AtributosCargo> 
-  implements AtributosCargo{
+  class Horta extends Model<AtributosHorta> implements AtributosHorta {
     id!: number;
-    cargo!: string;
+    horta!: string;
 
     readonly createdAt!: string;
     readonly updatedAt!: string;
-    
+
     static associate(models: any) {
-      // define association here
+      Horta.hasMany(models.Pessoa, { foreignKey: 'horta_id' });
     }
   }
-  Cargo.init(
+
+  Horta.init(
     {
       id: {
         type: DataTypes.INTEGER.UNSIGNED,
         autoIncrement: true,
         primaryKey: true,
       },
-      cargo: {
-        type: DataTypes.STRING(20),
+      horta: {
+        type: DataTypes.STRING(30),
         allowNull: false,
       }
     },
     {
       sequelize,
-      modelName: 'Cargo',
+      modelName: 'Horta',
     }
   );
-  return Cargo;
+
+  return Horta;
 };

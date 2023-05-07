@@ -1,3 +1,5 @@
+import db from "../models";
+
 export const estados = [
   {
     estado: "Rondônia",
@@ -108,3 +110,15 @@ export const estados = [
     uf: "DF"
   },
 ];
+
+
+export const createUser = async () => {
+  try {
+    for (const user of estados) {
+      await db.Estado.create(user);
+    }
+    console.log("Usuarios criados com sucesso.");
+  } catch (err) {
+    console.error(err);
+  }
+}
