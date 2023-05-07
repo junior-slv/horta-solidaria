@@ -1,8 +1,13 @@
 import React from 'react'
+import HttpError from '@/components/httpErrors/HttpError';
 
 const Forbidden = () => {
   return (
-    <div>403</div>
+    <HttpError
+      title={"403"}
+      subtitle={"ACESSO PROIBIDO"}
+      message={"Acesso absolutamente proibido."}
+    ></HttpError>
   )
 }
 

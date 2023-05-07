@@ -1,8 +1,13 @@
 import React from 'react'
+import HttpError from '@/components/httpErrors/HttpError';
 
 const InternalServerError = () => {
   return (
-    <div>500</div>
+    <HttpError
+      title={"500"}
+      subtitle={"ERRO INTERNO DO SERVIDOR"}
+      message={"Estamos trabalhando na correção."}
+    ></HttpError>
   )
 }
 

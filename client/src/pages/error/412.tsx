@@ -1,8 +1,13 @@
 import React from 'react'
+import HttpError from '@/components/httpErrors/HttpError'
 
 const PreconditionFailed = () => {
   return (
-    <div>412</div>
+    <HttpError
+      title={"412"}
+      subtitle={"FALHA NA PRÉ-CONDIÇÂO"}
+      message={"Acesso ao recurso especificado foi negado."}
+    ></HttpError>
   )
 }
 
