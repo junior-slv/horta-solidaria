@@ -6,24 +6,18 @@ export const instance = axios.create({
   baseURL: 'http://localhost:3001/api/'
 })
 
-export const signIn = (login: string | undefined, password: string | undefined ) => {
-  instance
-  .post("usuario/logar", {
-    login: `${login}`,
-    senha: `${password}`,
-  })
-  .then((res) => {
-    let auth = res.data.auth;
-    if (auth === true){
-      Router.push('/doacao/principal')
-    }
-  })
-  .catch((err) => {
-    console.error("Error" + err);
-  })
-}
+
 export const fetchDonations = () => {
   return instance.get("doacao/todas")
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+export const fetchUsers = () => {
+  return instance.get("pessoa/todas")
     .then((res) => {
       return res.data;
     })

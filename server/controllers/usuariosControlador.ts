@@ -43,22 +43,22 @@ const logarUsuario = async (req: any, res: any) => {
     const login = req.body.login;
     const senha = req.body.senha;
     const user = await db.Usuario.findOne({ where: { login } });
-  
+
     if (!user) {
       return res.status(401).json({ message: "False" });
     }
-  
+
     const passwordMatch = await bcrypt.compare(senha, user.senha);
-  
+
     if (!passwordMatch) {
       return res.status(401).json({ message: "False" });
     }
 
-    const token = jwt.sign({ userId: user.id }, 'chave_secreta',{expiresIn: 300});
+    const token = jwt.sign({ userId: user.id }, 'chave_secreta', { expiresIn: 300 });
     res.status(200).json({ auth: true, token });
-  } catch(error){
-    console.log(error)
-    res.sendStatus(412)
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(412);
   }
 };
 module.exports = {

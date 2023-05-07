@@ -11,14 +11,23 @@ import {
   faBoxArchive,
   faPeopleGroup,
 } from "@fortawesome/free-solid-svg-icons"; // importação do icone individual
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Router from "next/router";
 import SidebarItem from "./SidebarItem";
+import { AuthContext } from "@/contexts/AuthContext";
+
+
 // componente SideBar
 const Sidebar = () => {
   //varíavel para armazenar o estado atual da side bar
   const [open, setOpen] = useState(true);
   const [subMenuOpen, setSubMenuOpen] = useState(false);
+  const { signOut } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    signOut()
+  }
+
   //Componente
   return (
     // Side Bar
@@ -86,7 +95,7 @@ const Sidebar = () => {
           <div>
             <span onClick={() => Router.push("/")} className=" mt-9 mb-4 text-white flex items-center gap-x-4 curson-pointer p-2 hover:bg-darkGreen rounded-md text-xl font-medium flex-1 duration-200">
               <FontAwesomeIcon icon={faArrowRightToBracket} />
-              <span className={`${!open && "hidden"}`}>Sair</span>
+              <span onClick={handleLogout} className={`${!open && "hidden"}`}>Sair</span>
             </span>
           </div>
         </div>

@@ -1,24 +1,19 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; //importação do componente
-import { faFilter, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"; // importação do icone individual
-import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilter, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import React, { useContext } from "react";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { Botao } from "../../components/buttons/Botao";
 import Router from "next/router";
-import { fetchDonations } from "@/services/api";
-import FormInput from "@/components/inputs/FormInput";
+import { AuthContext } from "@/contexts/AuthContext";
 
-// Página conteúdo
+
 const DoacaoMain = () => {
-  //estado que armazena as variavéis no campos
-  const [dados, setDados] = useState([]);
+  const { isAuth } = useContext(AuthContext);
 
-  //atualiza as doações toda vez q recarregar a página
-  useEffect(() => {
-    fetchDonations().then((data) => {
-      setDados(data);
-      console.log(data);
-    });
-  }, []);
+  // Verificar se o usuário está autenticado
+  if (!isAuth) {
+    return null; // Ou pode exibir uma mensagem de carregamento ou redirecionar para a página de login diretamente
+  }
 
   return (
     <div className="overflow-y-hidden flex bg-beige">
@@ -39,14 +34,14 @@ const DoacaoMain = () => {
               <FontAwesomeIcon icon={faFilter} /> Filtrar{" "}
             </button>
           </li>
-          <li className="inline-block absolute top-[80px] left-[180px]" >
+          <li className="inline-block absolute top-[80px] left-[180px]">
             <Botao onClick={() => Router.push("/doacao/formulario")} className="bg-lightGreen hover:bg-darkGreen">
               {" "}
               <span className="text-2xl">+</span> Adicionar Doação
             </Botao>
           </li>
           <li className="inline-block absolute top-[125px] left-[450px]">
-            <p>1 Row Selected</p>
+            <p>1 Linha selecionada</p>
           </li>
           <li className="inline-block bg-white rounded ">
             <div
@@ -68,4 +63,5 @@ const DoacaoMain = () => {
     </div>
   );
 };
+
 export default DoacaoMain;

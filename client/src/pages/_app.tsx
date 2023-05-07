@@ -3,6 +3,8 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import '@/styles/globals.css';
 import { AppProps } from 'next/app';
+import { AuthProvider } from '@/contexts/AuthContext';
+
 
 // Configuração inicial
 config.autoAddCss = false;
@@ -11,7 +13,11 @@ config.autoAddCss = false;
 library.add(faSearch);
 
 function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <AuthProvider>
+      <Component {...pageProps} />
+    </AuthProvider>
+  );
 }
 
 export default App;

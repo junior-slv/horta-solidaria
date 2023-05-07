@@ -1,5 +1,4 @@
-// Imports para o componente
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; //importação do componente
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDiagramProject,
   faUser,
@@ -7,26 +6,25 @@ import {
   faCalendarDays,
   faCalendarDay,
   faBasketShopping,
-} from "@fortawesome/free-solid-svg-icons"; // importação do icone individual
-import React, { useState } from "react";
+} from "@fortawesome/free-solid-svg-icons";
+import React, { useState, useContext } from "react";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { Botao } from "../../components/buttons/Botao";
 import FormInput from "@/components/inputs/FormInput";
 import FormRow from "@/components/FormRow";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
+import { AuthContext } from "@/contexts/AuthContext";
 import { addDonation } from "@/services/api";
 
-// Página conteúdo
 const cadastroDefault = () => {
-  //variaveis q armazenam o conteudo para enviar no formulário
+  const { isAuth } = useContext(AuthContext);
   const [doador, setDoador] = useState<string | undefined>();
   const [produto, setProduto] = useState<string | undefined>();
   const [quantidade, setQuantidade] = useState<number | undefined>();
   const [data, setData] = useState<string | undefined>();
 
-  //envia o formulário com o conteudo no corpo da requisição
   const handleAddDonation = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault(); // cancela o comportamento padrão do evento
+    event.preventDefault();
     try {
       addDonation(doador, produto, quantidade, data);
       console.log('deu bao');
@@ -34,6 +32,11 @@ const cadastroDefault = () => {
       console.log('Error' + err);
     }
   };
+
+  // Verificar se o usuário está autenticado
+  if (!isAuth) {
+    return null; // Ou pode exibir uma mensagem de carregamento ou redirecionar para a página de login diretamente
+  }
   return (
     <div className="overflow-y-hidden flex bg-beige">
       <Sidebar />

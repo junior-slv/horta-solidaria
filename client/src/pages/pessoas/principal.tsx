@@ -1,50 +1,69 @@
-import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilter, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import React, { useContext, useEffect, useState } from "react";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { Botao } from "../../components/buttons/Botao";
 import Router from "next/router";
-import { fetchDonations } from "@/services/api";
+import { AuthContext } from "@/contexts/AuthContext";
+import { fetchUsers } from "@/services/api";
+import router from "next/router";
 
 
-// Página conteúdo
 const UsersMain = () => {
-
-  //estado que armazena as variavéis no campos
-  const [dados, setDados] = useState([]);
-
-  //atualiza as doações toda vez q recarregar a página
-  useEffect(() => {
-    fetchDonations().then((data) => {
-      setDados(data);
-      console.log(data);
-    });
-  }, []);
-
+  const { isAuth } = useContext(AuthContext);
+  const [dados, setDados] = useState([])
+  // Verificar se o usuário está autenticado
+  if (!isAuth) {
+    return null; // Ou pode exibir uma mensagem de carregamento ou redirecionar para a página de login diretamente
+  }
 
   return (
-    <div className="overflow-y-hidden flex">
+    <div className="overflow-y-hidden flex bg-beige">
       {/* Div Para sideBar */}
-      <div className="z-50">
+      <div>
         <Sidebar />
       </div>
       {/* Div para content */}
-      <div className="flex justify-center z-0 bg-beige items-center flex-col relative w-full">
+      <div className="flex justify-center items-center flex-col relative w-full">
         {/* Título da página */}
-        <p className="font-bold text-lightGreen text-4xl top-5 absolute">
+        <p className="font-bold text-lightGreen text-4xl left-14 top-5 absolute">
           Pessoas
         </p>
-        <p className="font-semibold text-darkerGrey text-2xl top-20 absolute text-center">
-          Nenhuma pessoa cadastrada
-        </p>
-        <img src="/images/emptyUsers.png" alt="imagem Default Cadastrar Pessoas" className="w-[550px] h-[400px]"/>
-        <div onClick={() => Router.push("/pessoas")} className="">
-          <Botao className="bg-lightGreen hover:bg-darkGreen">
-            Adicionar <span className="text-2xl">+</span> 
-          </Botao>
-        </div>
+        {/* Menus */}
+        <ul className="list-none m-0 p-0">
+          <li className="inline-block">
+            <button className="absolute top-[80px] left-[40px] py-[10px] bg-lightGreen text-black bg-white text-xl px-[15px] py-2 rounded shadow font-semibold mt-8">
+              <FontAwesomeIcon icon={faFilter} /> Filtrar{" "}
+            </button>
+          </li>
+          <li className="inline-block absolute top-[80px] left-[180px]">
+            <Botao onClick={() => Router.push("/pessoas/principal")} className="bg-lightGreen hover:bg-darkGreen">
+              {" "}
+              <span className="text-2xl">+</span> Adicionar Pessoa
+            </Botao>
+          </li>
+          <li className="inline-block absolute top-[125px] left-[450px]">
+            <p>1 Linha selecionada</p>
+          </li>
+          <li className="inline-block bg-white rounded ">
+            <div
+              className={`absolute top-[100px] right-[40px] py-3 px-4 rounded-lg my-2 flex items-center rounded-md bg-white`}
+            >
+              <FontAwesomeIcon
+                icon={faMagnifyingGlass}
+                className={`mr-2 text-black text-lg block float-left cursor-pointer`}
+              />
+              <input
+                type={"search"}
+                placeholder="Pesquisar..."
+                className={`text-base bg-transparent w-full text-white focus:outline-none border-none placeholder-black`}
+              />
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   );
 };
 
 export default UsersMain;
-
