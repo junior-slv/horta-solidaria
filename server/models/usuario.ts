@@ -32,20 +32,20 @@ module.exports = (sequelize: any, DataTypes: any) => {
         primaryKey: true,
       },
       login: {
-        type: DataTypes.STRING(100),
-        allowNull: false,
+        type: DataTypes.STRING,
+        allowNull: false
       },
       senha: {
         type: DataTypes.STRING,
         allowNull: false,
         set(value: string) {
-          const hash = bcrypt.hashSync(value, 10); // Gera um hash da senha com um salt de 10 rounds
+          const hash = bcrypt.hashSync(value, 10);
           this.setDataValue("senha", hash);
         },
       },
       pessoa_id: {
         type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: true,
+        allowNull: true
       }
     },
     {
