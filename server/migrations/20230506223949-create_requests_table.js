@@ -8,7 +8,7 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true
       },
-      method: {
+      operacao: {
         type: Sequelize.STRING,
         allowNull: false
       },
@@ -16,18 +16,14 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      operador: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       timestamp: {
         type: Sequelize.DATE,
         allowNull: false
       },
-      createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false
-      },
-      updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false
-      }
     });
   },
 

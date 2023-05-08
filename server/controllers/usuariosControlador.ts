@@ -42,23 +42,22 @@ const logarUsuario = async (req: any, res: any) => {
   try {
     const login = req.body.login;
     const senha = req.body.senha;
-    const user = await db.Usuario.findOne({ where: { login } });
 
+    const user = await db.Usuario.findOne({ where: { login } });
     if (!user) {
-      return res.status(401).json({ message: "False" });
+      return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const passwordMatch = await bcrypt.compare(senha, user.senha);
-
-    if (!passwordMatch) {
-      return res.status(401).json({ message: "False" });
+    const senhaCorrespondente = bcrypt.compareSync(senha, user.senha);
+    if (!senhaCorrespondente) {
+      return res.status(401).json({ message: "Unauthorized" });
     }
 
     const token = jwt.sign({ userId: user.id }, 'chave_secreta', { expiresIn: 300 });
     res.status(200).json({ auth: true, token });
   } catch (error) {
     console.log(error);
-    res.sendStatus(412);
+    res.sendStatus(500);
   }
 };
 module.exports = {

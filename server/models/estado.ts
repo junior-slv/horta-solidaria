@@ -12,9 +12,6 @@ module.exports = (sequelize: any, DataTypes: any) => {
     estado!: string;
     uf!: string;
 
-    readonly createdAt!: string;
-    readonly updatedAt!: string;
-
     static associate(models: any) {
       Estado.hasMany(models.Endereco, { foreignKey: 'estado_id' });
     }
@@ -39,6 +36,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     {
       sequelize,
       modelName: 'Estado',
+      timestamps: false,
     }
   );
 
