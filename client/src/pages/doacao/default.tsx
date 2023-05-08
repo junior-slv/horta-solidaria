@@ -8,7 +8,7 @@ import { fetchDonations } from "@/services/api";
 const Default = () => {
   const { isAuth } = useContext(AuthContext);
   const router = useRouter();
-  const [donations, setDonations] = useState([]);
+  const [hasDonations, setHasDonations] = useState(false);
 
   useEffect(() => {
     // Verificar se o usuário está autenticado
@@ -17,7 +17,7 @@ const Default = () => {
       // Obter doações da API ou realizar qualquer outra lógica necessária
       fetchDonations()
         .then((data) => {
-          setDonations(data);
+          setHasDonations(Array.isArray(data) && data.length > 0);
         })
         .catch((error) => {
           console.error("Erro ao obter doações:", error);
@@ -27,6 +27,11 @@ const Default = () => {
 
   if (!isAuth) {
     return null; // Ou pode exibir uma mensagem de carregamento ou redirecionar para a página de login diretamente
+  }
+
+  if (hasDonations) {
+    router.push("/doacao/principal");
+    return null; // Redirecionando, então não há necessidade de renderizar o conteúdo
   }
 
   return (
@@ -41,28 +46,21 @@ const Default = () => {
         <p className="font-bold text-lightGreen text-4xl top-5 absolute">
           Doações
         </p>
-        {donations.length > 0 ? (
-          // Se houver doações cadastradas
-          <div>
-            {/* Renderizar as doações */}
+        {/* Se não houver doações cadastradas */}
+        <div>
+          <p className="font-semibold text-lightGray text-2xl top-20 text-center">
+            Nenhuma doação cadastrada
+          </p>
+          <img
+            src="/images/emptyDonation.png"
+            alt="imagem Default Cadastrar Doação"
+          />
+          <div onClick={() => router.push("/doacao/formulario")} className="flex justify-center">
+            <Botao className="bg-lightGreen hover:bg-darkGreen">
+              Adicionar <span className="text-2xl">+</span>
+            </Botao>
           </div>
-        ) : (
-          // Se não houver doações cadastradas
-          <div>
-            <p className="font-semibold text-lightGray text-2xl top-20 absolute text-center">
-              Nenhuma doação cadastrada
-            </p>
-            <img
-              src="/images/emptyDonation.png"
-              alt="imagem Default Cadastrar Doação"
-            />
-            <div onClick={() => router.push("/doacao/formulario")} className="">
-              <Botao className="bg-lightGreen hover:bg-darkGreen">
-                Adicionar <span className="text-2xl">+</span>
-              </Botao>
-            </div>
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );

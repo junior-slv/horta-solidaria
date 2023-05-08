@@ -1,9 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faDiagramProject,
   faUser,
   faBox,
-  faCalendarDays,
   faCalendarDay,
   faBasketShopping,
 } from "@fortawesome/free-solid-svg-icons";
@@ -12,7 +10,7 @@ import Sidebar from "@/components/sidebar/Sidebar";
 import { Botao } from "../../components/buttons/Botao";
 import FormInput from "@/components/inputs/FormInput";
 import FormRow from "@/components/FormRow";
-import Router, { useRouter } from "next/router";
+import Router from "next/router";
 import { AuthContext } from "@/contexts/AuthContext";
 import { addDonation } from "@/services/api";
 
@@ -22,12 +20,15 @@ const cadastroDefault = () => {
   const [produto, setProduto] = useState<string | undefined>();
   const [quantidade, setQuantidade] = useState<number | undefined>();
   const [data, setData] = useState<string | undefined>();
+  // reseta o formulário após o envio
 
-  const handleAddDonation = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleAddDonation = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       addDonation(doador, produto, quantidade, data);
       console.log('deu bao');
+      alert("Formulário Enviado com Sucesso!");
+      // Resetando os valores após o envio
     } catch (err) {
       console.log('Error' + err);
     }
@@ -49,10 +50,10 @@ const cadastroDefault = () => {
         {/* formulário */}
         <div className="flex-col relative w-[565px] h-[523px] mt-[80px] bg-white rounded-2xl justify-center items-center flex shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]">
           <div className="w-[464px]">
-            <form action="">
+          <form onSubmit={handleAddDonation}>
               {/* Input 1 */}
               <FormRow label={<FontAwesomeIcon icon={faUser} />}>
-                <FormInput onChange={(e) => setDoador(e.target.value)} type="text" placeholder="Nome" />
+                <FormInput onChange={(e) => setDoador(e.target.value)} type="text" placeholder="Nome"/>
               </FormRow>
               {/* Input 2 */}
               <FormRow label={<FontAwesomeIcon icon={faBox} />}>
@@ -71,10 +72,10 @@ const cadastroDefault = () => {
               </FormRow>
               {/* Botões */}
               <div className="justify-around flex">
-                <Botao onClick={() => Router.push("/doacao/principal")} className="w-5/12 bg-lightBlue hover:bg-darkBlue">
+                <Botao type="button" onClick={() => Router.replace("/doacao/principal")} className="w-5/12 bg-lightBlue hover:bg-darkBlue">
                   Voltar
                 </Botao>
-                <Botao onClick={handleAddDonation} className="w-5/12 bg-lightGreen hover:bg-darkGreen">
+                <Botao type="submit" className="w-5/12 bg-lightGreen hover:bg-darkGreen">
                   Cadastrar
                 </Botao>
               </div>
@@ -86,3 +87,4 @@ const cadastroDefault = () => {
   );
 };
 export default cadastroDefault;
+

@@ -10,24 +10,17 @@ import {
   faDiagramProject,
   faBoxArchive,
   faPeopleGroup,
+  faUser,
+  faAddressCard,
 } from "@fortawesome/free-solid-svg-icons"; // importação do icone individual
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Router from "next/router";
 import SidebarItem from "./SidebarItem";
-import { AuthContext } from "@/contexts/AuthContext";
-
-
 // componente SideBar
 const Sidebar = () => {
   //varíavel para armazenar o estado atual da side bar
   const [open, setOpen] = useState(true);
   const [subMenuOpen, setSubMenuOpen] = useState(false);
-  const { signOut } = useContext(AuthContext);
-
-  const handleLogout = () => {
-    signOut()
-  }
-
   //Componente
   return (
     // Side Bar
@@ -88,14 +81,16 @@ const Sidebar = () => {
           <SidebarItem onClick={() => Router.push("/")} label="Resumo" children={<FontAwesomeIcon icon={faGauge} />} className={`${!open && "hidden"}`}/>
           <SidebarItem onClick={() => Router.push("/")} label="Hortas" children={<FontAwesomeIcon icon={faTree} />} className={`${!open && "hidden"}`}/>
           <SidebarItem onClick={() => Router.push("/pessoas/principal")} label="Pessoas" children={<FontAwesomeIcon icon={faPeopleGroup} />} className={`${!open && "hidden"}`}/>
-          <SidebarItem onClick={() => Router.push("/doacao/principal")} label="Doações" children={<FontAwesomeIcon icon={faBoxArchive} />} className={`${!open && "hidden"}`}/>
+          <SidebarItem onClick={() => Router.push("/doacao/default")} label="Doações" children={<FontAwesomeIcon icon={faBoxArchive} />} className={`${!open && "hidden"}`}/>
           <SidebarItem onClick={() => Router.push("/")} label="Projetos" children={<FontAwesomeIcon icon={faDiagramProject} />} className={`${!open && "hidden"}`}/>
+          <SidebarItem onClick={() => Router.push("/")} label="Usuários" children={<FontAwesomeIcon icon={faUser} />} className={`${!open && "hidden"}`}/>
+          <SidebarItem onClick={() => Router.push("/")} label="Registros" children={<FontAwesomeIcon icon={faAddressCard} />} className={`${!open && "hidden"}`}/>
         </ul>
         <div className="bottom-0 flex fixed">
           <div>
             <span onClick={() => Router.push("/")} className=" mt-9 mb-4 text-white flex items-center gap-x-4 curson-pointer p-2 hover:bg-darkGreen rounded-md text-xl font-medium flex-1 duration-200">
               <FontAwesomeIcon icon={faArrowRightToBracket} />
-              <span onClick={handleLogout} className={`${!open && "hidden"}`}>Sair</span>
+              <span className={`${!open && "hidden"}`}>Sair</span>
             </span>
           </div>
         </div>

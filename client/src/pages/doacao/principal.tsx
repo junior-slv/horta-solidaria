@@ -5,6 +5,9 @@ import Sidebar from "@/components/sidebar/Sidebar";
 import { Botao } from "../../components/buttons/Botao";
 import Router from "next/router";
 import { AuthContext } from "@/contexts/AuthContext";
+import Dashboard from "@/components/doacoes/dashboard";
+import VerificaTabela from "@/components/doacoes/verificaTabela";
+import Cabecalho from "@/components/doacoes/cabecalho";
 
 
 const DoacaoMain = () => {
@@ -21,44 +24,26 @@ const DoacaoMain = () => {
       <div>
         <Sidebar />
       </div>
+     
       {/* Div para content */}
-      <div className="flex justify-center items-center flex-col relative w-full">
+      <div className="flex justify-center items-center flex-col relative w-full h-full mt-[20px]">
         {/* Título da página */}
-        <p className="font-bold text-lightGreen text-4xl left-14 top-5 absolute">
+        <p className="font-bold text-lightGreen text-4xl mb-[40px]">
           Doações
         </p>
-        {/* Menus */}
-        <ul className="list-none m-0 p-0">
-          <li className="inline-block">
-            <button className="absolute top-[80px] left-[40px] py-[10px] bg-lightGreen text-black bg-white text-xl px-[15px] py-2 rounded shadow font-semibold mt-8">
-              <FontAwesomeIcon icon={faFilter} /> Filtrar{" "}
-            </button>
-          </li>
-          <li className="inline-block absolute top-[80px] left-[180px]">
-            <Botao onClick={() => Router.push("/doacao/formulario")} className="bg-lightGreen hover:bg-darkGreen">
-              {" "}
-              <span className="text-2xl">+</span> Adicionar Doação
-            </Botao>
-          </li>
-          <li className="inline-block absolute top-[125px] left-[450px]">
-            <p>1 Linha selecionada</p>
-          </li>
-          <li className="inline-block bg-white rounded ">
-            <div
-              className={`absolute top-[100px] right-[40px] py-3 px-4 rounded-lg my-2 flex items-center rounded-md bg-white`}
-            >
-              <FontAwesomeIcon
-                icon={faMagnifyingGlass}
-                className={`mr-2 text-black text-lg block float-left cursor-pointer`}
-              />
-              <input
-                type={"search"}
-                placeholder="Pesquisar..."
-                className={`text-base bg-transparent w-full text-white focus:outline-none border-none placeholder-black`}
-              />
-            </div>
-          </li>
-        </ul>
+        {/* Menu */}
+        <div>
+            <Cabecalho />
+        </div>
+        {/* DashBoard */}
+        <div className="grid md:grid-cols-3 gap-7 grid-cols-0">
+          <Dashboard title="Quantidade de Doações" value={10} type="" />
+          <Dashboard title="Quantidade de Doadores" value={60} type="" />
+          <Dashboard title="Quantidade doada" value={90} type="Kg" />
+        </div>
+        <div className="w-10/12 justify-center text-center">
+            <VerificaTabela />
+        </div>
       </div>
     </div>
   );
