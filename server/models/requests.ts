@@ -2,21 +2,23 @@ import { Sequelize, Model, DataTypes } from 'sequelize';
 
 interface RequestAttributes {
   id: number;
-  method: string;
+  operacao: string;
   url: string;
   timestamp: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  usuario_id: string;
 }
 
 module.exports = (sequelize: Sequelize) => {
   class Request extends Model<RequestAttributes> implements RequestAttributes {
-    public id!: number;
-    public method!: string;
-    public url!: string;
-    public timestamp!: Date;
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
+    id!: number;
+    operacao!: string;
+    url!: string;
+    timestamp!: Date;
+    usuario_id!: string;
+    static associate(models: any) {
+      Request.belongsTo(models.Usuario, { foreignKey: 'usuario_id'});
+
+    }
   }
 
   Request.init(
@@ -26,7 +28,7 @@ module.exports = (sequelize: Sequelize) => {
         autoIncrement: true,
         primaryKey: true,
       },
-      method: {
+      operacao: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -38,19 +40,17 @@ module.exports = (sequelize: Sequelize) => {
         type: DataTypes.DATE,
         allowNull: false,
       },
-      createdAt: {
-        type: DataTypes.DATE,
+      usuario_id: {
+        type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false,
       },
-      updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
+
     },
     {
       sequelize,
       modelName: 'Request',
       tableName: 'Requests',
+      timestamps: false,
     }
   );
 

@@ -21,6 +21,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     static associate(models: any) {
       // Corrija o uso do modelo Endereco e ajuste o nome do modelo no parâmetro
       Usuario.belongsTo(models.Pessoa, { foreignKey: "pessoa_id" });
+      Usuario.hasMany(models.Request, { foreignKey: 'usuario_id'});
     }
   }
 
