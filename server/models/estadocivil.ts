@@ -10,9 +10,6 @@ module.exports = (sequelize: any, DataTypes: any) => {
     id!: number;
     estadoCivil!: string;
 
-    readonly createdAt!: string;
-    readonly updatedAt!: string;
-
     static associate(models: any) {
       EstadoCivil.hasMany(models.Pessoa, { foreignKey: 'estadocivil_id' });
     }
@@ -33,6 +30,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     {
       sequelize,
       modelName: 'EstadoCivil',
+      timestamps: false,
     }
   );
 

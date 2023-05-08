@@ -5,8 +5,13 @@ const cors = require('cors')
 import db from './models'
 import jwt from 'jsonwebtoken'
 import { createEndereco } from './seeders/Endereco'
-import { createUser } from './seeders/Estado'
+import { createEstado } from './seeders/Estado'
 import { createUsuario } from './seeders/usuario'
+import { createEstadoCivil } from './seeders/estadocivil'
+import { createGenero } from './seeders/genero'
+import { createEtnias } from './seeders/etnia'
+import { seedDoacoes } from './seeders/Doacao'
+import { seedPessoas } from './seeders/pessoa'
 
 var corsOptions = {
   origin: "http://localhost:3000"
@@ -29,13 +34,14 @@ app.use((err:any, req:any, res:any, next:any) => {
   res.status(500).send('Ocorreu um erro no servidor');
 });
 //
-createUsuario()
+
 
 //rotas
 const rotaDoacao = require('./routes/doacaoRotas')
 app.use('/api/doacao', rotaDoacao)
-const rotaUsuario = require('./routes/rotaUsuario') 
-app.use('/api/usuario', rotaUsuario)
+
+const rotaPessoa = require('./routes/pessoa') 
+app.use('/api/pessoa', rotaPessoa)
 
 const rotaEndereco = require('./routes/endereco')
 app.use('/api/endereco', rotaEndereco)

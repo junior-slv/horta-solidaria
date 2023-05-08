@@ -112,7 +112,7 @@ export const estados = [
 ];
 
 
-export const createUser = async () => {
+export const createEstado = async () => {
   try {
     for (const user of estados) {
       await db.Estado.create(user);

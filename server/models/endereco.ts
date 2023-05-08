@@ -7,7 +7,6 @@ interface AtributosEndereco {
   numero: string;
   complemento: string;
   bairro: string;
-  cidade: string;
   estado_id: string;
 }
 
@@ -18,7 +17,6 @@ module.exports = (sequelize: any, DataTypes: any) => {
     numero!: string;
     complemento!: string;
     bairro!: string;
-    cidade!: string;
     estado_id!: string;
 
     readonly createdAt!: string;
@@ -50,10 +48,6 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: true,
       },
       bairro: {
-        type: DataTypes.STRING(50),
-        allowNull: false,
-      },
-      cidade: {
         type: DataTypes.STRING(50),
         allowNull: false,
       },

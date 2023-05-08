@@ -12,6 +12,7 @@ const FormInput = ({type, placeholder, onChange}: InputProps) => {
       type={type}
       placeholder={placeholder}
       onChange={onChange}
+      required
       className={` h-[60px] font-semibold text-base bg-transparent w-full text-darkGrey focus:outline-none border-none placeholder-darkGrey`}
     />
   );
