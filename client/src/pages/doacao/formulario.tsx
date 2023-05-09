@@ -38,7 +38,6 @@ const cadastroDefault = () => {
       schema.parse(formValues);
       
       await addDonation(doador, produto, quantidade, data);
-      console.log('deu bao');
       alert("Formulário Enviado com Sucesso!");
       
       // Resetando os valores após o envio

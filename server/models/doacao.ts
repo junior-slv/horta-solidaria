@@ -5,6 +5,7 @@ interface AtributosDoacao {
   doador: string;
   produto: string;
   quantidade: string;
+  data: string,
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -13,6 +14,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     doador!: string;
     produto!: string;
     quantidade!: string;
+    data!: string;
 
     static associate(models: any) {
 
@@ -37,11 +39,16 @@ module.exports = (sequelize: any, DataTypes: any) => {
       quantidade: {
         type: DataTypes.INTEGER,
         allowNull: false
-      }
+      },
+      data: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
     },
     {
       sequelize,
       modelName: 'Doacao',
+      timestamps: false
     }
   );
 

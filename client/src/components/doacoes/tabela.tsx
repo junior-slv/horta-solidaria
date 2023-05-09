@@ -15,7 +15,7 @@ interface Tabela {
   doador: string;
   produto: string;
   quantidade: string;
-  createdAt: string;
+  data: string;
 }
 
 function Tabela() {
@@ -55,8 +55,10 @@ function Tabela() {
     // Remove uma doação pelo ID
     await deletarDoacao(id);
     // Recarrega os dados das doações após a remoção
-    await fetchDoacoes();
+    const updatedData = await fetchDoacoes();
+    setDados(updatedData); // Atualiza os dados da tabela com os novos dados
   };
+  
   return (
     <div className="rounded-lg mt-[40px] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] bg-white">
       {/* Tabela */}
@@ -110,7 +112,7 @@ function Tabela() {
               <td>{item.doador} </td>
               <td>{item.produto} </td>
               <td>{item.quantidade} </td>
-              <td>{item.createdAt} </td>
+              <td>{item.data} </td>
               <td>
                 <FontAwesomeIcon
                   icon={faTrash}
