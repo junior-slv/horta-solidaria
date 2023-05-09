@@ -1,22 +1,28 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Sidebar from "@/components/sidebar/Sidebar";
-import { Botao } from "../../components/buttons/Botao";
 import Router from "next/router";
 import { AuthContext } from "@/contexts/AuthContext";
 import Dashboard from "@/components/doacoes/dashboard";
-import VerificaTabela from "@/components/doacoes/verificaTabela";
 import Cabecalho from "@/components/doacoes/cabecalho";
+import { fetchDoacoes } from "@/services/api";
+import Tabela from "@/components/doacoes/tabela";
 
 
 const DoacaoMain = () => {
   const { isAuth } = useContext(AuthContext);
+  const [dados, setDados] = useState([]);
 
   // Verificar se o usuário está autenticado
-  if (!isAuth) {
-    return null; // Ou pode exibir uma mensagem de carregamento ou redirecionar para a página de login diretamente
-  }
+  useEffect(() => {
+    if (!isAuth){
+      Router.push('/'); 
+    } else {
+      fetchDoacoes().then((data)=> setDados(data));
+      console.log(dados)
+    }
+    
+  }, [])
+  
 
   return (
     <div className="overflow-y-hidden flex bg-beige">
@@ -42,7 +48,7 @@ const DoacaoMain = () => {
           <Dashboard title="Quantidade doada" value={90} type="Kg" />
         </div>
         <div className="w-10/12 justify-center text-center">
-            <VerificaTabela />
+            <Tabela />
         </div>
       </div>
     </div>

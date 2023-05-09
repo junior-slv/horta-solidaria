@@ -3,7 +3,7 @@ import Sidebar from "@/components/sidebar/Sidebar";
 import { Botao } from "../../components/buttons/Botao";
 import { useRouter } from "next/router";
 import { AuthContext } from "@/contexts/AuthContext";
-import { fetchDonations } from "@/services/api";
+import { fetchDoacoes } from "@/services/api";
 
 const Default = () => {
   const { isAuth } = useContext(AuthContext);
@@ -15,13 +15,7 @@ const Default = () => {
     if (!isAuth) {
     } else {
       // Obter doações da API ou realizar qualquer outra lógica necessária
-      fetchDonations()
-        .then((data) => {
-          setHasDonations(Array.isArray(data) && data.length > 0);
-        })
-        .catch((error) => {
-          console.error("Erro ao obter doações:", error);
-        });
+      fetchDoacoes()
     }
   }, [isAuth, router]);
 
@@ -34,6 +28,7 @@ const Default = () => {
     return null; // Redirecionando, então não há necessidade de renderizar o conteúdo
   }
 
+  
   return (
     <div className="overflow-y-hidden flex bg-beige">
       {/* Div Para sideBar */}
