@@ -3,6 +3,7 @@ import { faFilter, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import { Botao } from "../../components/buttons/Botao";
 import Router from "next/router";
+import { quantidadeSelecionada } from "./tabela";
 
 function Cabecalho() {
   return (
@@ -10,8 +11,8 @@ function Cabecalho() {
       <div className="mb-[60px] gap-y-4 md:gap-y-0 grid grid-cols-1 md:grid-cols-4 w-auto md:w-full items-center">
         {/* Botão de filtro */}
         <div>
-          <button className="text-black bg-white text-xl px-[15px] py-2 rounded-[20px] shadow font-semibold">
-            <FontAwesomeIcon icon={faFilter} /> Filtrar
+          <button className="py-[10px] bg-lightGreen text-black bg-white text-xl px-[15px] py-2 rounded-[20px] shadow font-semibold">
+            <FontAwesomeIcon icon={faFilter} /> Filtrar{" "}
           </button>
         </div>
         {/*Botão Adicionar Doação  */}
@@ -19,17 +20,18 @@ function Cabecalho() {
           <Botao
             onClick={() => Router.push("/doacao/formulario")}
             className="rounded-[20px] bg-lightGreen hover:bg-darkGreen"
-          >       
+          >
+            {" "}
             <span className="text-xl">+</span> Adicionar Doação
           </Botao>
         </div>
         {/* Colunas selecionadas */}
         <div className="md:-ml-36">
-          <p>1 Linha selecioanada</p>
+        <p>1 linha selecionada</p>
         </div>
         {/* Pesquisar */}
         <div
-          className={`py-3 px-4 rounded-lg flex items-center bg-white gap-8`}
+          className={`py-3 px-4 rounded-lg flex items-center rounded-md bg-white gap-8`}
         >
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
