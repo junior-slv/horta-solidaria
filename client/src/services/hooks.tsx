@@ -4,3 +4,4 @@ export const handleHomePage = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     Router.push('/')
 }
+

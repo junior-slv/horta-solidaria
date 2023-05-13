@@ -1,22 +1,42 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Sidebar from "@/components/sidebar/Sidebar";
-import { Botao } from "../../components/buttons/Botao";
 import Router from "next/router";
 import { AuthContext } from "@/contexts/AuthContext";
 import Dashboard from "@/components/doacoes/dashboard";
-import VerificaTabela from "@/components/doacoes/verificaTabela";
 import Cabecalho from "@/components/doacoes/cabecalho";
-
+import { fetchDoacoes } from "@/services/api";
+import Tabela from "@/components/doacoes/tabela";
 
 const DoacaoMain = () => {
-  const { isAuth } = useContext(AuthContext);
 
-  // Verificar se o usuário está autenticado
-  if (!isAuth) {
-    return null; // Ou pode exibir uma mensagem de carregamento ou redirecionar para a página de login diretamente
-  }
+  const [totalDoacoes, setTotalDoacoes] = useState(0);
+  // Quantidade Doada
+  const [quantidadeDoada, setQuantidadeDoada] = useState(0);
+  const { isAuth } = useContext(AuthContext);
+  const [dados, setDados] = useState([]);
+
+
+  useEffect(() => {
+    // Verifica se o usuário está autenticado
+    if (!isAuth) {
+      Router.push("/");
+    } else {
+      // Carrega os dados das doações
+      fetchDoacoes().then((data) => { 
+        setDados(data);
+        console.log(dados);
+        // quantidade doações
+        setTotalDoacoes(data.length);
+
+        //quantidade doada
+        let quantidadeTotal = 0;
+        for (let index = 0; index < data.length; index++) {
+          quantidadeTotal += data[index].quantidade;
+        }        
+        setQuantidadeDoada(quantidadeTotal);
+      });
+    }
+  }, []);
 
   return (
     <div className="overflow-y-hidden flex bg-beige">
@@ -37,12 +57,11 @@ const DoacaoMain = () => {
         </div>
         {/* DashBoard */}
         <div className="grid md:grid-cols-3 gap-7 grid-cols-0">
-          <Dashboard title="Quantidade de Doações" value={10} type="" />
-          <Dashboard title="Quantidade de Doadores" value={60} type="" />
-          <Dashboard title="Quantidade doada" value={90} type="Kg" />
+          <Dashboard title="Quantidade de Doações" value={totalDoacoes} type="" />
+          <Dashboard title="Quantidade doada" value={quantidadeDoada} type="Kg" />
         </div>
         <div className="w-10/12 justify-center text-center">
-            <VerificaTabela />
+            <Tabela />
         </div>
       </div>
     </div>

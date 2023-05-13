@@ -81,7 +81,7 @@ const Sidebar = () => {
           <SidebarItem onClick={() => Router.push("/")} label="Resumo" children={<FontAwesomeIcon icon={faGauge} />} className={`${!open && "hidden"}`}/>
           <SidebarItem onClick={() => Router.push("/")} label="Hortas" children={<FontAwesomeIcon icon={faTree} />} className={`${!open && "hidden"}`}/>
           <SidebarItem onClick={() => Router.push("/pessoas/principal")} label="Pessoas" children={<FontAwesomeIcon icon={faPeopleGroup} />} className={`${!open && "hidden"}`}/>
-          <SidebarItem onClick={() => Router.push("/doacao/default")} label="Doações" children={<FontAwesomeIcon icon={faBoxArchive} />} className={`${!open && "hidden"}`}/>
+          <SidebarItem onClick={() => Router.push("/doacao/principal")} label="Doações" children={<FontAwesomeIcon icon={faBoxArchive} />} className={`${!open && "hidden"}`}/>
           <SidebarItem onClick={() => Router.push("/")} label="Projetos" children={<FontAwesomeIcon icon={faDiagramProject} />} className={`${!open && "hidden"}`}/>
           <SidebarItem onClick={() => Router.push("/")} label="Usuários" children={<FontAwesomeIcon icon={faUser} />} className={`${!open && "hidden"}`}/>
           <SidebarItem onClick={() => Router.push("/")} label="Registros" children={<FontAwesomeIcon icon={faAddressCard} />} className={`${!open && "hidden"}`}/>
