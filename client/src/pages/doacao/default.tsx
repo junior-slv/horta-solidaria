@@ -13,22 +13,25 @@ const Default = () => {
   useEffect(() => {
     // Verificar se o usuário está autenticado
     if (!isAuth) {
+      return;
     } else {
       // Obter doações da API ou realizar qualquer outra lógica necessária
       fetchDoacoes()
+        .then((data) => {
+          setHasDonations(Array.isArray(data) && data.length > 0);
+        })
+        .catch((error) => {
+          console.error("Erro ao obter doações:", error);
+        });
     }
   }, [isAuth, router]);
 
-  if (!isAuth) {
-    return null; // Ou pode exibir uma mensagem de carregamento ou redirecionar para a página de login diretamente
-  }
 
   if (hasDonations) {
     router.push("/doacao/principal");
     return null; // Redirecionando, então não há necessidade de renderizar o conteúdo
   }
 
-  
   return (
     <div className="overflow-y-hidden flex bg-beige">
       {/* Div Para sideBar */}
