@@ -20,6 +20,7 @@ const adicionarDoacao = async (req:any, res: any) => {
             doador: req.body.doador,
             produto: req.body.produto,
             quantidade: req.body.quantidade,
+            data: req.body.data,
         }
         const doacao = await db.Doacao.create(info);
         res.status(200).send(info)
@@ -41,6 +42,7 @@ const atualizarDoacao = async (req: any, res: any) => {
       doacao.doador = req.body.doador || doacao.doador;
       doacao.produto = req.body.produto || doacao.produto;
       doacao.quantidade = req.body.quantidade || doacao.quantidade;
+      doacao.data = req.body.data || doacao.data;
   
       await doacao.save();
       res.status(200).send(doacao);

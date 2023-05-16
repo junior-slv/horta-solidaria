@@ -3,7 +3,7 @@ import Sidebar from "@/components/sidebar/Sidebar";
 import { Botao } from "../../components/buttons/Botao";
 import { useRouter } from "next/router";
 import { AuthContext } from "@/contexts/AuthContext";
-import { fetchDonations } from "@/services/api";
+import { fetchDoacoes } from "@/services/api";
 
 const Default = () => {
   const { isAuth } = useContext(AuthContext);
@@ -13,9 +13,10 @@ const Default = () => {
   useEffect(() => {
     // Verificar se o usuário está autenticado
     if (!isAuth) {
+      return;
     } else {
       // Obter doações da API ou realizar qualquer outra lógica necessária
-      fetchDonations()
+      fetchDoacoes()
         .then((data) => {
           setHasDonations(Array.isArray(data) && data.length > 0);
         })
@@ -25,9 +26,6 @@ const Default = () => {
     }
   }, [isAuth, router]);
 
-  if (!isAuth) {
-    return null; // Ou pode exibir uma mensagem de carregamento ou redirecionar para a página de login diretamente
-  }
 
   if (hasDonations) {
     router.push("/doacao/principal");

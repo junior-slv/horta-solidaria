@@ -3,7 +3,7 @@ import { faFilter, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import { Botao } from "../../components/buttons/Botao";
 import Router from "next/router";
-import Dados from "./dados";
+import { quantidadeSelecionada } from "./tabela";
 
 function Cabecalho() {
   return (
@@ -27,7 +27,7 @@ function Cabecalho() {
         </div>
         {/* Colunas selecionadas */}
         <div className="md:-ml-36">
-          <p>1 Linha selecioanada</p>
+        <p>1 linha selecionada</p>
         </div>
         {/* Pesquisar */}
         <div

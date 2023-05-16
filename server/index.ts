@@ -49,7 +49,6 @@ app.use('/api/endereco', rotaEndereco)
 const rotaUsuario = require('./routes/rotaUsuario')
 app.use('/api/usuario', rotaUsuario)
 
-
 db.sequelize.sync().then(() =>{
   app.listen(port, () =>{
     console.log(`Rodando na porta: ${port}`)

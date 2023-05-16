@@ -4,77 +4,92 @@ export const infos = [
     {
         doador: "Maria",
         produto: "Arroz",
-        quantidade: 3
+        quantidade: 3,
+        data: "01/01/2023"
     },
     {
         doador: "José",
         produto: "Feijão",
-        quantidade: 4
+        quantidade: 3,
+        data: "01/01/2023"
     },
     {
         doador: "Ana",
         produto: "Óleo de soja",
-        quantidade: 2
+        quantidade: 3,
+        data: "01/01/2023"
     },
     {
         doador: "João",
         produto: "Açúcar",
-        quantidade: 1
+        quantidade: 3,
+        data: "01/01/2023"
     },
     {
         doador: "Carla",
         produto: "Macarrão",
-        quantidade: 5
+        quantidade: 3,
+        data: "01/01/2023"
     },
     {
         doador: "Pedro",
         produto: "Leite em pó",
-        quantidade: 2
+        quantidade: 3,
+        data: "01/01/2023"
     },
     {
         doador: "Lucas",
         produto: "Café",
-        quantidade: 3
+        quantidade: 3,
+        data: "01/01/2023"
     },
     {
         doador: "Julia",
         produto: "Feijão",
-        quantidade: 2
+        quantidade: 3,
+        data: "01/01/2023"
     },
     {
         doador: "Fernando",
         produto: "Açúcar",
-        quantidade: 1
+        quantidade: 3,
+        data: "01/01/2023"
     },
     {
         doador: "Isabela",
         produto: "Arroz",
-        quantidade: 4
+        quantidade: 3,
+        data: "01/01/2023"
     },
     {
         doador: "Rafael",
         produto: "Feijão",
-        quantidade: 3
+        quantidade: 3,
+        data: "01/01/2023"
     },
     {
         doador: "Mariana",
         produto: "Macarrão",
-        quantidade: 4
+        quantidade: 3,
+        data: "01/01/2023"
     },
     {
         doador: "Gustavo",
         produto: "Leite em pó",
-        quantidade: 1
+        quantidade: 3,
+        data: "01/01/2023"
     },
     {
         doador: "Bianca",
         produto: "Café",
-        quantidade: 2
+        quantidade: 3,
+        data: "01/01/2023"
     },
     {
         doador: "Diego",
         produto: "Arroz",
-        quantidade: 2
+        quantidade: 3,
+        data: "01/01/2023"
     },
 ];
 
