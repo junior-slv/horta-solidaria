@@ -41,7 +41,7 @@ const rotaDoacao = require('./routes/doacaoRotas')
 app.use('/api/doacao', rotaDoacao)
 
 const rotaPessoa = require('./routes/pessoa') 
-app.use('/api/pessoa', rotaPessoa)
+app.use('/api/pessoa', verificarToken, rotaPessoa)
 
 const rotaEndereco = require('./routes/endereco')
 app.use('/api/endereco', rotaEndereco)

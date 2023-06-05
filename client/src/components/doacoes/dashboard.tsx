@@ -5,7 +5,7 @@ import "react-circular-progressbar/dist/styles.css";
 interface DashBoardProps {
   title: string;
   value: number;
-  type: string;
+  type?: string;
 }
 
 function Dashboard(props: DashBoardProps) {

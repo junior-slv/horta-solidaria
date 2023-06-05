@@ -5,6 +5,8 @@ import LoadingAnimation from "@/components/loadings/LoadingAnimation";
 import Input from "@/components/inputs/Input";
 import ShowPassword, { HidePassword } from "@/components/ShowPassword";
 import LargeButton from "@/components/buttons/LargeButton";
+import Toast from "./Toast";
+import Torrada from "@/components/toast/Toast";
 
 const LoginSchema = z.object({
   login: z.string(),
@@ -84,6 +86,7 @@ const Login = () => {
           <LargeButton type="submit">Enviar</LargeButton>
           <div>{loading ? <LoadingAnimation /> : <div></div>}</div>
         </div>
+        <Torrada/>
       </form>
     </div>
   );

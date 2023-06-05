@@ -58,7 +58,7 @@ const DoacaoMain = () => {
         {/* DashBoard */}
         <div className="grid md:grid-cols-3 gap-7 grid-cols-0">
           <Dashboard title="Quantidade de Doações" value={totalDoacoes} type="" />
-          <Dashboard title="Quantidade doada" value={quantidadeDoada} type="Kg" />
+          <Dashboard title="Quantidade doada" value={quantidadeDoada} type=""/>
         </div>
         <div className="w-10/12 justify-center text-center">
             <Tabela />

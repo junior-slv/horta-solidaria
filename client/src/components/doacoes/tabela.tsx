@@ -39,7 +39,7 @@ import { Console } from "console";
       } else {
         // Carrega os dados das doações
         fetchDoacoes().then((data) => {
-          setDados(data);
+          setDados(data.reverse());
         });
       }
     }, []);
