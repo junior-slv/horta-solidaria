@@ -49,7 +49,8 @@ const Tabela: React.FC<TabelaProps> = ({ dados }) => {
   };
 
   // Filtrar os dados com base na página atual
-  const dadosPagina = dados.slice(paginaInicial, paginaFinal);
+  const dadosPagina = (dados ?? []).slice(paginaInicial, paginaFinal);
+
 
   return (
     <div className="container mx-auto p-4">
