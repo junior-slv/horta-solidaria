@@ -14,7 +14,7 @@ const ObjetivoModel = require('./models/objetivo');
 const RegistrosModel = require('./models/registros');
 const TelefoneModel = require('./models/telefones');
 const UsuarioModel = require('./models/usuario');
-const PessoaModel = require('.models/pessoa')
+const PessoaModel = require('./models/pessoa')
 var corsOptions = {
     origin: "https://horta-solidaria.vercel.app",
   };
