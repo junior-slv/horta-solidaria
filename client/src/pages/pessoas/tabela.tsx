@@ -25,7 +25,7 @@ const Tabela: React.FC<TabelaProps> = ({ dados }) => {
   const itensPorPagina = 11;
   const paginaInicial = (paginaAtual - 1) * itensPorPagina;
   const paginaFinal = paginaInicial + itensPorPagina;
-  const totalPaginas = Math.ceil(dados.length / itensPorPagina);
+  const totalPaginas = Math.ceil((dados ?? []).length / itensPorPagina);
   const router = useRouter();
 
   const handlePaginaAnterior = () => {
