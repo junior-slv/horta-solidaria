@@ -41,6 +41,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use((err:any, req:any, res:any, next:any) => {
   console.error(err.stack);
+  console.log("deu erro gordao")
   res.status(500).send('Ocorreu um erro no servidor');
 });
 
