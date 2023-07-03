@@ -59,11 +59,6 @@ function TabelaUsuarios() {
     }
   };
 
-  const handleRemovePessoa = async (id: number | undefined) => {
-    await deletarPessoa(id);
-    const updatedData = await fetchPessoas();
-    setDados(updatedData);
-  };
 
   return (
     <div className="mt-[40px] shadow-md bg-white">
@@ -120,7 +115,7 @@ function TabelaUsuarios() {
               <FontAwesomeIcon
                 icon={faTrash}
                 className="mr-[20px] cursor-pointer"
-                onClick={() => handleRemovePessoa(usuario.id)}
+                // onClick={() => handleRemovePessoa(usuario.id)}
               />
               <FontAwesomeIcon icon={faPenToSquare} />
             </div>

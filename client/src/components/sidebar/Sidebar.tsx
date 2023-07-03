@@ -21,8 +21,7 @@ const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const { nome, signOut, isAuth, cargo } = useContext(AuthContext);
 
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   const sidebarWidth = open ? "w-72" : "w-20";
   const sidebarContentClass = `bg-lightGreen h-screen p-5 pt-8 duration-300 relative ${sidebarWidth}`;
@@ -56,13 +55,57 @@ const Sidebar = () => {
         </div>
 
         <ul className="pt-2">
-          <SidebarItem onClick={() => Router.push("/")} label="Resumo" children={<FontAwesomeIcon icon={faGauge} />} className={`${!open && "hidden"}`} />
-          <SidebarItem onClick={() => Router.push("/")} label="Hortas" children={<FontAwesomeIcon icon={faTree} />} className={`${!open && "hidden"}`} />
-          <SidebarItem onClick={() => Router.push("/pessoas/principal")} label="Pessoas" children={<FontAwesomeIcon icon={faPeopleGroup} />} className={`${!open && "hidden"}`} />
-          <SidebarItem onClick={() => Router.push("/doacao/principal")} label="Doações" children={<FontAwesomeIcon icon={faBoxArchive} />} className={`${!open && "hidden"}`} />
-          <SidebarItem onClick={() => Router.push("/")} label="Projetos" children={<FontAwesomeIcon icon={faDiagramProject} />} className={`${!open && "hidden"}`} />
-          <SidebarItem onClick={() => Router.push("/")} label="Usuários" children={<FontAwesomeIcon icon={faUser} />} className={`${!open && "hidden"}`} />
-          {cargo === "Administrador" && <SidebarItem onClick={() => Router.push("/")} label="Registros" children={<FontAwesomeIcon icon={faAddressCard} />} className={`${!open && "hidden"}`} />}
+          <SidebarItem
+            onClick={() => Router.push("/")}
+            label="Resumo"
+            className={`${!open && "hidden"}`}
+          >
+            <FontAwesomeIcon icon={faGauge} />
+          </SidebarItem>
+          <SidebarItem
+            onClick={() => Router.push("/")}
+            label="Hortas"
+            className={`${!open && "hidden"}`}
+          >
+            <FontAwesomeIcon icon={faTree} />
+          </SidebarItem>
+          <SidebarItem
+            onClick={() => Router.push("/pessoas/principal")}
+            label="Pessoas"
+            className={`${!open && "hidden"}`}
+          >
+            <FontAwesomeIcon icon={faPeopleGroup} />
+          </SidebarItem>
+          <SidebarItem
+            onClick={() => Router.push("/doacao/principal")}
+            label="Doações"
+            className={`${!open && "hidden"}`}
+          >
+            <FontAwesomeIcon icon={faBoxArchive} />
+          </SidebarItem>
+          <SidebarItem
+            onClick={() => Router.push("/")}
+            label="Projetos"
+            className={`${!open && "hidden"}`}
+          >
+            <FontAwesomeIcon icon={faDiagramProject} />
+          </SidebarItem>
+          <SidebarItem
+            onClick={() => Router.push("/")}
+            label="Usuários"
+            className={`${!open && "hidden"}`}
+          >
+            <FontAwesomeIcon icon={faUser} />
+          </SidebarItem>
+          {cargo === "Administrador" && (
+            <SidebarItem
+              onClick={() => Router.push("/")}
+              label="Registros"
+              className={`${!open && "hidden"}`}
+            >
+              <FontAwesomeIcon icon={faAddressCard} />
+            </SidebarItem>
+          )}
         </ul>
 
         <div className="bottom-0 flex fixed">

@@ -2,12 +2,12 @@ import React, { ReactNode } from "react";
 
 interface SidebarItemProps {
   label: ReactNode;
-  children: ReactNode;
   className: string;
   onClick?: () => void;
+  children: ReactNode; // Adicione a propriedade children
 }
 
-const SidebarItem = ({ children, label, className, onClick }: SidebarItemProps) => {
+const SidebarItem = ({ label, className, onClick, children }: SidebarItemProps) => {
   return (
     <li
       className={
