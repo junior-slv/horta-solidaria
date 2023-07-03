@@ -8,25 +8,25 @@ const databaseDialect = process.env.DATABASE_DIALECT;
 
 module.exports = {
     development: {
-        username: "u756113144_junior",
-        password: "$2y$11$yMAOYs.L1Qp3Hn6P3kpZ0OblpwIxybYA6I4tQL70BH86qIU48Czkq",
-        database: "u756113144_hortaSolidaria",
-        host: "sql888.main-hosting.eu",
+        username: "root",
+        password: "root",
+        database: "db_teste_horta",
+        host: "127.0.0.1",
         dialect: "mysql",
     },
     test: {
-        username: "u756113144_junior",
-        password: "$2y$11$yMAOYs.L1Qp3Hn6P3kpZ0OblpwIxybYA6I4tQL70BH86qIU48Czkq",
-        database: "u756113144_hortaSolidaria",
-        host: "sql888.main-hosting.eu",
+        username: "root",
+        password: null,
+        database: "database_test",
+        host: "127.0.0.1",
         dialect: "mysql",
     },
     production: {
-        username: "u756113144_junior",
-        password: "$2y$11$yMAOYs.L1Qp3Hn6P3kpZ0OblpwIxybYA6I4tQL70BH86qIU48Czkq",
-        database: "u756113144_hortaSolidaria",
-        host: "sql888.main-hosting.eu",
-        dialect: "mysql",
+      username: "root",
+      password: null,
+      database: "database_production",
+      host: "127.0.0.1",
+      dialect: "mysql",
     
   },
 };

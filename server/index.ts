@@ -16,7 +16,7 @@ import { createPessoas } from './seeders/pessoa';
 import { createObjetivos } from './seeders/Objetivo';
 
 var corsOptions = {
-  origin: "https://horta-solidaria.vercel.app",
+  origin: "http://localhost:3000",
 };
 
 const verificarToken = (req: any, res: any, next: any) => {
