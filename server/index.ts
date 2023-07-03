@@ -16,7 +16,7 @@ import { createPessoas } from './seeders/pessoa'
 import { createObjetivos } from './seeders/Objetivo'
 
 var corsOptions = {
-  origin: "http://localhost:3000"
+  origin: "https://horta-solidaria.vercel.app"
 }
 const verificarToken = (req: any, res: any, next: any) => {
   const token = req.headers['x-access-token'] as string;
@@ -43,12 +43,12 @@ app.use((err:any, req:any, res:any, next:any) => {
   res.status(500).send('Ocorreu um erro no servidor');
 });
 //
-createEstadoCivil()
-createGenero()
-createEtnias()
-createCargos()
-createObjetivos()
-createPessoas()
+// createEstadoCivil()
+// createGenero()
+// createEtnias()
+// createCargos()
+// createObjetivos()
+// createPessoas()
 //rotas
 const rotaDoacao = require('./routes/doacaoRotas')
 app.use('/api/doacao', rotaDoacao)
