@@ -1,17 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, ReactNode } from 'react';
 
-const Torrada = () => {
-  const [isClosed, setIsClosed] = useState(false)
+interface ToastProps {
+  message: string;
+  children: ReactNode;
+}
+
+const Toast: React.FC<ToastProps> = ({ message, children }) => {
+  const [showToast, setShowToast] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowToast(false);
+    }, 5000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
+  const handleClose = () => {
+    setShowToast(false);
+  };
+
   return (
-    <div className={isClosed ? "hidden" : "block"}>
-      <div className="absolute bottom-0 right-0 bg-white w-96 h-36 rounded-2xl flex items-center justify-center">
-        <div>Sucesso!</div>
-        <div className="absolute right-4 top-2">
-          <button onClick={() => setIsClosed(!isClosed)}>X</button>
+    <>
+      {showToast && (
+        <div className="fixed bottom-5 right-5">
+          <div className="bg-white shadow-md rounded-md flex items-center px-4 py-2 max-w-md border-2 border-transparent transition-all duration-500 hover:border-green-500 animate-fade-in">
+            <div className="flex-grow pr-4">
+              {children}
+              {message}
+            </div>
+            <button className="text-gray-500 ml-4" onClick={handleClose}>
+              X
+            </button>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 
-export default Torrada;
+export default Toast;

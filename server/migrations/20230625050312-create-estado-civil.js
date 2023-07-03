@@ -2,27 +2,19 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('EstadoCivils', {
-      id: {
+    await queryInterface.createTable('Estado_Civils', {
+      id_estadoCivil: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      estadocivil: {
+      estadoCivil: {
         type: Sequelize.STRING
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('EstadoCivils');
+    await queryInterface.dropTable('Estado_Civils');
   }
 };

@@ -1,53 +1,49 @@
-import { Model } from "sequelize";
-import bcrypt from "bcrypt";
+import { Model, DataTypes } from 'sequelize';
+import bcrypt from 'bcrypt';
 
-interface AtributosUsuario {
-  id: number;
+interface UsuarioAttributes {
+  id_usuario: number;
   login: string;
   senha: string;
-  pessoa_id: string;
+  fk_Cargo_id: number;
+  fk_Pessoa_id: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Usuario extends Model<AtributosUsuario> implements AtributosUsuario {
-    id!: number;
-    login!: string;
-    senha!: string;
-    pessoa_id!: string;
-
-    readonly createdAt!: string;
-    readonly updatedAt!: string;
-
+  class Usuario extends Model<UsuarioAttributes> {
     static associate(models: any) {
-      // Corrija o uso do modelo Endereco e ajuste o nome do modelo no parâmetro
-      Usuario.belongsTo(models.Pessoa, { foreignKey: "pessoa_id" });
-      Usuario.hasMany(models.Request, { foreignKey: 'usuario_id'});
+      Usuario.belongsTo(models.Cargo, { foreignKey: "fk_Cargo_id" });
+      Usuario.belongsTo(models.Pessoa, { foreignKey: "fk_Pessoa_id" });
     }
   }
 
   Usuario.init(
     {
-      id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        autoIncrement: true,
+      id_usuario: {
+        type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
       },
       login: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.STRING(50),
+        allowNull: false,
       },
       senha: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(100),
         allowNull: false,
         set(value: string) {
-          const hash = bcrypt.hashSync(value, 10);
-          this.setDataValue("senha", hash);
+          const hashedPassword = bcrypt.hashSync(value, 10);
+          this.setDataValue('senha', hashedPassword);
         },
       },
-      pessoa_id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: true
-      }
+      fk_Cargo_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      fk_Pessoa_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
     },
     {
       sequelize,

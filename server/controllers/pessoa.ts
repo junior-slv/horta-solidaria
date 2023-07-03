@@ -3,43 +3,68 @@ import db from "../models";
 const mostrarTodasPessoas = async (req: any, res: any) => {
   try {
     let pessoas = await db.Pessoa.findAll({
-      include: [
-        {
-          model: db.Endereco,
-          attributes: { exclude: ["id", "createdAt", "updatedAt"] },
-          include: { model: db.Estado, attributes: ["estado", "uf"] },
-        },
-        { 
-          model: db.Telefone, 
-          attributes: { exclude: ["id", "createdAt", "updatedAt"] } 
-        },
-        { model: db.EstadoCivil, attributes: { exclude: ["id"] } },
-        { model: db.Genero, attributes: { exclude: ["id"] } },
-        { model: db.Etnia, attributes: { exclude: ["id"] } },
-      ],
       attributes: {
         exclude: [
-          "endereco_id",
-          "telefone_id",
-          "estadocivil_id",
-          "genero_id",
-          "etnia_id",
+          "dependentes",
+          "rendaFamiliar",
+          "objetivo",
+          "createdAt",
+          "updatedAt",
+          "fk_Endereco_id",
+          "fk_Telefones_id",
+          "fk_Estado_Civil_id",
+          "fk_Genero_id",
+          "fk_Etnia_id",
+          "fk_Horta_id",
         ],
       },
     });
 
-    res.status(200).send(pessoas);
+    res.json(pessoas); // Envie o resultado como resposta em formato JSON
   } catch (error) {
-    console.log(error);
-    res.status(412);
+    console.error(error);
+    res.status(500).json({ error: "Erro ao buscar pessoas." });
   }
 };
-
 
 const adicionarPessoa = async (req: any, res: any) => {
   try {
+    // Validação dos campos obrigatórios
+    const camposObrigatorios = [
+      "telefone",
+      "estadocivil",
+      "genero",
+      "etnia",
+      "rua",
+      "numero",
+      "bairro",
+      "cidade",
+      "estado",
+      "pais",
+      "nome",
+      "email",
+      "cpf",
+      "cep",
+      "datanascimento",
+      "dependentes",
+      "rendafamiliar",
+      "telefonerecado",
+      "objetivo",
+      "capacitacao",
+      "comercializar",
+      "horta",
+    ];
+    const camposAusentes = camposObrigatorios.filter(
+      (campo) => !req.body[campo]
+    );
+    if (camposAusentes.length > 0) {
+      return res
+        .status(400)
+        .send(`Campos obrigatórios ausentes: ${camposAusentes.join(", ")}`);
+    }
+
     const {
-      estado,
+      usuario_id,
       telefone,
       estadocivil,
       genero,
@@ -49,88 +74,141 @@ const adicionarPessoa = async (req: any, res: any) => {
       complemento,
       bairro,
       cidade,
+      estado,
+      pais,
       nome,
       email,
       cpf,
+      cep,
       datanascimento,
       dependentes,
       rendafamiliar,
+      capacitacao,
+      comercializar,
       telefonerecado,
       objetivo,
-      horta_id,
-      usuario_id,
+      horta,
     } = req.body;
 
-    const [estadoEncontrado, estadoCivilEncontrado, generoEncontrado, etniaEncontrada] =
-      await Promise.all([
-        db.Estado.findOne({ where: { uf: estado } }),
-        db.EstadoCivil.findOne({ where: { estadoCivil: estadocivil } }),
-        db.Genero.findOne({ where: { genero: genero } }),
-        db.Etnia.findOne({ where: { etnia: etnia } }),
-      ]);
+    const transaction = await db.sequelize.transaction();
 
-    if (!estadoEncontrado || !estadoCivilEncontrado || !generoEncontrado || !etniaEncontrada) {
-      res.status(400).send("Informações inválidas.");
-      return;
+    try {
+      const estadoCivilEncontrado = await db.Estado_Civil.findOne({
+        where: { estadoCivil: estadocivil },
+        transaction,
+      });
+      const generoEncontrado = await db.Genero.findOne({
+        where: { genero: genero },
+        transaction,
+      });
+      const etniaEncontrada = await db.Etnia.findOne({
+        where: { etnia: etnia },
+        transaction,
+      });
+      const objetivoEncontrado = await db.Objetivo.findOne({
+        where: { objetivo: objetivo },
+        transaction,
+      });
+      const hortaEncontrada = await db.Horta.findOne({
+        where: { nome: horta },
+        transaction,
+      });
+
+      if (!estadoCivilEncontrado || !generoEncontrado || !etniaEncontrada || !objetivoEncontrado || !hortaEncontrada) {
+        await transaction.rollback();
+        return res.status(400).send("Informações inválidas.");
+      }
+
+      const endereco = await db.Endereco.create({
+        rua: rua,
+        numero: numero,
+        complemento: complemento,
+        bairro: bairro,
+        cidade: cidade,
+        estado: estado,
+        pais: pais,
+        cep: cep,
+        transaction,
+      });
+
+      const telefoneCriado = await db.Telefones.create({
+        telefone: telefone,
+        transaction,
+      });
+
+      const info = {
+        nome: nome,
+        email: email,
+        cpf: cpf,
+        dataNascimento: datanascimento,
+        fk_Endereco_id: endereco.id_endereco,
+        fk_Telefones_id: telefoneCriado.id_telefone,
+        fk_Estado_Civil_id: estadoCivilEncontrado.id_estadoCivil,
+        fk_Genero_id: generoEncontrado.id_genero,
+        fk_Etnia_id: etniaEncontrada.id_etnia,
+        dependentes: dependentes,
+        rendaFamiliar: rendafamiliar,
+        capacitacao: capacitacao,
+        comercializar: comercializar,
+        telefonerecado: telefonerecado,
+        fk_Objetivo_id: objetivoEncontrado.id_objetivo,
+        fk_Horta_id: hortaEncontrada.id_horta,
+      };
+
+      const pessoa = await db.Pessoa.create(info, { transaction });
+
+      const info_log = {
+        data_hora: new Date(),
+        endpoint: "/api/pessoa/adicionar",
+        metodo: "Adicionar",
+        parametros: JSON.stringify(info),
+        status: "200",
+        resposta: "Pessoa criada",
+        fk_Usuario_id: req.body.usuario_id,
+      };
+      await db.Registros.create(info_log, { transaction });
+      await transaction.commit();
+
+      return res.status(200).send(pessoa);
+    } catch (error: any) {
+      await transaction.rollback();
+
+      // Tratamento de erros específicos
+      if (error.name === "SequelizeUniqueConstraintError") {
+        return res.status(409).send("CPF duplicado.");
+      }
+
+      console.log(error);
+
+      // Criação do log de erro
+      const info_log = {
+        data_hora: new Date(),
+        endpoint: "/api/pessoa/adicionar",
+        metodo: `Adicionar ${req.ip}`,
+        parametros: JSON.stringify(req.body),
+        status: "500",
+        resposta: "Tentativa mal sucedida de adicionar uma nova pessoa",
+        fk_Usuario_id: req.body.usuario_id,
+      };
+      await db.Registros.create(info_log);
+
+      return res.status(500).send("Erro interno do servidor.");
     }
-
-    const endereco = await db.Endereco.create({
-      rua: rua,
-      numero: numero,
-      complemento: complemento,
-      bairro: bairro,
-      cidade: cidade,
-      estado_id: estadoEncontrado.id,
-    });
-
-    let telefoneEncontrado = await db.Telefone.findOne({ where: { telefone: telefone } });
-
-    if (!telefoneEncontrado) {
-      telefoneEncontrado = await db.Telefone.create({ telefone: telefone });
-    }
-
-    const info = {
-      nome: nome,
-      email: email,
-      cpf: cpf,
-      datanascimento: datanascimento,
-      endereco_id: endereco.id,
-      telefone_id: telefoneEncontrado.id,
-      estadocivil_id: estadoCivilEncontrado.id,
-      genero_id: generoEncontrado.id,
-      etnia_id: etniaEncontrada.id,
-      dependentes: dependentes,
-      rendafamiliar: rendafamiliar,
-      telefonerecado: telefonerecado,
-      objetivo: objetivo,
-      horta_id: horta_id,
-    };
-    await db.Request.create({
-      operacao: "POST",
-      url: req.originalUrl,
-      timestamp: new Date(),
-      usuario_id: usuario_id,
-    });
-    const pessoa = await db.Pessoa.create(info);
-
-    res.status(200).send(pessoa);
   } catch (error) {
     console.log(error);
-    res.sendStatus(412);
+    return res.status(500).send("Erro interno do servidor.");
   }
 };
+
 const atualizarPessoa = async (req: any, res: any) => {
   try {
     const pessoaId = req.params.id;
-
-    const pessoaExistente = await db.Pessoa.findByPk(pessoaId);
-    if (!pessoaExistente) {
-      res.status(404).send("Pessoa não encontrada.");
-      return;
+    const pessoa = await db.Pessoa.findByPk(pessoaId);
+    if (!pessoa) {
+      return res.status(500).send("Pessoa não encontrada.");
     }
 
     const {
-      estado,
       telefone,
       estadocivil,
       genero,
@@ -140,119 +218,226 @@ const atualizarPessoa = async (req: any, res: any) => {
       complemento,
       bairro,
       cidade,
+      estado,
+      pais,
       nome,
       email,
       cpf,
+      cep,
+      capacitacao,
+      comercializar,
       datanascimento,
       dependentes,
       rendafamiliar,
       telefonerecado,
       objetivo,
       horta_id,
-      usuario_id,
     } = req.body;
 
-
-    const [estadoEncontrado, estadoCivilEncontrado, generoEncontrado, etniaEncontrada] =
-      await Promise.all([
-        db.Estado.findOne({ where: { uf: estado } }),
-        db.EstadoCivil.findOne({ where: { estadoCivil: estadocivil } }),
-        db.Genero.findOne({ where: { genero: genero } }),
-        db.Etnia.findOne({ where: { etnia: etnia } }),
-      ]);
-
-    if (!estadoEncontrado || !estadoCivilEncontrado || !generoEncontrado || !etniaEncontrada) {
-      res.status(400).send("Informações inválidas.");
-      return;
-    }
-
-    const endereco = await db.Endereco.findByPk(pessoaExistente.endereco_id);
-    if (!endereco) {
-      res.status(404).send("Endereço não encontrado.");
-      return;
-    }
-
-    endereco.rua = rua;
-    endereco.numero = numero;
-    endereco.complemento = complemento;
-    endereco.bairro = bairro;
-    endereco.cidade = cidade;
-    endereco.estado_id = estadoEncontrado.id;
-    await endereco.save();
-
-    let telefoneEncontrado = await db.Telefone.findByPk(pessoaExistente.telefone_id);
-    if (!telefoneEncontrado) {
-      telefoneEncontrado = await db.Telefone.create({ telefone: telefone });
-    } else {
-      telefoneEncontrado.telefone = telefone;
-      await telefoneEncontrado.save();
-    }
-    await db.Request.create({
-      operacao: "PUT",
-      url: req.originalUrl,
-      timestamp: new Date(),
-      usuario_id: usuario_id,
+    const estadoCivilEncontrado = await db.Estado_Civil.findOne({
+      where: { estadoCivil: estadocivil },
     });
-    pessoaExistente.nome = nome;
-    pessoaExistente.email = email;
-    pessoaExistente.cpf = cpf;
-    pessoaExistente.datanascimento = datanascimento;
-    pessoaExistente.estadocivil_id = estadoCivilEncontrado.id;
-    pessoaExistente.genero_id = generoEncontrado.id;
-    pessoaExistente.etnia_id = etniaEncontrada.id;
-    pessoaExistente.dependentes = dependentes;
-    pessoaExistente.rendafamiliar = rendafamiliar;
-    pessoaExistente.telefonerecado = telefonerecado;
-    pessoaExistente.objetivo = objetivo;
-    pessoaExistente.horta_id = horta_id;
-    await pessoaExistente.save();
+    const generoEncontrado = await db.Genero.findOne({
+      where: { genero: genero },
+    });
+    const etniaEncontrada = await db.Etnia.findOne({
+      where: { etnia: etnia },
+    });
+    const objetivoEncontrado = await db.Objetivo.findOne({
+      where: { objetivo: objetivo },
+    });
 
-    res.status(200).send(pessoaExistente);
+    if (!estadoCivilEncontrado || !generoEncontrado || !etniaEncontrada || !objetivoEncontrado) {
+      return res.status(400).send("Informações inválidas.");
+    }
+
+    // Atualização dos dados da pessoa
+    await db.Pessoa.update(
+      {
+        telefone,
+        estadocivil,
+        genero,
+        etnia,
+        rua,
+        numero,
+        complemento,
+        bairro,
+        cidade,
+        estado,
+        pais,
+        nome,
+        email,
+        cpf,
+        cep,
+        datanascimento,
+        capacitacao,
+        comercializar,
+        dependentes,
+        rendafamiliar,
+        telefonerecado,
+        objetivo,
+        horta_id,
+        fk_Objetivo_id: objetivoEncontrado.id_objetivo,
+        fk_Estado_Civil_id: estadoCivilEncontrado.id_estadoCivil,
+        fk_Genero_id: generoEncontrado.id_genero,
+        fk_Etnia_id: etniaEncontrada.id_etnia,
+      },
+      {
+        where: { id_pessoa: pessoaId },
+      }
+    );
+
+    // Criação do log
+    const info_log = {
+      data_hora: new Date(),
+      endpoint: "/api/pessoa/atualizar",
+      metodo: "Atualizar",
+      parametros: `ID: ${pessoaId}`,
+      status: "200",
+      resposta: "Pessoa atualizada com sucesso",
+      fk_Usuario_id: req.body.usuario_id,
+    };
+    await db.Registros.create(info_log);
+
+    return res.status(200).send("Pessoa atualizada com sucesso.");
   } catch (error) {
     console.log(error);
-    res.sendStatus(412);
+
+    // Criação do log de erro
+    const info_log = {
+      data_hora: new Date(),
+      endpoint: "/api/pessoa/atualizar",
+      metodo: "Atualizar",
+      parametros: `ID: ${req.params.id}`,
+      status: "500",
+      resposta: "Tentativa mal sucedida de atualizar a pessoa",
+      fk_Usuario_id: req.body.usuario_id,
+    };
+    await db.Registros.create(info_log);
+
+    return res.sendStatus(500);
   }
 };
 
 const deletarPessoa = async (req: any, res: any) => {
   try {
     const pessoaId = req.params.id;
-    const usuario_id = req.body.usuario_id; 
-
     const pessoa = await db.Pessoa.findByPk(pessoaId);
     if (!pessoa) {
-      res.status(404).send("Pessoa não encontrada.");
-      return;
+      return res.status(500).send("Pessoa não encontrada.");
     }
 
+    // Criação do log antes de deletar a pessoa
+    const info_log = {
+      data_hora: new Date(),
+      endpoint: "/api/pessoa/deletar",
+      metodo: "Deletar",
+      parametros: `ID: ${pessoaId}`,
+      status: "200",
+      resposta: "Pessoa deletada com sucesso",
+      fk_Usuario_id: req.body.usuario_id,
+    };
+    await db.Registros.create(info_log);
 
     await db.Pessoa.destroy({
-      where: {
-        id: pessoaId,
-      },
+      where: { id_pessoa: pessoaId },
     });
 
-
-    await db.Request.create({
-      operacao: "DELETE",
-      url: req.originalUrl,
-      timestamp: new Date(),
-      usuario_id: usuario_id,
-    });
-
-    res.status(200).send("Pessoa deletada com sucesso.");
+    return res.status(200).send("Pessoa deletada com sucesso.");
   } catch (error) {
     console.log(error);
-    res.sendStatus(412);
+
+    // Criação do log de erro
+    const info_log = {
+      data_hora: new Date(),
+      endpoint: "/api/pessoa/deletar",
+      metodo: "Deletar",
+      parametros: `ID: ${req.params.id}`,
+      status: "500",
+      resposta: "Tentativa mal sucedida de deletar a pessoa",
+      fk_Usuario_id: req.body.usuario_id,
+    };
+    await db.Registros.create(info_log);
+
+    return res.sendStatus(412);
   }
 };
 
+const mostrarPessoaPorId = async (req: any, res: any) => {
+  try {
+    const pessoaId = req.params.id;
+    const usuarioId = req.body.usuario_id; // Obtém o usuário_id do corpo da requisição
 
+    const pessoa = await db.Pessoa.findByPk(pessoaId, {
+      include: [
+        {
+          model: db.Endereco,
+          attributes: { exclude: ["id_endereco", "createdAt", "updatedAt"] },
+        },
+        {
+          model: db.Telefones,
+          attributes: { exclude: ["id_telefone", "createdAt", "updatedAt"] },
+        },
+        { model: db.Estado_Civil, attributes: { exclude: ["id_estadoCivil"] } },
+        { model: db.Genero, attributes: { exclude: ["id_genero"] } },
+        { model: db.Etnia, attributes: { exclude: ["id_etnia"] } },
+        { model: db.Objetivo, attributes: { exclude: ["id_objetivo"] } },
+        { model: db.Horta, attributes: { exclude: ["id_horta"] } },
+      ],
+      attributes: {
+        exclude: [
+          "fk_Endereco_id",
+          "fk_Telefones_id",
+          "fk_Estado_Civil_id",
+          "fk_Genero_id",
+          "fk_Etnia_id",
+          "fk_Horta_id",
+          "fk_Objetivo_id"
+        ],
+      },
+    });
 
+    if (!pessoa) {
+      return res.status(500).send("Pessoa não encontrada.");
+    }
+
+    // Criação do log
+    const info_log = {
+      data_hora: new Date(),
+      endpoint: "/api/pessoa/:id",
+      metodo: "GET",
+      parametros: `ID: ${pessoaId}`,
+      status: "200",
+      resposta: "Pessoa encontrada",
+      fk_Usuario_id: usuarioId, // Usa o valor do usuário_id obtido do corpo da requisição
+    };
+    await db.Registros.create(info_log);
+
+    return res.status(200).send(pessoa);
+  } catch (error) {
+    console.log(error);
+
+    // Criação do log de erro
+    const info_log = {
+      data_hora: new Date(),
+      endpoint: "/api/pessoa/:id",
+      metodo: "GET",
+      parametros: `ID: ${req.params.id}`,
+      status: "500",
+      resposta: "Tentativa mal sucedida de obter a pessoa por ID",
+      fk_Usuario_id: req.body.usuario_id, // Usa o valor do usuário_id obtido do corpo da requisição
+      ip: req.ip,
+    };
+    await db.Registros.create(info_log);
+
+    return res.sendStatus(500);
+  }
+};
 
 module.exports = {
   mostrarTodasPessoas,
   adicionarPessoa,
   atualizarPessoa,
-  deletarPessoa
+  deletarPessoa,
+  mostrarPessoaPorId,
 };

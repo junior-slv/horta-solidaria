@@ -3,11 +3,11 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Pessoas', {
-      id: {
+      id_pessoa: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: DataTypes.UUID,
+        defaultValue: Sequelize.UUIDV4
       },
       nome: {
         type: Sequelize.STRING
@@ -18,37 +18,37 @@ module.exports = {
       cpf: {
         type: Sequelize.STRING
       },
-      datanascimento: {
-        type: Sequelize.DATE
-      },
-      endereco_id: {
-        type: Sequelize.INTEGER
-      },
-      telefone_id: {
-        type: Sequelize.INTEGER
-      },
-      estadocivil_id: {
-        type: Sequelize.INTEGER
-      },
-      genero_id: {
-        type: Sequelize.INTEGER
-      },
-      etnia_id: {
-        type: Sequelize.INTEGER
-      },
-      dependentes: {
-        type: Sequelize.INTEGER
-      },
-      rendafamiliar: {
-        type: Sequelize.DECIMAL
-      },
-      telefonerecado: {
+      dataNascimento: {
         type: Sequelize.STRING
       },
-      objetivo: {
-        type: Sequelize.TEXT
+      dependentes: {
+        type: Sequelize.STRING
       },
-      horta_id: {
+      rendaFamiliar: {
+        type: Sequelize.STRING
+      },
+      capacitacao: {
+        type: Sequelize.STRING
+      },
+      comercializar: {
+        type: Sequelize.STRING
+      },
+      fk_Objetivo_id: {
+        type: Sequelize.INTEGER
+      },
+      fk_Etnia_id: {
+        type: Sequelize.INTEGER
+      },
+      fk_Estado_Civil_id: {
+        type: Sequelize.INTEGER
+      },
+      fk_Telefones_id: {
+        type: Sequelize.INTEGER
+      },
+      fk_Genero_id: {
+        type: Sequelize.INTEGER
+      },
+      fk_Endereco_id: {
         type: Sequelize.INTEGER
       },
       createdAt: {

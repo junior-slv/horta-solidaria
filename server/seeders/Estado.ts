@@ -114,10 +114,13 @@ export const estados = [
 
 export const createEstado = async () => {
   try {
-    for (const user of estados) {
-      await db.Estado.create(user);
+    for (const estado of estados) {
+      const existingEstado = await db.Estado.findOne({ where: { uf: estado.uf } });
+      if (!existingEstado) {
+        await db.Estado.create(estado);
+      }
     }
-    console.log("Usuarios criados com sucesso.");
+    console.log("Estados criados com sucesso.");
   } catch (err) {
     console.error(err);
   }

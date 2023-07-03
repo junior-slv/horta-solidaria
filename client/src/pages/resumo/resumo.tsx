@@ -9,11 +9,7 @@ const Resumo = () => {
   const router = useRouter();
 
   useEffect(() => {
-    // Verificar se o usuário está autenticado
-    if (!isAuth) {
-      router.push('/'); // Redirecionar para a página de login se não estiver autenticado
-    }
-  }, [isAuth, router]);
+  }, []);
 
   if (!isAuth) {
     return null; // Ou pode exibir uma mensagem de carregamento ou redirecionar para a página de login diretamente

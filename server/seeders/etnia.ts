@@ -29,7 +29,10 @@ export const infos = [
 export const createEtnias = async () => {
   try {
     for (const info of infos) {
-      await db.Etnia.create(info);
+      const existingEtnia = await db.Etnia.findOne({ where: { etnia: info.etnia } });
+      if (!existingEtnia) {
+        await db.Etnia.create(info);
+      }
     }
     console.log("Etnias inseridas com sucesso.");
   } catch (err) {

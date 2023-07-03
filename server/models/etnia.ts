@@ -1,31 +1,28 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 
-interface AtributosEtnia {
-  id: number;
+interface EtniaAttributes {
+  id_etnia: number;
   etnia: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Etnia extends Model<AtributosEtnia> implements AtributosEtnia {
-    id!: number;
-    etnia!: string;
-
+  class Etnia extends Model<EtniaAttributes> {
     static associate(models: any) {
-      Etnia.hasMany(models.Pessoa, { foreignKey: 'etnia_id' });
+      Etnia.hasMany(models.Pessoa, {
+        foreignKey: 'fk_Etnia_id',
+        onDelete: 'CASCADE',
+      });
     }
   }
 
   Etnia.init(
     {
-      id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        autoIncrement: true,
+      id_etnia: {
+        type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
       },
-      etnia: {
-        type: DataTypes.STRING(50),
-        allowNull: false,
-      }
+      etnia: DataTypes.STRING(50),
     },
     {
       sequelize,

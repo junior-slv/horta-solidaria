@@ -1,39 +1,30 @@
-import { Model } from "sequelize";
-import bcrypt from "bcrypt";
+import { Model, DataTypes } from 'sequelize';
 
-interface AtributosEndereco {
-  id: number;
+interface EnderecoAttributes {
+  id_endereco: number;
   rua: string;
   numero: string;
-  complemento: string;
   bairro: string;
-  estado_id: string;
+  complemento: string;
+  cidade: string;
+  pais: string;
+  cep: string;
+  estado: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Endereco extends Model<AtributosEndereco> implements AtributosEndereco {
-    id!: number;
-    rua!: string;
-    numero!: string;
-    complemento!: string;
-    bairro!: string;
-    estado_id!: string;
-
-    readonly createdAt!: string;
-    readonly updatedAt!: string;
-
+  class Endereco extends Model<EnderecoAttributes> {
     static associate(models: any) {
-      // Corrija o uso do modelo Endereco e ajuste o nome do modelo no parâmetro
-      Endereco.belongsTo(models.Estado, { foreignKey: "estado_id" });
+
     }
   }
 
   Endereco.init(
     {
-      id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        autoIncrement: true,
+      id_endereco: {
+        type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
       },
       rua: {
         type: DataTypes.STRING(100),
@@ -43,22 +34,34 @@ module.exports = (sequelize: any, DataTypes: any) => {
         type: DataTypes.STRING(10),
         allowNull: false,
       },
-      complemento: {
-        type: DataTypes.STRING(50),
-        allowNull: true,
-      },
       bairro: {
         type: DataTypes.STRING(50),
         allowNull: false,
       },
-      estado_id: {
-        type: DataTypes.INTEGER.UNSIGNED,
+      complemento: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+      },
+      cidade: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+      },
+      pais: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+      },
+      cep: {
+        type: DataTypes.STRING(10),
+        allowNull: false,
+      },
+      estado: {
+        type: DataTypes.STRING(20),
         allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: "Endereco",
+      modelName: 'Endereco',
     }
   );
 

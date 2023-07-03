@@ -25,7 +25,10 @@ export const infos = [
 export const createGenero = async () => {
   try {
     for (const info of infos) {
-      await db.Genero.create(info);
+      const existingGenero = await db.Genero.findOne({ where: { genero: info.genero } });
+      if (!existingGenero) {
+        await db.Genero.create(info);
+      }
     }
     console.log("Gêneros inseridos com sucesso.");
   } catch (err) {

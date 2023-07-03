@@ -22,9 +22,12 @@ export const infos = [
 export const createEstadoCivil = async () => {
   try {
     for (const info of infos) {
-      await db.EstadoCivil.create(info);
+      const existingEstadoCivil = await db.Estado_Civil.findOne({ where: { estadoCivil: info.estadoCivil } });
+      if (!existingEstadoCivil) {
+        await db.Estado_Civil.create(info);
+      }
     }
-    console.log("Gêneros inseridos com sucesso.");
+    console.log("Estados civis inseridos com sucesso.");
   } catch (err) {
     console.error(err);
   }

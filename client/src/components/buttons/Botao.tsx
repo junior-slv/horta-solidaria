@@ -10,7 +10,7 @@ export const Botao = ({ children, className, onClick, type }: ButtonProps) => {
     return (
       <button
         onClick={onClick}
-        className={`text-lg px-[20px] py-2 rounded text-white shadow font-semibold ${className ? `${className} ` : ''}`}
+        className={`text-lg px-[20px] border- py-2 rounded text-white shadow font-semibold ${className ? `${className} ` : ''}`}
         type={type}
       >
         {children}
