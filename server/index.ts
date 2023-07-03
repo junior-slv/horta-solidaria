@@ -73,3 +73,6 @@ db.sequelize.sync().then(() =>{
     console.log(`Rodando na porta: ${port}`)
   })
 })
+app.get('/', (req: any, res: { send: (arg0: string) => void }) => {
+  res.send('Bem-vindo à API da Horta Solidária!');
+});
