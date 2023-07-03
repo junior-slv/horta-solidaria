@@ -14,14 +14,18 @@ const ObjetivoModel = require('./models/objetivo');
 const RegistrosModel = require('./models/registros');
 const TelefoneModel = require('./models/telefones');
 const UsuarioModel = require('./models/usuario');
-
+const PessoaModel = require('.models/pessoa')
+var corsOptions = {
+    origin: "https://horta-solidaria.vercel.app",
+  };
 //middleware
-app.use(cors());
+//middleware
+app.use(cors(corsOptions));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  console.log("Ocorreu um erro no servidor");
+  console.log("deu erro gordao")
   res.status(500).send('Ocorreu um erro no servidor');
 });
 
@@ -57,6 +61,7 @@ async function syncDatabase() {
     const Registros = RegistrosModel(sequelize, Sequelize);
     const Telefone = TelefoneModel(sequelize, Sequelize);
     const Usuario = UsuarioModel(sequelize, Sequelize);
+    const Pessoa = PessoaModel(sequelize, Sequelize);
 
     // Defina as associações entre os modelos aqui
     // Cargo.associate({ ... });
