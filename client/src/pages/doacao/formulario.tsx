@@ -20,7 +20,7 @@ const schema = z.object({
   data: z.string(),
 });
 
-const cadastroDefault: React.FC = () => {
+const CadastroDefault : React.FC = () => {
   const { isAuth } = useContext(AuthContext);
   const [doador, setDoador] = useState<string | undefined>();
   const [produto, setProduto] = useState<string | undefined>();
@@ -116,4 +116,4 @@ const cadastroDefault: React.FC = () => {
   );
 };
 
-export default cadastroDefault;
+export default CadastroDefault;

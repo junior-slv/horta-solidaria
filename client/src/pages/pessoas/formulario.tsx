@@ -56,7 +56,7 @@ interface Objetivo {
   objetivo: string;
 }
 
-const Cadastro = () => {
+const FormularioPessoas : React.FC = () => {
   const { isAuth, usuario_id } = useContext(AuthContext);
   const [nome, setNome] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -651,4 +651,4 @@ const Cadastro = () => {
   );
 };
 
-export default Cadastro;
+export default FormularioPessoas;
