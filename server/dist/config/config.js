@@ -1,31 +1,31 @@
 "use strict";
 require('dotenv').config();
-const databaseUrl = process.env.DATABASE_URL;
-const databaseUsername = process.env.DATABASE_USERNAME;
-const databasePassword = process.env.DATABASE_PASSWORD;
-const databaseHost = process.env.DATABASE_HOST;
-const databaseDialect = process.env.DATABASE_DIALECT;
+// const databaseUrl = ;
+// const databaseUsername = ;
+// const databasePassword = ;
+// const databaseHost = ;
+// const databaseDialect = ;
 module.exports = {
     development: {
-        username: databaseUsername,
-        password: databasePassword,
-        database: databaseUrl,
-        host: databaseHost,
-        dialect: databaseDialect,
+        username: process.env.DATABASE_USERNAME,
+        password: process.env.DATABASE_PASSWORD,
+        database: process.env.DATABASE_URL,
+        host: process.env.DATABASE_HOST,
+        dialect: process.env.DATABASE_DIALECT,
     },
     test: {
-        username: databaseUsername,
-        password: databasePassword,
-        database: databaseUrl,
-        host: databaseHost,
-        dialect: databaseDialect,
+        username: process.env.DATABASE_USERNAME,
+        password: process.env.DATABASE_PASSWORD,
+        database: process.env.DATABASE_URL,
+        host: process.env.DATABASE_HOST,
+        dialect: process.env.DATABASE_DIALECT,
     },
     production: {
-        username: databaseUsername,
-        password: databasePassword,
-        database: databaseUrl,
-        host: databaseHost,
-        dialect: databaseDialect,
+        username: process.env.DATABASE_USERNAME,
+        password: process.env.DATABASE_PASSWORD,
+        database: process.env.DATABASE_URL,
+        host: process.env.DATABASE_HOST,
+        dialect: process.env.DATABASE_DIALECT,
     },
 };
 //# sourceMappingURL=config.js.map
