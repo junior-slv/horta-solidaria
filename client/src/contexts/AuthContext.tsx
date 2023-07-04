@@ -3,7 +3,7 @@ import { createContext, useState, useEffect } from "react";
 import { parseCookies, destroyCookie, setCookie } from "nookies";
 import { useRouter } from "next/router";
 
-const baseURL = "http://localhost:3001/api/usuario";
+const baseURL = "https://horta-api-li7v.onrender.com/api/usuario";
 
 type AuthContextType = {
   nome: string;
