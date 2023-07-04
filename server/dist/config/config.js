@@ -7,25 +7,25 @@ const databaseHost = process.env.DATABASE_HOST;
 const databaseDialect = process.env.DATABASE_DIALECT;
 module.exports = {
     development: {
-        username: "root",
-        password: "root",
-        database: "db_teste_horta",
-        host: "127.0.0.1",
-        dialect: "mysql",
+        username: databaseUsername,
+        password: databasePassword,
+        database: databaseUrl,
+        host: databaseHost,
+        dialect: databaseDialect,
     },
     test: {
-        username: "root",
-        password: null,
-        database: "database_test",
-        host: "127.0.0.1",
-        dialect: "mysql",
+        username: databaseUsername,
+        password: databasePassword,
+        database: databaseUrl,
+        host: databaseHost,
+        dialect: databaseDialect,
     },
     production: {
-        username: "root",
-        password: null,
-        database: "database_production",
-        host: "127.0.0.1",
-        dialect: "mysql",
+        username: databaseUsername,
+        password: databasePassword,
+        database: databaseUrl,
+        host: databaseHost,
+        dialect: databaseDialect,
     },
 };
 //# sourceMappingURL=config.js.map
