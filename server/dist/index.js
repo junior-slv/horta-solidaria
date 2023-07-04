@@ -53,11 +53,12 @@ const rotaHorta = require('./routes/rotaHorta');
 app.use('/api/horta', rotaHorta);
 const rotaObjetivo = require('./routes/rotaObjetivo');
 app.use('/api/objetivo', rotaObjetivo);
-models_1.default.sequelize.sync().then(() => {
+models_1.default.sequelize.sync({ maxTimeout: 30000 }).then(() => {
     app.listen(port, () => {
         console.log(`Rodando na porta: ${port}`);
     });
 });
+
 app.get('/', (req, res) => {
     res.send('Bem-vindo à API da Horta Solidária!');
 });
