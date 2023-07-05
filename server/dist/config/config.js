@@ -1,10 +1,5 @@
 "use strict";
 require('dotenv').config();
-// const databaseUrl = ;
-// const databaseUsername = ;
-// const databasePassword = ;
-// const databaseHost = ;
-// const databaseDialect = ;
 module.exports = {
     development: {
         username: process.env.DATABASE_USERNAME,

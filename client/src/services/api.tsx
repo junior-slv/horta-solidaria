@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const instance = axios.create({
-  baseURL: "https://horta-api-li7v.onrender.com/api/",
+  baseURL: "http://localhost:3001/api/",
 });
 
 export const fetchDoacoes = () => {

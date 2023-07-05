@@ -3,7 +3,7 @@ import { createContext, useState, useEffect } from "react";
 import { parseCookies, destroyCookie, setCookie } from "nookies";
 import { useRouter } from "next/router";
 
-const baseURL = "https://horta-api-li7v.onrender.com/api/usuario";
+import { instance } from "@/services/api";
 
 type AuthContextType = {
   nome: string;
@@ -51,7 +51,7 @@ export function AuthProvider({ children }: any) {
   const signIn = async (data: SignInData) => {
     try {
       const { login, password, lembrarSenha } = data;
-      const res = await axios.post(`${baseURL}/logar`, {
+      const res = await instance.post("usuario/logar", {
         login,
         senha: password,
       });

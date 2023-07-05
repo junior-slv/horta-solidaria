@@ -8,6 +8,16 @@ import {
   faIdCard,
   faCalendar,
   faPerson,
+  faMoneyBills,
+  faPhone,
+  faPhoneSquare,
+  faEarth,
+  faArchive,
+  faGenderless,
+  faCodeFork,
+  faMagnifyingGlassDollar,
+  faArrowAltCircleDown,
+  faBookmark,
 } from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { Botao } from "../../components/buttons/Botao";
@@ -20,6 +30,7 @@ import Toast from "@/components/toast/Toast";
 import { fetchHortas } from "@/services/api/apiHorta";
 import { fetchObjetivos } from "@/services/api/apiObjetivo";
 import { addPessoa } from "@/services/api";
+import LoadingAnimation from "@/components/loadings/LoadingAnimation";
 
 // Definindo o esquema de validação com Zod
 const schema = z.object({
@@ -48,7 +59,6 @@ const schema = z.object({
   comercializar: z.string().nonempty(),
 });
 
-
 interface Horta {
   nome: string;
 }
@@ -56,7 +66,7 @@ interface Objetivo {
   objetivo: string;
 }
 
-const FormularioPessoas : React.FC = () => {
+const FormularioPessoas: React.FC = () => {
   const { isAuth, usuario_id } = useContext(AuthContext);
   const [nome, setNome] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -90,6 +100,7 @@ const FormularioPessoas : React.FC = () => {
 
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
   const [formError, setFormError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const dados = [
     usuario_id,
@@ -117,10 +128,12 @@ const FormularioPessoas : React.FC = () => {
     selectedObjetivo,
     selectedHorta,
   ];
+
   const handleAddDonation = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       // Validação dos dados do formulário
+      setLoading(true);
       const formValues = {
         usuario_id,
         telefone,
@@ -205,8 +218,9 @@ const FormularioPessoas : React.FC = () => {
       console.log("Error: ", err);
       setFormSubmitted(false);
       setFormError(true);
+    } finally {
+      setLoading(false);
     }
-    console.log(dados);
   };
 
   useEffect(() => {
@@ -224,76 +238,207 @@ const FormularioPessoas : React.FC = () => {
   }
 
   return (
-<div className="flex bg-beige">
-  <Sidebar />
-  <div className="flex justify-center items-center flex-col relative w-full">
-    <p className="font-bold text-darkGreen text-4xl top-5 absolute">
-      Cadastrar Pessoa
-    </p>
-    <div className="flex-col relative w-[565px] h-[523px] mt-[80px] rounded-2xl justify-center items-center flex">
-      <div className="w-[464px] flex flex-col items-center justify-center">
-        <form id="form" className="flex" onSubmit={handleAddDonation}>
-          <div className="flex flex-col">
-                <FormRow label={<FontAwesomeIcon icon={faUser} />}>
-                  <FormInput
-                    value={nome}
-                    onChange={(e) => setNome(e.target.value)}
-                    type="text"
-                    placeholder="Nome"
-                  />
-                </FormRow>
+    <div className="flex overflow-x-hidden bg-beige">
+      <div>
+        <Sidebar />
+      </div>
+      <div className="flex-1 overflow-y-auto">
+        <div className="font-bold text-darkGreen text-4xl mb-10">
+          <p>Cadastrar Pessoa</p>
+        </div>
+        <div className="flex flex-col rounded-2xl">
+          <div className=" flex flex-col items-center justify-center">
+            <form
+              id="formularioCadastro"
+              className="flex flex-col"
+              onSubmit={handleAddDonation}
+            >
+              <div className="flex bg-white rounded-2xl">
+                <div className="p-2">
+                  <div className="flex items-center justify-center bg-lightGreen text-white">
+                    <p>Dados pessoais</p>
+                  </div>
+                  <FormRow label={<FontAwesomeIcon icon={faUser} />}>
+                    <FormInput
+                      value={nome}
+                      onChange={(e) => setNome(e.target.value)}
+                      type="text"
+                      placeholder="Nome"
+                    />
+                  </FormRow>
 
-                <FormRow label={<FontAwesomeIcon icon={faMailBulk} />}>
-                  <FormInput
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    type="text"
-                    placeholder="Email"
-                  />
-                </FormRow>
+                  <FormRow label={<FontAwesomeIcon icon={faMailBulk} />}>
+                    <FormInput
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      type="text"
+                      placeholder="Email"
+                    />
+                  </FormRow>
 
-                <FormRow label={<FontAwesomeIcon icon={faIdCard} />}>
-                  <FormInput
-                    value={cpf}
-                    onChange={(e) => setCpf(e.target.value)}
-                    type="text"
-                    placeholder="CPF"
-                  />
-                </FormRow>
-
-                <FormRow label={<FontAwesomeIcon icon={faCalendar} />}>
-                  <FormInput
-                    value={telefone}
-                    onChange={(e) => setTelefone(e.target.value)}
-                    type="text"
-                    placeholder="Telefone"
-                  />
-                </FormRow>
-
-                <FormRow label={<FontAwesomeIcon icon={faCalendar} />}>
-                  <FormInput
-                    value={telefonerecado}
-                    onChange={(e) => setTelefoneRecado(e.target.value)}
-                    type="text"
-                    placeholder="Telefone recado"
-                  />
-                </FormRow>
-
-                <FormRow label={<FontAwesomeIcon icon={faCalendar} />}>
-                  <FormInput
-                    value={dataNascimento}
-                    onChange={(e) => {
-                      setDatanascimento(e.target.value);
-                      console.log(dataNascimento);
-                    }}
-                    type="date"
-                    placeholder="Data de nascimento"
-                  />
-                </FormRow>
-
-                <div>
-                  <h2>Endereço</h2>
                   <FormRow label={<FontAwesomeIcon icon={faIdCard} />}>
+                    <FormInput
+                      value={cpf}
+                      onChange={(e) => setCpf(e.target.value)}
+                      type="text"
+                      placeholder="CPF"
+                    />
+                  </FormRow>
+
+                  <FormRow label={<FontAwesomeIcon icon={faPhone} />}>
+                    <FormInput
+                      value={telefone}
+                      onChange={(e) => setTelefone(e.target.value)}
+                      type="text"
+                      placeholder="Telefone"
+                    />
+                  </FormRow>
+
+                  <FormRow label={<FontAwesomeIcon icon={faPhoneSquare} />}>
+                    <FormInput
+                      value={telefonerecado}
+                      onChange={(e) => setTelefoneRecado(e.target.value)}
+                      type="text"
+                      placeholder="Telefone recado"
+                    />
+                  </FormRow>
+
+                  <FormRow label={<FontAwesomeIcon icon={faCalendar} />}>
+                    <FormInput
+                      value={dataNascimento}
+                      onChange={(e) => {
+                        setDatanascimento(e.target.value);
+                        console.log(dataNascimento);
+                      }}
+                      type="date"
+                      placeholder="Data de nascimento"
+                    />
+                  </FormRow>
+                  <FormRow label={<FontAwesomeIcon icon={faPerson} />}>
+                    <FormInput
+                      value={dependentes}
+                      onChange={(e) =>
+                        setDependentes(e.target.value.toString())
+                      }
+                      type="number"
+                      placeholder="Dependentes"
+                    />
+                  </FormRow>
+
+                  <FormRow className="flex-col">
+                    <FontAwesomeIcon
+                      className="mr-12 mt-1 flex text-darkGrey text-lg  float-left"
+                      icon={faEarth}
+                    />
+
+                    <select
+                      value={etnia}
+                      className="h-[30px] font-semibold text-base appearance-none bg-transparent w-80 text-darkGrey focus:outline-none border-none placeholder-darkGrey"
+                      onChange={(e) => setEtnia(e.target.value)}
+                    >
+                      <option disabled value="">
+                        Etnia
+                      </option>
+                      <option value={"Branco/Caucasiano"}>
+                        Branco/Caucasiano
+                      </option>
+                      <option value={"Negro/Afrodescendente"}>
+                        Negro/Afrodescendente
+                      </option>
+                      <option value={"Pardo"}>Pardo</option>
+                      <option value={"Latino/Hispano"}>Latino/Hispano</option>
+                      <option value={"Asiático"}>Asiático</option>
+                      <option value={"Indígena/Nativo"}>Indígena/Nativo</option>
+                      <option value={"Mestiço/Multiracial"}>
+                        Mestiço/Multirracial
+                      </option>
+                    </select>
+                  </FormRow>
+
+                  <FormRow className="flex-col">
+                    <FontAwesomeIcon
+                      className="mr-12 mt-1 flex text-darkGrey text-lg  float-left"
+                      icon={faMoneyBills}
+                    />
+                    <select
+                      value={rendaFamiliar}
+                      className="h-[30px] font-semibold text-base appearance-none bg-transparent w-80 text-darkGrey focus:outline-none border-none placeholder-darkGrey"
+                      onChange={(e) => setRendaFamiliar(e.target.value)}
+                    >
+                      <option className="" disabled value="">
+                        Renda familiar
+                      </option>
+                      <option value={"Abaixo de um salário mínimo"}>
+                        Abaixo de um salário mínimo
+                      </option>
+                      <option value={"1 a 3 salários mínimos"}>
+                        1 a 3 salários mínimos
+                      </option>
+                      <option value={"Acima de 3 salários mínimos"}>
+                        Acima de 3 salários mínimos
+                      </option>
+                    </select>
+                  </FormRow>
+
+                  <FormRow className="flex-col">
+                    <FontAwesomeIcon
+                      className="mr-12 mt-1 flex text-darkGrey text-lg  float-left"
+                      icon={faArchive}
+                    />
+                    <select
+                      value={estadoCivil}
+                      className="h-[30px] font-semibold text-base appearance-none bg-transparent w-80 text-darkGrey focus:outline-none border-none placeholder-darkGrey"
+                      onChange={(e) => setEstadoCivil(e.target.value)}
+                    >
+                      <option disabled value="">
+                        Estado Cívil
+                      </option>
+                      <option value="Solteiro(a)">Solteiro</option>
+                      <option value="Casado(a)">Casado</option>
+                      <option value="Divorciado(a)">Divorciado</option>
+                      <option value="Separado(a)">Separado</option>
+                      <option value="Viúvo(a)">Viúvo</option>
+                    </select>
+                  </FormRow>
+
+                  <FormRow className="flex-col">
+                    <FontAwesomeIcon
+                      className="mr-12 mt-1 flex text-darkGrey text-lg  float-left"
+                      icon={faGenderless}
+                    />
+                    <select
+                      value={genero}
+                      className="h-[30px] font-semibold text-base appearance-none bg-transparent w-80 text-darkGrey focus:outline-none border-none placeholder-darkGrey"
+                      onChange={(e) => setGenero(e.target.value)}
+                    >
+                      <option disabled value="">
+                        Gênero
+                      </option>
+                      <option value="Homem">Homem</option>
+                      <option value="Mulher">Mulher</option>
+                      <option value="Não binário">Não binário</option>
+                      <option value="Agênero">Agênero</option>
+                      <option value="Gênero fluido">Gênero fluido</option>
+                      <option value="Transgênero">Transgênero</option>
+                    </select>
+                  </FormRow>
+                </div>
+                <div className="p-2">
+                  <div className="flex items-center justify-center bg-lightGreen text-white">
+                    <p>Endereço</p>
+                  </div>
+
+                  <FormRow>
+                    <FormInput
+                      value={cep}
+                      onChange={(e) => setCep(e.target.value)}
+                      type="text"
+                      placeholder="CEP"
+                    />
+                  </FormRow>
+
+                  <FormRow>
+                    
                     <FormInput
                       value={rua}
                       onChange={(e) => setRua(e.target.value)}
@@ -302,7 +447,7 @@ const FormularioPessoas : React.FC = () => {
                     />
                   </FormRow>
 
-                  <FormRow label={<FontAwesomeIcon icon={faIdCard} />}>
+                  <FormRow>
                     <FormInput
                       value={numero}
                       onChange={(e) => setNumero(e.target.value)}
@@ -310,7 +455,7 @@ const FormularioPessoas : React.FC = () => {
                       placeholder="Numero"
                     />
                   </FormRow>
-                  <FormRow label={<FontAwesomeIcon icon={faIdCard} />}>
+                  <FormRow>
                     <FormInput
                       value={bairro}
                       onChange={(e) => setBairro(e.target.value)}
@@ -318,7 +463,7 @@ const FormularioPessoas : React.FC = () => {
                       placeholder="Bairro"
                     />
                   </FormRow>
-                  <FormRow label={<FontAwesomeIcon icon={faIdCard} />}>
+                  <FormRow>
                     <FormInput
                       value={complemento}
                       onChange={(e) => setComplemento(e.target.value)}
@@ -326,7 +471,7 @@ const FormularioPessoas : React.FC = () => {
                       placeholder="Complemento"
                     />
                   </FormRow>
-                  <FormRow label={<FontAwesomeIcon icon={faIdCard} />}>
+                  <FormRow>
                     <FormInput
                       value={cidade}
                       onChange={(e) => setCidade(e.target.value)}
@@ -334,15 +479,8 @@ const FormularioPessoas : React.FC = () => {
                       placeholder="Cidade"
                     />
                   </FormRow>
-                  <FormRow label={<FontAwesomeIcon icon={faIdCard} />}>
-                    <FormInput
-                      value={pais}
-                      onChange={(e) => setPais(e.target.value)}
-                      type="text"
-                      placeholder="Pais"
-                    />
-                  </FormRow>
-                  <FormRow label={<FontAwesomeIcon icon={faIdCard} />}>
+
+                  <FormRow>
                     <FormInput
                       value={estado}
                       onChange={(e) => setEstado(e.target.value)}
@@ -350,270 +488,140 @@ const FormularioPessoas : React.FC = () => {
                       placeholder="Estado"
                     />
                   </FormRow>
-                  <FormRow label={<FontAwesomeIcon icon={faIdCard} />}>
+
+                  <FormRow>
                     <FormInput
-                      value={cep}
-                      onChange={(e) => setCep(e.target.value)}
+                      value={pais}
+                      onChange={(e) => setPais(e.target.value)}
                       type="text"
-                      placeholder="Cep"
+                      placeholder="Pais"
                     />
                   </FormRow>
+
+
                 </div>
 
-                <FormRow label={<FontAwesomeIcon icon={faPerson} />}>
-                  <FormInput
-                    value={dependentes}
-                    onChange={(e) => setDependentes(e.target.value.toString())}
-                    type="number"
-                    placeholder="Dependentes"
-                  />
-                </FormRow>
-              </div>
-              <div>
-                <FormRow className="flex-col" label="Renda Familiar">
-                  <select
-                    value={rendaFamiliar}
-                    onChange={(e) => setRendaFamiliar(e.target.value)}
-                  >
-                    <option value="">Selecione a renda familiar</option>
-                    <option value={"Abaixo de um salário mínimo"}>
-                      Abaixo de um salário mínimo
-                    </option>
-                    <option value={"1 a 3 salários mínimos"}>
-                      1 a 3 salários mínimos
-                    </option>
-                    <option value={"Acima de 3 salários mínimos"}>
-                      Acima de 3 salários mínimos
-                    </option>
-                  </select>
-                </FormRow>
+                <div className="">
+                  <div className="flex items-center justify-center bg-lightGreen text-white m-2">
+                    <p>Horta</p>
+                  </div>
+                  <FormRow>
+                    <FontAwesomeIcon
+                      className="mr-12 mt-1 flex text-darkGrey text-lg  float-left"
+                      icon={faCodeFork}
+                    />
+                    <select
+                      value={selectedHorta}
+                      className="h-[30px] font-semibold text-base appearance-none bg-transparent w-80 text-darkGrey focus:outline-none border-none placeholder-darkGrey"
+                      onChange={(e) => setSelectedHorta(e.target.value)}
+                    >
+                      <option disabled value="">
+                        Horta que deseja fazer parte
+                      </option>
+                      {hortas.map((horta) => (
+                        <option key={horta.nome} value={horta.nome}>
+                          {horta.nome}
+                        </option>
+                      ))}
+                    </select>
+                  </FormRow>
 
-                <FormRow
-                  className="flex-col"
-                  label="Tem capacitação ou experiência no cultivo de hortas?"
-                >
-                  <div className="flex">
-                    <div className="mr-2">
+                  <FormRow
+                    className="flex-col text-lg"
+                    label="Tem capacitação ou experiência no cultivo de hortas?"
+                  >
+                    <div className="flex text-lg">
+                      <div className="mr-2">
+                        <input
+                          type="radio"
+                          value="Sim"
+                          checked={capacitacao === "Sim"}
+                          onChange={() => setCapacitacao("Sim")}
+                        />
+                        <label htmlFor="abaixo">Sim</label>
+                      </div>
+                      <div>
+                        <input
+                          type="radio"
+                          value="Não"
+                          checked={capacitacao === "Não"}
+                          onChange={() => setCapacitacao("Não")}
+                        />
+                        <label htmlFor="1a3">Não</label>
+                      </div>
+                    </div>
+                  </FormRow>
+
+                  <FormRow
+                    className="flex-col"
+                    label="Se pretende comercializar, em qual local será comercializado?"
+                  >
+                    <div>
                       <input
                         type="radio"
-                        value="Sim"
-                        checked={capacitacao === "Sim"}
-                        onChange={() => setCapacitacao("Sim")}
+                        value="Na horta"
+                        checked={comercializar === "Na horta"}
+                        onChange={() => setComercializar("Na horta")}
                       />
-                      <label htmlFor="abaixo">Sim</label>
+                      <label>Na horta</label>
                     </div>
                     <div>
                       <input
                         type="radio"
-                        value="Não"
-                        checked={capacitacao === "Não"}
-                        onChange={() => setCapacitacao("Não")}
+                        value="Em casa"
+                        checked={comercializar === "Em casa"}
+                        onChange={() => setComercializar("Em casa")}
                       />
-                      <label htmlFor="1a3">Não</label>
+                      <label>Em casa</label>
                     </div>
-                  </div>
-                </FormRow>
+                    <div>
+                      <input
+                        type="radio"
+                        value="No bairro e proximidades"
+                        checked={comercializar === "No bairro e proximidades"}
+                        onChange={() =>
+                          setComercializar("No bairro e proximidades")
+                        }
+                      />
+                      <label>No bairro e proximidades</label>
+                    </div>
+                    <div>
+                      <input
+                        type="radio"
+                        value="Não pretende comercializar"
+                        checked={comercializar === "Não pretende comercializar"}
+                        onChange={() =>
+                          setComercializar("Não pretende comercializar")
+                        }
+                      />
+                      <label>Não pretende comercializar</label>
+                    </div>
+                  </FormRow>
 
-                <FormRow className="flex-col" label="Etnia">
-                  <select
-                    value={etnia}
-                    onChange={(e) => setEtnia(e.target.value)}
-                  >
-                    <option value="">Selecione a etnia</option>
-                    <option value={"Branco/Caucasiano"}>
-                      Branco/Caucasiano
-                    </option>
-                    <option value={"Negro/Afrodescendente"}>
-                      Negro/Afrodescendente
-                    </option>
-                    <option value={"Pardo"}>Pardo</option>
-                    <option value={"Latino/Hispano"}>Latino/Hispano</option>
-                    <option value={"Asiático"}>Asiático</option>
-                    <option value={"Indígena/Nativo"}>Indígena/Nativo</option>
-                    <option value={"Mestiço/Multiracial"}>
-                      Mestiço/Multirracial
-                    </option>
-                  </select>
-                </FormRow>
-
-                <FormRow
-                  className="flex-col"
-                  label="Se pretende comercializar, em qual local será comercializado?"
-                >
-                  <div>
-                    <input
-                      type="radio"
-                      value="Na horta"
-                      checked={comercializar === "Na horta"}
-                      onChange={() => setComercializar("Na horta")}
+                  <FormRow>
+                    <FontAwesomeIcon
+                      className="mr-12 mt-1 flex text-darkGrey text-lg  float-left"
+                      icon={faBookmark}
                     />
-                    <label>Na horta</label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      value="Em casa"
-                      checked={comercializar === "Em casa"}
-                      onChange={() => setComercializar("Em casa")}
-                    />
-                    <label>Em casa</label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      value="No bairro e proximidades"
-                      checked={comercializar === "No bairro e proximidades"}
-                      onChange={() =>
-                        setComercializar("No bairro e proximidades")
-                      }
-                    />
-                    <label>No bairro e proximidades</label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      value="Não pretende comercializar"
-                      checked={comercializar === "Não pretende comercializar"}
-                      onChange={() =>
-                        setComercializar("Não pretende comercializar")
-                      }
-                    />
-                    <label>Não pretende comercializar</label>
-                  </div>
-                </FormRow>
-
-                <FormRow className="flex-col" label="Gênero">
-                  <div>
-                    <input
-                      type="radio"
-                      value="Homem"
-                      checked={genero === "Homem"}
-                      onChange={() => setGenero("Homem")}
-                    />
-                    <label>Homem</label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      value="Mulher"
-                      checked={genero === "Mulher"}
-                      onChange={() => setGenero("Mulher")}
-                    />
-                    <label>Mulher</label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      value="Não binário"
-                      checked={genero === "Não binário"}
-                      onChange={() => setGenero("Não binário")}
-                    />
-                    <label>Não binário</label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      value="Agênero"
-                      checked={genero === "Agênero"}
-                      onChange={() => setGenero("Agênero")}
-                    />
-                    <label>Agênero</label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      value="Gênero fluido"
-                      checked={genero === "Gênero fluido"}
-                      onChange={() => setGenero("Gênero fluido")}
-                    />
-                    <label>Gênero fluido</label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      value="Transgênero"
-                      checked={genero === "Transgênero"}
-                      onChange={() => setGenero("Transgênero")}
-                    />
-                    <label>Transgênero</label>
-                  </div>
-                </FormRow>
-
-                <FormRow className="flex-col" label="Estado Civil">
-                  <div>
-                    <input
-                      type="radio"
-                      value="Solteiro(a)"
-                      checked={estadoCivil === "Solteiro(a)"}
-                      onChange={() => setEstadoCivil("Solteiro(a)")}
-                    />
-                    <label>Solteiro</label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      value="Casado(a)"
-                      checked={estadoCivil === "Casado(a)"}
-                      onChange={() => setEstadoCivil("Casado(a)")}
-                    />
-                    <label>Casado</label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      value="Divorciado(a)"
-                      checked={estadoCivil === "Divorciado(a)"}
-                      onChange={() => setEstadoCivil("Divorciado(a)")}
-                    />
-                    <label>Divorciado</label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      value="Separado(a)"
-                      checked={estadoCivil === "Separado(a)"}
-                      onChange={() => setEstadoCivil("Separado(a)")}
-                    />
-                    <label>Separado</label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      value="Viúvo(a)"
-                      checked={estadoCivil === "Viúvo(a)"}
-                      onChange={() => setEstadoCivil("Viúvo(a)")}
-                    />
-                    <label>Viúvo</label>
-                  </div>
-                </FormRow>
-
-                <FormRow label="Objetivo">
-                  <select
-                    value={selectedObjetivo}
-                    onChange={(e) => setSelectedObjetivo(e.target.value)}
-                  >
-                    <option value="">Selecione um Objetivo</option>
-                    {objetivos.map((objetivo) => (
-                      <option key={objetivo.objetivo} value={objetivo.objetivo}>
-                        {objetivo.objetivo}
+                    <select
+                      className="h-[30px] font-semibold text-base appearance-none bg-transparent w-80 text-darkGrey focus:outline-none border-none placeholder-darkGrey"
+                      value={selectedObjetivo}
+                      onChange={(e) => setSelectedObjetivo(e.target.value)}
+                    >
+                      <option disabled value="">
+                        Qual objetivo com a horta?
                       </option>
-                    ))}
-                  </select>
-                </FormRow>
-
-                <FormRow label="Hortas">
-                  <select
-                    value={selectedHorta}
-                    onChange={(e) => setSelectedHorta(e.target.value)}
-                  >
-                    <option value="">Selecione uma horta</option>
-                    {hortas.map((horta) => (
-                      <option key={horta.nome} value={horta.nome}>
-                        {horta.nome}
-                      </option>
-                    ))}
-                  </select>
-                </FormRow>
+                      {objetivos.map((objetivo) => (
+                        <option
+                          key={objetivo.objetivo}
+                          value={objetivo.objetivo}
+                        >
+                          {objetivo.objetivo}
+                        </option>
+                      ))}
+                    </select>
+                  </FormRow>
+                </div>
               </div>
               {/* Botões */}
               <div className="justify-around flex">
@@ -624,13 +632,17 @@ const FormularioPessoas : React.FC = () => {
                 >
                   Voltar
                 </Botao>
-                <Botao
-                  form="form"
-                  type="submit"
-                  className="w-5/12 bg-lightGreen hover:bg-darkGreen"
-                >
-                  Cadastrar
-                </Botao>
+                {loading ? (
+                  <LoadingAnimation />
+                ) : (
+                  <Botao
+                    form="formularioCadastro"
+                    type="submit"
+                    className="w-5/12 bg-lightGreen hover:bg-darkGreen"
+                  >
+                    Cadastrar
+                  </Botao>
+                )}
               </div>
             </form>
 
