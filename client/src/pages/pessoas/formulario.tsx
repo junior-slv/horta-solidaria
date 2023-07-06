@@ -225,10 +225,14 @@ const FormularioPessoas: React.FC = () => {
 
   useEffect(() => {
     fetchHortas().then((data) => {
-      setHortas(data.reverse());
+      if(data != undefined || null) {
+        setHortas(data.reverse());
+      }
     });
     fetchObjetivos().then((data) => {
-      setObjetivos(data.reverse());
+      if(data != undefined || null){
+        setObjetivos(data.reverse());
+      }
     });
   }, []);
 
