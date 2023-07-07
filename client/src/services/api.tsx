@@ -41,6 +41,17 @@ export const fetchPessoaById = (
 };
 
 
+export const getByCep = async (cep: string) => {
+  try {
+    const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null; // or handle the error in a different way
+  }
+}
+
+
 export const addPessoa = async (  
   usuario_id: number | null,
   telefone: string | undefined,
@@ -119,13 +130,20 @@ export const deletarDoacao = (id: number | undefined) => {
     console.error("Error" + err);
   });
 };
-export const deletarPessoa = (id: string | undefined) => {
-  instance.delete(`pessoa/deletar/${id}`).catch((err) => {
+export const deletarPessoa = (id: string | undefined, usuario_id: number | null) => {
+  return instance.delete(`pessoa/deletar/${id}`, {
+    data: { usuario_id: usuario_id },
+  })
+  .catch((err) => {
     console.error("Error" + err);
   });
 };
+
+
 export const deletarUsuario = (id: number | undefined) => {
-  instance.delete(`usuario/deletar/${id}`).catch((err) => {
+  instance.delete(`usuario/deletar/${id}`)
+  .then(fetchPessoas)
+  .catch((err) => {
     console.error("Error" + err);
   });
 };

@@ -18,19 +18,29 @@ import {
   faMagnifyingGlassDollar,
   faArrowAltCircleDown,
   faBookmark,
+  faHourglass,
+  faMagnifyingGlass,
+  faSearch,
+  faCaretDown,
+  faHand,
+  faMoneyCheck,
+  faMoneyBill,
+  faMoneyCheckDollar,
 } from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { Botao } from "../../components/buttons/Botao";
 import FormInput from "@/components/inputs/FormInput";
-import FormRow from "@/components/FormRow";
-import Router from "next/router";
 import { AuthContext } from "@/contexts/AuthContext";
 import { z } from "zod";
 import Toast from "@/components/toast/Toast";
 import { fetchHortas } from "@/services/api/apiHorta";
 import { fetchObjetivos } from "@/services/api/apiObjetivo";
-import { addPessoa } from "@/services/api";
+import { addPessoa, getByCep } from "@/services/api";
 import LoadingAnimation from "@/components/loadings/LoadingAnimation";
+import FormRow from "@/components/FormRow";
+import Router from "next/router";
+import InputFormulario from "@/components/formulario/InputFormulario";
+import SelectFormulario from "@/components/formulario/SelectFormulario";
 
 // Definindo o esquema de validação com Zod
 const schema = z.object({
@@ -58,7 +68,6 @@ const schema = z.object({
   capacitacao: z.string().nonempty(),
   comercializar: z.string().nonempty(),
 });
-
 interface Horta {
   nome: string;
 }
@@ -102,37 +111,48 @@ const FormularioPessoas: React.FC = () => {
   const [formError, setFormError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const dados = [
-    usuario_id,
-    telefone,
-    estadoCivil,
-    genero,
-    etnia,
-    rua,
-    numero,
-    complemento,
-    bairro,
-    cidade,
-    estado,
-    pais,
-    nome,
-    email,
-    cpf,
-    cep,
-    dataNascimento,
-    dependentes,
-    rendaFamiliar,
-    capacitacao,
-    comercializar,
-    telefonerecado,
-    selectedObjetivo,
-    selectedHorta,
+  const optionsGenero: string[] = [
+    "Homem",
+    "Mulher",
+    "Não binário",
+    "Agênero",
+    "Gênero fluído",
+    "Transgênero",
   ];
+  const optionsEstadoCivil: string[] = [
+    "Solteiro(a)",
+    "Casado(a)",
+    "Divorciado(a)",
+    "Separado(a)",
+    "Viúvo(a)",
+  ];
+  const optionsRenda: string[] = [
+    "Abaixo de um salário mínimo",
+    "1 a 3 salários mínimos",
+    "Acima de 3 salários mínimos",
+  ];
+  const optionsEtnia: string[] = [
+    "Branco/Caucasiano",
+    "Negro/Afrodescendente",
+    "Pardo",
+    "Latino/Hispano",
+    "Asiático",
+    "Indígena/Nativo",
+    "Mestiço/Multiracial",
+  ];
+
+  const optionsComercializar: string[] = [
+    "Na horta",
+    "Em casa",
+    "No bairro e proximidades",
+    "Não pretende comercializar",
+  ];
+
+  const optionsCapacitacao: string[] = ["Sim", "Não"];
 
   const handleAddDonation = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      // Validação dos dados do formulário
       setLoading(true);
       const formValues = {
         usuario_id,
@@ -223,15 +243,29 @@ const FormularioPessoas: React.FC = () => {
     }
   };
 
+  const handleCompleteCep = () => {
+    getByCep(cep).then((data) => {
+      if (data) {
+        setRua(data.logradouro);
+        setBairro(data.bairro);
+        setComplemento(data.complemento);
+        setCidade(data.localidade);
+        setEstado(data.uf);
+      } else {
+        // Handle the case when data is null or error occurred
+      }
+    });
+  };
+
   useEffect(() => {
     fetchHortas().then((data) => {
-      if(data != undefined || null) {
-        setHortas(data.reverse());
+      if (data !== undefined && data !== null) {
+        setHortas(data);
       }
     });
     fetchObjetivos().then((data) => {
-      if(data != undefined || null){
-        setObjetivos(data.reverse());
+      if (data !== undefined && data !== null) {
+        setObjetivos(data);
       }
     });
   }, []);
@@ -242,11 +276,9 @@ const FormularioPessoas: React.FC = () => {
   }
 
   return (
-    <div className="flex overflow-x-hidden bg-beige">
-      <div>
-        <Sidebar />
-      </div>
-      <div className="flex-1 overflow-y-auto">
+    <div className="flex ">
+      <Sidebar />
+      <div className="bg-beige w-screen h-screen">
         <div className="font-bold text-darkGreen text-4xl mb-10">
           <p>Cadastrar Pessoa</p>
         </div>
@@ -257,381 +289,294 @@ const FormularioPessoas: React.FC = () => {
               className="flex flex-col"
               onSubmit={handleAddDonation}
             >
-              <div className="flex bg-white rounded-2xl">
-                <div className="p-2">
-                  <div className="flex items-center justify-center bg-lightGreen text-white">
+              <div className="flex flex-col bg-white">
+                <div className="">
+                  <div className="flex items-center w-full justify-center bg-lightGreen text-white">
                     <p>Dados pessoais</p>
                   </div>
-                  <FormRow label={<FontAwesomeIcon icon={faUser} />}>
-                    <FormInput
-                      value={nome}
-                      onChange={(e) => setNome(e.target.value)}
-                      type="text"
-                      placeholder="Nome"
-                    />
-                  </FormRow>
+                  <div className="flex justify-start">
+                    <div className="p-2">
+                      <InputFormulario
+                        value={nome}
+                        icon={faUser}
+                        className="w-[30rem]"
+                        onChange={(e) => setNome(e.target.value)}
+                        placeholder="Nome"
+                      />
+                    </div>
 
-                  <FormRow label={<FontAwesomeIcon icon={faMailBulk} />}>
-                    <FormInput
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      type="text"
-                      placeholder="Email"
-                    />
-                  </FormRow>
+                    <div className="p-2">
+                      <InputFormulario
+                        value={email}
+                        icon={faMailBulk}
+                        className="w-[30rem]"
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="E-Mail"
+                      />
+                    </div>
+                  </div>
 
-                  <FormRow label={<FontAwesomeIcon icon={faIdCard} />}>
-                    <FormInput
-                      value={cpf}
-                      onChange={(e) => setCpf(e.target.value)}
-                      type="text"
-                      placeholder="CPF"
-                    />
-                  </FormRow>
+                  <div className="flex justify-around">
+                    <div className="p-2">
+                      <InputFormulario
+                        value={cpf}
+                        icon={faIdCard}
+                        onChange={(e) => setCpf(e.target.value)}
+                        placeholder="CPF"
+                      />
+                    </div>
 
-                  <FormRow label={<FontAwesomeIcon icon={faPhone} />}>
-                    <FormInput
-                      value={telefone}
-                      onChange={(e) => setTelefone(e.target.value)}
-                      type="text"
-                      placeholder="Telefone"
-                    />
-                  </FormRow>
+                    <div className="p-2">
+                      <InputFormulario
+                        value={telefone}
+                        icon={faPhone}
+                        onChange={(e) => setTelefone(e.target.value)}
+                        placeholder="Telefone"
+                      />
+                    </div>
 
-                  <FormRow label={<FontAwesomeIcon icon={faPhoneSquare} />}>
-                    <FormInput
-                      value={telefonerecado}
-                      onChange={(e) => setTelefoneRecado(e.target.value)}
-                      type="text"
-                      placeholder="Telefone recado"
-                    />
-                  </FormRow>
+                    <div className="p-2">
+                      <InputFormulario
+                        value={telefonerecado}
+                        icon={faPhoneSquare}
+                        onChange={(e) => setTelefoneRecado(e.target.value)}
+                        placeholder="Telefone de recado"
+                      />
+                    </div>
 
-                  <FormRow label={<FontAwesomeIcon icon={faCalendar} />}>
-                    <FormInput
-                      value={dataNascimento}
-                      onChange={(e) => {
-                        setDatanascimento(e.target.value);
-                        console.log(dataNascimento);
-                      }}
-                      type="date"
-                      placeholder="Data de nascimento"
-                    />
-                  </FormRow>
-                  <FormRow label={<FontAwesomeIcon icon={faPerson} />}>
-                    <FormInput
-                      value={dependentes}
-                      onChange={(e) =>
-                        setDependentes(e.target.value.toString())
-                      }
-                      type="number"
-                      placeholder="Dependentes"
-                    />
-                  </FormRow>
+                    <div className="p-2">
+                      <InputFormulario
+                        value={dataNascimento}
+                        icon={faCalendar}
+                        type="date"
+                        onChange={(e) => setDatanascimento(e.target.value)}
+                        placeholder="Data de nascimento"
+                      />
+                    </div>
 
-                  <FormRow className="flex-col">
-                    <FontAwesomeIcon
-                      className="mr-12 mt-1 flex text-darkGrey text-lg  float-left"
-                      icon={faEarth}
-                    />
+                    <div className="p-2">
+                      <InputFormulario
+                        value={dependentes}
+                        icon={faPerson}
+                        type="number"
+                        onChange={(e) =>
+                          setDependentes(e.target.value.toString())
+                        }
+                        placeholder="Dependentes"
+                        className="w-[10.5rem]"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex justify-start">
+                    <div className="p-2">
+                      <SelectFormulario
+                        placeholder="Etnia"
+                        icon={faEarth}
+                        options={optionsEtnia}
+                        value={etnia}
+                        onChange={(e) => setEtnia(e.target.value)}
+                      />
+                    </div>
 
-                    <select
-                      value={etnia}
-                      className="h-[30px] font-semibold text-base appearance-none bg-transparent w-80 text-darkGrey focus:outline-none border-none placeholder-darkGrey"
-                      onChange={(e) => setEtnia(e.target.value)}
-                    >
-                      <option disabled value="">
-                        Etnia
-                      </option>
-                      <option value={"Branco/Caucasiano"}>
-                        Branco/Caucasiano
-                      </option>
-                      <option value={"Negro/Afrodescendente"}>
-                        Negro/Afrodescendente
-                      </option>
-                      <option value={"Pardo"}>Pardo</option>
-                      <option value={"Latino/Hispano"}>Latino/Hispano</option>
-                      <option value={"Asiático"}>Asiático</option>
-                      <option value={"Indígena/Nativo"}>Indígena/Nativo</option>
-                      <option value={"Mestiço/Multiracial"}>
-                        Mestiço/Multirracial
-                      </option>
-                    </select>
-                  </FormRow>
+                    <div className="p-2">
+                      <SelectFormulario
+                        placeholder="Renda Familiar"
+                        icon={faMoneyBills}
+                        options={optionsRenda}
+                        value={rendaFamiliar}
+                        onChange={(e) => setRendaFamiliar(e.target.value)}
+                      />
+                    </div>
 
-                  <FormRow className="flex-col">
-                    <FontAwesomeIcon
-                      className="mr-12 mt-1 flex text-darkGrey text-lg  float-left"
-                      icon={faMoneyBills}
-                    />
-                    <select
-                      value={rendaFamiliar}
-                      className="h-[30px] font-semibold text-base appearance-none bg-transparent w-80 text-darkGrey focus:outline-none border-none placeholder-darkGrey"
-                      onChange={(e) => setRendaFamiliar(e.target.value)}
-                    >
-                      <option className="" disabled value="">
-                        Renda familiar
-                      </option>
-                      <option value={"Abaixo de um salário mínimo"}>
-                        Abaixo de um salário mínimo
-                      </option>
-                      <option value={"1 a 3 salários mínimos"}>
-                        1 a 3 salários mínimos
-                      </option>
-                      <option value={"Acima de 3 salários mínimos"}>
-                        Acima de 3 salários mínimos
-                      </option>
-                    </select>
-                  </FormRow>
+                    <div className="p-2">
+                      <SelectFormulario
+                        placeholder="Estado Civíl"
+                        icon={faCaretDown}
+                        options={optionsEstadoCivil}
+                        value={estadoCivil}
+                        onChange={(e) => setEstadoCivil(e.target.value)}
+                      />
+                    </div>
 
-                  <FormRow className="flex-col">
-                    <FontAwesomeIcon
-                      className="mr-12 mt-1 flex text-darkGrey text-lg  float-left"
-                      icon={faArchive}
-                    />
-                    <select
-                      value={estadoCivil}
-                      className="h-[30px] font-semibold text-base appearance-none bg-transparent w-80 text-darkGrey focus:outline-none border-none placeholder-darkGrey"
-                      onChange={(e) => setEstadoCivil(e.target.value)}
-                    >
-                      <option disabled value="">
-                        Estado Cívil
-                      </option>
-                      <option value="Solteiro(a)">Solteiro</option>
-                      <option value="Casado(a)">Casado</option>
-                      <option value="Divorciado(a)">Divorciado</option>
-                      <option value="Separado(a)">Separado</option>
-                      <option value="Viúvo(a)">Viúvo</option>
-                    </select>
-                  </FormRow>
-
-                  <FormRow className="flex-col">
-                    <FontAwesomeIcon
-                      className="mr-12 mt-1 flex text-darkGrey text-lg  float-left"
-                      icon={faGenderless}
-                    />
-                    <select
-                      value={genero}
-                      className="h-[30px] font-semibold text-base appearance-none bg-transparent w-80 text-darkGrey focus:outline-none border-none placeholder-darkGrey"
-                      onChange={(e) => setGenero(e.target.value)}
-                    >
-                      <option disabled value="">
-                        Gênero
-                      </option>
-                      <option value="Homem">Homem</option>
-                      <option value="Mulher">Mulher</option>
-                      <option value="Não binário">Não binário</option>
-                      <option value="Agênero">Agênero</option>
-                      <option value="Gênero fluido">Gênero fluido</option>
-                      <option value="Transgênero">Transgênero</option>
-                    </select>
-                  </FormRow>
+                    <div className="p-2">
+                      <SelectFormulario
+                        placeholder="Gênero"
+                        icon={faCaretDown}
+                        options={optionsGenero}
+                        value={genero}
+                        onChange={(e) => setGenero(e.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className="p-2">
+                <div className="">
                   <div className="flex items-center justify-center bg-lightGreen text-white">
                     <p>Endereço</p>
                   </div>
 
-                  <FormRow>
-                    <FormInput
-                      value={cep}
-                      onChange={(e) => setCep(e.target.value)}
-                      type="text"
-                      placeholder="CEP"
-                    />
-                  </FormRow>
+                  <div className="flex">
+                    <div className="p-2">
+                      <InputFormulario
+                        value={cep}
+                        onChange={(e) => setCep(e.target.value)}
+                        placeholder="CEP"
+                        className="w-[9rem]"
+                        icon={faSearch}
+                        onClickIcon={handleCompleteCep}
+                      />
+                    </div>
 
-                  <FormRow>
-                    
-                    <FormInput
-                      value={rua}
-                      onChange={(e) => setRua(e.target.value)}
-                      type="text"
-                      placeholder="Rua"
-                    />
-                  </FormRow>
+                    <div className="p-2">
+                      <InputFormulario
+                        value={rua}
+                        onChange={(e) => setRua(e.target.value)}
+                        placeholder="Rua"
+                        className="w-[30rem]"
+                      />
+                    </div>
 
-                  <FormRow>
-                    <FormInput
-                      value={numero}
-                      onChange={(e) => setNumero(e.target.value)}
-                      type="text"
-                      placeholder="Numero"
-                    />
-                  </FormRow>
-                  <FormRow>
-                    <FormInput
-                      value={bairro}
-                      onChange={(e) => setBairro(e.target.value)}
-                      type="text"
-                      placeholder="Bairro"
-                    />
-                  </FormRow>
-                  <FormRow>
-                    <FormInput
-                      value={complemento}
-                      onChange={(e) => setComplemento(e.target.value)}
-                      type="text"
-                      placeholder="Complemento"
-                    />
-                  </FormRow>
-                  <FormRow>
-                    <FormInput
-                      value={cidade}
-                      onChange={(e) => setCidade(e.target.value)}
-                      type="text"
-                      placeholder="Cidade"
-                    />
-                  </FormRow>
+                    <div className="p-2">
+                      <InputFormulario
+                        value={numero}
+                        onChange={(e) => setNumero(e.target.value)}
+                        placeholder="Numero"
+                        className="w-[8rem]"
+                      />
+                    </div>
 
-                  <FormRow>
-                    <FormInput
-                      value={estado}
-                      onChange={(e) => setEstado(e.target.value)}
-                      type="text"
-                      placeholder="Estado"
-                    />
-                  </FormRow>
+                    <div className="p-2">
+                      <InputFormulario
+                        value={bairro}
+                        onChange={(e) => setBairro(e.target.value)}
+                        placeholder="Bairro"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex">
+                    <div className="p-2">
+                      <InputFormulario
+                        value={complemento}
+                        onChange={(e) => setComplemento(e.target.value)}
+                        placeholder="Complemento"
+                      />
+                    </div>
 
-                  <FormRow>
-                    <FormInput
-                      value={pais}
-                      onChange={(e) => setPais(e.target.value)}
-                      type="text"
-                      placeholder="Pais"
-                    />
-                  </FormRow>
+                    <div className="p-2">
+                      <InputFormulario
+                        value={cidade}
+                        onChange={(e) => setCidade(e.target.value)}
+                        placeholder="Cidade"
+                      />
+                    </div>
 
+                    <div className="p-2">
+                      <InputFormulario
+                        value={estado}
+                        onChange={(e) => setEstado(e.target.value)}
+                        placeholder="Estado"
+                      />
+                    </div>
 
+                    <div className="p-2">
+                      <InputFormulario
+                        placeholder="Pais"
+                        value={pais}
+                        onChange={(e) => setPais(e.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="">
-                  <div className="flex items-center justify-center bg-lightGreen text-white m-2">
+                  <div className="flex items-center justify-center bg-lightGreen text-white">
                     <p>Horta</p>
                   </div>
-                  <FormRow>
-                    <FontAwesomeIcon
-                      className="mr-12 mt-1 flex text-darkGrey text-lg  float-left"
-                      icon={faCodeFork}
-                    />
-                    <select
-                      value={selectedHorta}
-                      className="h-[30px] font-semibold text-base appearance-none bg-transparent w-80 text-darkGrey focus:outline-none border-none placeholder-darkGrey"
-                      onChange={(e) => setSelectedHorta(e.target.value)}
-                    >
-                      <option disabled value="">
-                        Horta que deseja fazer parte
-                      </option>
-                      {hortas.map((horta) => (
-                        <option key={horta.nome} value={horta.nome}>
-                          {horta.nome}
-                        </option>
-                      ))}
-                    </select>
-                  </FormRow>
 
-                  <FormRow
-                    className="flex-col text-lg"
-                    label="Tem capacitação ou experiência no cultivo de hortas?"
-                  >
-                    <div className="flex text-lg">
-                      <div className="mr-2">
-                        <input
-                          type="radio"
-                          value="Sim"
-                          checked={capacitacao === "Sim"}
-                          onChange={() => setCapacitacao("Sim")}
+                <div className="flex justify-around">
+                <div className="p-2">
+                    <div className="relative">
+                      <select
+                        value={selectedHorta}
+                        className={`pl-10 pr-4 py-2 bg-lightGray border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black\\`}
+                        onChange={(e) => setSelectedHorta(e.target.value)}
+                      >
+                        <option disabled value="">
+                          Horta que deseja fazer parte
+                        </option>
+                        {hortas.map((horta) => (
+                          <option key={horta.nome} value={horta.nome}>
+                            {horta.nome}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <FontAwesomeIcon
+                          icon={faCodeFork}
+                          className="text-gray-400"
                         />
-                        <label htmlFor="abaixo">Sim</label>
-                      </div>
-                      <div>
-                        <input
-                          type="radio"
-                          value="Não"
-                          checked={capacitacao === "Não"}
-                          onChange={() => setCapacitacao("Não")}
-                        />
-                        <label htmlFor="1a3">Não</label>
                       </div>
                     </div>
-                  </FormRow>
-
-                  <FormRow
-                    className="flex-col"
-                    label="Se pretende comercializar, em qual local será comercializado?"
-                  >
-                    <div>
-                      <input
-                        type="radio"
-                        value="Na horta"
-                        checked={comercializar === "Na horta"}
-                        onChange={() => setComercializar("Na horta")}
-                      />
-                      <label>Na horta</label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        value="Em casa"
-                        checked={comercializar === "Em casa"}
-                        onChange={() => setComercializar("Em casa")}
-                      />
-                      <label>Em casa</label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        value="No bairro e proximidades"
-                        checked={comercializar === "No bairro e proximidades"}
-                        onChange={() =>
-                          setComercializar("No bairro e proximidades")
-                        }
-                      />
-                      <label>No bairro e proximidades</label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        value="Não pretende comercializar"
-                        checked={comercializar === "Não pretende comercializar"}
-                        onChange={() =>
-                          setComercializar("Não pretende comercializar")
-                        }
-                      />
-                      <label>Não pretende comercializar</label>
-                    </div>
-                  </FormRow>
-
-                  <FormRow>
-                    <FontAwesomeIcon
-                      className="mr-12 mt-1 flex text-darkGrey text-lg  float-left"
-                      icon={faBookmark}
+                  </div>
+                  <div className="p-2">
+                    <SelectFormulario
+                      placeholder="Tem capacitação ou experiência no cultivo de hortas?"
+                      options={optionsCapacitacao}
+                      value={capacitacao}
+                      icon={faHand}
+                      onChange={(e) => setCapacitacao(e.target.value)}
                     />
-                    <select
-                      className="h-[30px] font-semibold text-base appearance-none bg-transparent w-80 text-darkGrey focus:outline-none border-none placeholder-darkGrey"
-                      value={selectedObjetivo}
-                      onChange={(e) => setSelectedObjetivo(e.target.value)}
-                    >
-                      <option disabled value="">
-                        Qual objetivo com a horta?
-                      </option>
-                      {objetivos.map((objetivo) => (
-                        <option
-                          key={objetivo.objetivo}
-                          value={objetivo.objetivo}
-                        >
-                          {objetivo.objetivo}
-                        </option>
-                      ))}
-                    </select>
-                  </FormRow>
+                  </div>
                 </div>
-              </div>
-              {/* Botões */}
-              <div className="justify-around flex">
+
+                  <div className="flex justify-around">
+
+
+                  <div className="p-2">
+                    <SelectFormulario
+                      placeholder="Pretende comercializar?"
+                      options={optionsComercializar}
+                      value={comercializar}
+                      icon={faMoneyCheckDollar}
+                      onChange={(e) => setComercializar(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="p-2">
+                    <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <FontAwesomeIcon
+                            icon={faBookmark}
+                            className="text-gray-400"
+                          />
+                        </div>
+                      <select
+                        value={selectedObjetivo}
+                        className={`pl-10 pr-4 py-2 bg-lightGray border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black\\`}
+                        onChange={(e) => setSelectedObjetivo(e.target.value)}
+
+                      >
+                        <option disabled value="">
+                          Qual objetivo com a horta?
+                        </option>
+                        {objetivos.map((objetivo) => (
+                          <option
+                            key={objetivo.objetivo}
+                            value={objetivo.objetivo}
+                          >
+                            {objetivo.objetivo}
+                          </option>
+                        ))}
+
+                      </select>
+                    </div>
+                    
+                  </div>
+                  
+                  </div>
+                  <div className="justify-around flex p-2">
                 <Botao
                   type="button"
-                  onClick={() => Router.replace("/doacao/principal")}
+                  onClick={() => Router.replace("/pessoas/principal")}
                   className="w-5/12 bg-lightBlue hover:bg-darkBlue"
                 >
                   Voltar
@@ -648,10 +593,14 @@ const FormularioPessoas: React.FC = () => {
                   </Botao>
                 )}
               </div>
+                </div>
+              </div>
+              {/* Botões */}
+
             </form>
 
             {formSubmitted && (
-              <Toast message="Doação adicionada com Sucesso!">
+              <Toast message="Pessoa adicionada com Sucesso!">
                 <FontAwesomeIcon className="mr-2" icon={faCheck} />
               </Toast>
             )}

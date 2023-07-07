@@ -4,6 +4,30 @@ import { fetchPessoaById } from "@/services/api";
 import { AuthContext } from "@/contexts/AuthContext";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { Botao } from "@/components/buttons/Botao";
+import CamposFicha from "@/components/formulario/CamposFicha";
+import CampoFichaIcone from "@/components/formulario/CampoFichaIcone";
+import {
+  faArrowLeftRotate,
+  faArrowsRotate,
+  faBookOpen,
+  faCake,
+  faCakeCandles,
+  faCalendar,
+  faCodeFork,
+  faEarth,
+  faFileArchive,
+  faGenderless,
+  faHandsHelping,
+  faHouse,
+  faIcons,
+  faIdCard,
+  faMailBulk,
+  faMoneyBillWave,
+  faPerson,
+  faPhone,
+  faTent,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface Endereco {
   rua: string;
@@ -85,7 +109,14 @@ const PessoaDetalhes = () => {
   }, [id, usuario_id]);
 
   if (!pessoa) {
-    return <div>Carregando...</div>;
+    return (
+      <div className="flex">
+        <Sidebar />
+        <div className="w-full flex items-center justify-center">
+          <h1>Carregando...</h1>
+        </div>
+      </div>
+    );
   }
 
   // Função para converter o formato da data
@@ -103,63 +134,96 @@ const PessoaDetalhes = () => {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="w-full flex items-center justify-center">
-        <div className="flex flex-col">
-          <div className="flex justify-center bg-lightGreen bg-opacity-50">
-            <h1>{pessoa.nome}</h1>
-          </div>
-          <div className="flex">
+      <div className="w-full flex items-center justify-center bg-beige">
+        <div className="flex flex-col bg-white rounded-md">
+          <CamposFicha conteudo={pessoa.nome} />
+          <div className="flex flex-col">
             <div className="p-4">
-              <div>
-                <p>CPF: {pessoa.cpf}</p>
+              <div className="flex justify-start">
+                <CampoFichaIcone conteudo={pessoa.email} icon={faMailBulk} />
+                <CampoFichaIcone conteudo={pessoa.cpf} icon={faIdCard} />
+                <CampoFichaIcone
+                  conteudo={pessoa.Telefone?.telefone}
+                  icon={faPhone}
+                />
+                <CampoFichaIcone
+                  conteudo={pessoa.dataNascimento}
+                  icon={faCakeCandles}
+                />
+                <CampoFichaIcone
+                  conteudo={pessoa.dependentes.toString()}
+                  icon={faPerson}
+                />
               </div>
-
-              <div>
-                <p>Telefone: {pessoa.Telefone?.telefone}</p>
+              <div className="flex justify-between">
+                <CampoFichaIcone
+                  conteudo={pessoa.Genero.genero}
+                  icon={faGenderless}
+                />
+                <CampoFichaIcone
+                  conteudo={pessoa.Etnium.etnia}
+                  icon={faEarth}
+                />
+                <CampoFichaIcone
+                  conteudo={pessoa.rendaFamiliar}
+                  icon={faMoneyBillWave}
+                />
               </div>
-              <div>
-                <p>Data de Nascimento: {pessoa.dataNascimento}</p>
-              </div>
-              <div>
-                <p>Dependetes: {pessoa.dependentes}</p>
-              </div>
-              <div>
-                <p>Renda Familiar: {pessoa.rendaFamiliar} </p>
-              </div>
-              <div>
-                <p>Experiência em horticultura: {pessoa.capacitacao}</p>
+              <CampoFichaIcone
+                icon={faHouse}
+                conteudo={`${pessoa.Endereco.rua}, ${pessoa.Endereco.numero}, ${
+                  pessoa.Endereco.bairro
+                }${
+                  pessoa.Endereco.complemento === null ||
+                  pessoa.Endereco.complemento === undefined
+                    ? ""
+                    : `, ${pessoa.Endereco.complemento}`
+                }, ${pessoa.Endereco.cidade} - ${pessoa.Endereco.estado}, ${
+                  pessoa.Endereco.cep
+                }, ${pessoa.Endereco.pais}`}
+              />
+              <div className="flex">
+                <CampoFichaIcone
+                  icon={faCodeFork}
+                  conteudo={pessoa.Hortum.nome}
+                />
+                <CampoFichaIcone
+                  icon={faBookOpen}
+                  conteudo={
+                    pessoa.capacitacao === "Sim"
+                      ? "Possuí capacitação"
+                      : "Não possui capacitação"
+                  }
+                />
+                <CampoFichaIcone
+                  icon={faTent}
+                  conteudo={pessoa.comercializar}
+                />
+                <CampoFichaIcone
+                  icon={faHandsHelping}
+                  conteudo={pessoa.Objetivo.objetivo}
+                />
               </div>
             </div>
-            <span className="p-4">
-              <div>
-                <p>Gênero: {pessoa.Genero?.genero}</p>
-              </div>
-              <div>
-                <p>Etnia: {pessoa.Etnium?.etnia}</p>
-              </div>
-              <div>
-                <p>
-                  Endereço:{" "}
-                  {`${pessoa.Endereco.rua}, ${pessoa.Endereco.numero}, ${pessoa.Endereco.bairro} - ${pessoa.Endereco.cidade}, ${pessoa.Endereco.estado}, ${pessoa.Endereco.cep}`}
-                </p>
-              </div>
-              <div>
-                <p>Membro da horta: {pessoa.Hortum.nome}</p>
-              </div>
-              <div>
-                <p>Local de comercialização: {pessoa.comercializar} </p>
-              </div>
-              <div>
-                <p>Objetivo: {pessoa.Objetivo.objetivo}</p>
-              </div>
-            </span>
           </div>
 
-          <Botao className="bg-lightGreen">Gerar PDF da ficha</Botao>
-          <p>Criado em: {formatarData(pessoa.createdAt)}</p>
-          <p>Atualizado em: {formatarData(pessoa.updatedAt)}</p>
-          <div>
-            <p>Identificação unica: {pessoa.id_pessoa}</p>
+          <div className="flex justify-around">
+            <CampoFichaIcone
+              conteudo={`Criado em: ${formatarData(pessoa.createdAt)}`}
+              icon={faCalendar}
+            />
+            <CampoFichaIcone
+              conteudo={`Atualizado em: ${formatarData(pessoa.updatedAt)}`}
+              icon={faArrowsRotate}
+            />
+          </div>
+          <CampoFichaIcone
+            className="flex justify-center items-center"
+            conteudo={`Identificação única: ${pessoa.id_pessoa}`}
+            icon={faFileArchive}
+          />
+          <div className="flex items-center justify-center p-2">
+            <Botao className="bg-lightGreen">Gerar PDF da ficha</Botao>
           </div>
         </div>
       </div>
