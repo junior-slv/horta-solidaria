@@ -19,10 +19,8 @@ const Sidebar = () => {
   const { nome, signOut, isAuth, cargo } = useContext(AuthContext);
 
 
-  let FirstName: string | undefined
-  if (nome) {
-    FirstName = nome.split(' ')[0];
-  }
+    const FirstName = nome.split(' ')[0];
+
   useEffect(() => {}, []);
 
   return (
