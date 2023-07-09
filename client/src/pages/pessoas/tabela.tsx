@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { format, subDays } from "date-fns";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEye,
@@ -99,34 +98,34 @@ const Tabela = () => {
   return (
     <div className="container mx-auto p-4 flex flex-col justify-center items-center">
       <div className="flex justify-end mb-4">
-        <div className="flex space-x-2">
+        <div className="min-w-full">
           <input
             type="text"
             placeholder="Nome"
             value={filtroNome}
             onChange={(e) => setFiltroNome(e.target.value)}
-            className="px-2 py-1 border rounded"
+            className="px-2 m-1 py-1 border rounded"
           />
           <input
             type="text"
             placeholder="Email"
             value={filtroEmail}
             onChange={(e) => setFiltroEmail(e.target.value)}
-            className="px-2 py-1 border rounded"
+            className="px-2 m-1 py-1 border rounded"
           />
           <input
             type="text"
             placeholder="CPF"
             value={filtroCPF}
             onChange={(e) => setFiltroCPF(e.target.value)}
-            className="px-2 py-1 border rounded"
+            className="px-2 m-1 py-1 border rounded"
           />
           <input
             type="text"
             placeholder="Data de Nascimento"
             value={filtroDataNascimento}
             onChange={(e) => setFiltroDataNascimento(e.target.value)}
-            className="px-2 py-1 border rounded"
+            className="px-2 m-1 py-1 border rounded"
           />
           <Botao
             className="px-4 py-2 text-sm bg-lightGreen text-white rounded disabled:opacity-50 hover:bg-off-white hover:text-lightGreen"

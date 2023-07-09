@@ -2,9 +2,13 @@
 import axios from "axios";
 
 export const instance = axios.create({
-  baseURL: "http://localhost:3001/api/",
+  baseURL: "http://horta-api-li7v.onrender.com/api/",
 });
-const token = localStorage.getItem("access_token")
+let token: string | null = null;
+
+if (typeof window !== "undefined") {
+  token = localStorage.getItem("access_token");
+}
 export const fetchDoacoes = () => {
   return instance
     .get("doacao/todas")
