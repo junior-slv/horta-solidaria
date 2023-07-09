@@ -2,7 +2,7 @@
 import axios from "axios";
 
 export const instance = axios.create({
-  baseURL: "http://horta-api-li7v.onrender.com/api/",
+  baseURL: "https://horta-api-li7v.onrender.com/api/",
 });
 let token: string | null = null;
 
