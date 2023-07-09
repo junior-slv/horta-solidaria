@@ -11,6 +11,7 @@ const LoginSchema = z.object({
   login: z.string(),
   password: z.string(),
   lembrarSenha: z.boolean(),
+  token: z.string(),
 });
 
 type LoginData = z.infer<typeof LoginSchema>;
@@ -39,6 +40,7 @@ const Login = () => {
         login,
         password,
         lembrarSenha,
+        token: ""
       };
 
       await LoginSchema.parseAsync(data);
