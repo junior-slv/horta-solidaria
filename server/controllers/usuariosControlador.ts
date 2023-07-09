@@ -91,7 +91,9 @@ const logarUsuario = async (req: any, res: any) => {
     const nome = pessoa.nome;
     const cargo = cargoId.cargo;
 
-    const token = jwt.sign({ userId: user.id }, 'chave_secreta', { expiresIn: 300 });
+    const token = jwt.sign({ userId: user.id_usuario }, 'chave_secreta', { expiresIn: 30000 });
+    res.set('Authorization', `Bearer ${token}`);
+
     res.status(200).json({ usuario_id, nome, cargo, auth: true, token });
   } catch (error) {
     console.log(error);

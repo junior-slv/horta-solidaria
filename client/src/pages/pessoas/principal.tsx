@@ -24,7 +24,7 @@ const PessoasMain = () => {
 
   return (
     <div className="overflow-y-hidden flex bg-beige">
-      <SidebarTeste items={[]}/>
+      <Sidebar/>
       <div className="flex flex-col relative w-4/5">
             <div className="flex justify-around p-2">
             <div>

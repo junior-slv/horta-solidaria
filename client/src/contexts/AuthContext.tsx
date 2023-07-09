@@ -18,8 +18,8 @@ export type SignInData = {
   login: string;
   password: string;
   lembrarSenha: boolean;
+  token: string;
 };
-
 export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthProvider({ children }: any) {
@@ -51,12 +51,16 @@ export function AuthProvider({ children }: any) {
   const signIn = async (data: SignInData) => {
     try {
       const { login, password, lembrarSenha } = data;
-      const res = await instance.post("usuario/logar", {
-        login,
-        senha: password,
-      });
-
+      const res = await instance.post(
+        "usuario/logar",
+        {
+          login,
+          senha: password,
+        },
+      );
+      
       const { auth, token, nome, cargo, usuario_id } = res.data;
+
 
       if (auth) {
         setNome(nome);
@@ -72,8 +76,8 @@ export function AuthProvider({ children }: any) {
         localStorage.setItem("nome", nome);
         localStorage.setItem("cargo", cargo);
         localStorage.setItem("usuario_id", String(usuario_id));
+        localStorage.setItem("access_token", token);
 
-        // Define o valor de lembrarSenha
         setLembrarSenha(lembrarSenha);
 
         router.push("/resumo/resumo");

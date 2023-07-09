@@ -1,9 +1,10 @@
+
 import axios from "axios";
 
 export const instance = axios.create({
-  baseURL: "https://horta-api-li7v.onrender.com/api/",
+  baseURL: "http://localhost:3001/api/",
 });
-
+const token = localStorage.getItem("access_token")
 export const fetchDoacoes = () => {
   return instance
     .get("doacao/todas")
@@ -15,6 +16,8 @@ export const fetchDoacoes = () => {
     });
 };
 export const fetchPessoas = () => {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
   return instance
     .get("pessoa/todas")
     .then((res) => {
@@ -24,6 +27,7 @@ export const fetchPessoas = () => {
       console.error(error);
     });
 };
+
 export const fetchPessoaById = (
   id: string | undefined,
   usuario_id: number | undefined

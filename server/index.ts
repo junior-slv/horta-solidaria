@@ -19,20 +19,22 @@ var corsOptions = {
   origin: "http://localhost:3000",
 };
 
-const verificarToken = (req: any, res: any, next: any) => {
-  const token = req.headers['x-access-token'] as string;
+ const verificarToken = (req: any, res: any, next: any) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(" ")[1]
   if (!token) {
     return res.status(401).end();
   }
+  try {
 
-  jwt.verify(token, 'chave_secreta', (err: any, decoded: any) => {
-    if (err) {
-      return res.status(401).end();
-    }
+  
+  jwt.verify(token, 'chave_secreta');
+  }catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
 
-    req.userId = decoded.userId;
-    next();
-  });
+  next()
 };
 
 //middleware
@@ -57,7 +59,7 @@ const rotaDoacao = require('./routes/doacaoRotas');
 app.use('/api/doacao', rotaDoacao);
 
 const rotaPessoa = require('./routes/pessoa');
-app.use('/api/pessoa',rotaPessoa);
+app.use('/api/pessoa',verificarToken ,rotaPessoa);
 
 const rotaEndereco = require('./routes/endereco');
 app.use('/api/endereco', rotaEndereco);
