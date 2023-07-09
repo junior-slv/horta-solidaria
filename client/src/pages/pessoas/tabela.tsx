@@ -96,7 +96,7 @@ const Tabela = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 flex flex-col justify-center items-center">
+    <div className="container mx-auto p-4 flex flex-col  min-w-full justify-center items-center">
       <div className="flex justify-end mb-4">
         <div className="min-w-full">
           <input

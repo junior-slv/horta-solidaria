@@ -276,17 +276,17 @@ const FormularioPessoas: React.FC = () => {
   }
 
   return (
-    <div className="flex ">
+    <div className="flex min-h-screen">
       <Sidebar />
-      <div className="bg-beige w-screen h-screen">
-        <div className="font-bold text-darkGreen text-4xl mb-10">
+      <div className="flex flex-col relative w-4/5 bg-beige">
+        <div className="font-bold text-darkGreen text-4xl mb-10 ">
           <p>Cadastrar Pessoa</p>
         </div>
         <div className="flex flex-col rounded-2xl">
-          <div className=" flex flex-col items-center justify-center">
+          <div className=" flex-grow">
             <form
               id="formularioCadastro"
-              className="flex flex-col"
+              className="flex flex-col min-w-full"
               onSubmit={handleAddDonation}
             >
               <div className="flex flex-col bg-white">
@@ -343,7 +343,8 @@ const FormularioPessoas: React.FC = () => {
                         placeholder="Telefone de recado"
                       />
                     </div>
-
+                  </div>
+                  <div className="flex justify-around">
                     <div className="p-2">
                       <InputFormulario
                         value={dataNascimento}
@@ -363,21 +364,21 @@ const FormularioPessoas: React.FC = () => {
                           setDependentes(e.target.value.toString())
                         }
                         placeholder="Dependentes"
-                        className="w-[10.5rem]"
                       />
                     </div>
-                  </div>
-                  <div className="flex justify-start">
                     <div className="p-2">
-                      <SelectFormulario
-                        placeholder="Etnia"
-                        icon={faEarth}
-                        options={optionsEtnia}
-                        value={etnia}
-                        onChange={(e) => setEtnia(e.target.value)}
-                      />
-                    </div>
+                    <SelectFormulario
+                      placeholder="Etnia"
+                      icon={faEarth}
+                      options={optionsEtnia}
+                      value={etnia}
+                      onChange={(e) => setEtnia(e.target.value)}
+                    />
+                  </div>
+                  </div>
 
+
+                  <div className="flex justify-around">
                     <div className="p-2">
                       <SelectFormulario
                         placeholder="Renda Familiar"
@@ -492,111 +493,104 @@ const FormularioPessoas: React.FC = () => {
                     <p>Horta</p>
                   </div>
 
-                <div className="flex justify-around">
-                <div className="p-2">
-                    <div className="relative">
-                      <select
-                        value={selectedHorta}
-                        className={`pl-10 pr-4 py-2 bg-lightGray border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black\\`}
-                        onChange={(e) => setSelectedHorta(e.target.value)}
-                      >
-                        <option disabled value="">
-                          Horta que deseja fazer parte
-                        </option>
-                        {hortas.map((horta) => (
-                          <option key={horta.nome} value={horta.nome}>
-                            {horta.nome}
+                  <div className="flex justify-around">
+                    <div className="p-2">
+                      <div className="relative">
+                        <select
+                          value={selectedHorta}
+                          className={`pl-10 pr-4 py-2 bg-lightGray border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black\\`}
+                          onChange={(e) => setSelectedHorta(e.target.value)}
+                        >
+                          <option disabled value="">
+                            Horta que deseja fazer parte
                           </option>
-                        ))}
-                      </select>
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <FontAwesomeIcon
-                          icon={faCodeFork}
-                          className="text-gray-400"
-                        />
+                          {hortas.map((horta) => (
+                            <option key={horta.nome} value={horta.nome}>
+                              {horta.nome}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <FontAwesomeIcon
+                            icon={faCodeFork}
+                            className="text-gray-400"
+                          />
+                        </div>
                       </div>
                     </div>
+                    <div className="p-2">
+                      <SelectFormulario
+                        placeholder="Tem capacitação ou experiência no cultivo de hortas?"
+                        options={optionsCapacitacao}
+                        value={capacitacao}
+                        icon={faHand}
+                        onChange={(e) => setCapacitacao(e.target.value)}
+                      />
+                    </div>
                   </div>
-                  <div className="p-2">
-                    <SelectFormulario
-                      placeholder="Tem capacitação ou experiência no cultivo de hortas?"
-                      options={optionsCapacitacao}
-                      value={capacitacao}
-                      icon={faHand}
-                      onChange={(e) => setCapacitacao(e.target.value)}
-                    />
-                  </div>
-                </div>
 
                   <div className="flex justify-around">
+                    <div className="p-2">
+                      <SelectFormulario
+                        placeholder="Pretende comercializar?"
+                        options={optionsComercializar}
+                        value={comercializar}
+                        icon={faMoneyCheckDollar}
+                        onChange={(e) => setComercializar(e.target.value)}
+                      />
+                    </div>
 
-
-                  <div className="p-2">
-                    <SelectFormulario
-                      placeholder="Pretende comercializar?"
-                      options={optionsComercializar}
-                      value={comercializar}
-                      icon={faMoneyCheckDollar}
-                      onChange={(e) => setComercializar(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="p-2">
-                    <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <div className="p-2">
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                           <FontAwesomeIcon
                             icon={faBookmark}
                             className="text-gray-400"
                           />
                         </div>
-                      <select
-                        value={selectedObjetivo}
-                        className={`pl-10 pr-4 py-2 bg-lightGray border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black\\`}
-                        onChange={(e) => setSelectedObjetivo(e.target.value)}
-
-                      >
-                        <option disabled value="">
-                          Qual objetivo com a horta?
-                        </option>
-                        {objetivos.map((objetivo) => (
-                          <option
-                            key={objetivo.objetivo}
-                            value={objetivo.objetivo}
-                          >
-                            {objetivo.objetivo}
+                        <select
+                          value={selectedObjetivo}
+                          className={`pl-10 pr-4 py-2 bg-lightGray border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black\\`}
+                          onChange={(e) => setSelectedObjetivo(e.target.value)}
+                        >
+                          <option disabled value="">
+                            Qual objetivo com a horta?
                           </option>
-                        ))}
-
-                      </select>
+                          {objetivos.map((objetivo) => (
+                            <option
+                              key={objetivo.objetivo}
+                              value={objetivo.objetivo}
+                            >
+                              {objetivo.objetivo}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
-                    
-                  </div>
-                  
                   </div>
                   <div className="justify-around flex p-2">
-                <Botao
-                  type="button"
-                  onClick={() => Router.replace("/pessoas/principal")}
-                  className="w-5/12 bg-lightBlue hover:bg-darkBlue"
-                >
-                  Voltar
-                </Botao>
-                {loading ? (
-                  <LoadingAnimation />
-                ) : (
-                  <Botao
-                    form="formularioCadastro"
-                    type="submit"
-                    className="w-5/12 bg-lightGreen hover:bg-darkGreen"
-                  >
-                    Cadastrar
-                  </Botao>
-                )}
-              </div>
+                    <Botao
+                      type="button"
+                      onClick={() => Router.replace("/pessoas/principal")}
+                      className="w-5/12 bg-lightBlue hover:bg-darkBlue"
+                    >
+                      Voltar
+                    </Botao>
+                    {loading ? (
+                      <LoadingAnimation />
+                    ) : (
+                      <Botao
+                        form="formularioCadastro"
+                        type="submit"
+                        className="w-5/12 bg-lightGreen hover:bg-darkGreen"
+                      >
+                        Cadastrar
+                      </Botao>
+                    )}
+                  </div>
                 </div>
               </div>
               {/* Botões */}
-
             </form>
 
             {formSubmitted && (
