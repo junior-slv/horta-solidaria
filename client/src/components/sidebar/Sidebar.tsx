@@ -18,13 +18,18 @@ const Sidebar = () => {
   const router = useRouter();
   const { nome, signOut, isAuth, cargo } = useContext(AuthContext);
 
+
+  let FirstName: string | undefined
+  if (nome) {
+    FirstName = nome.split(' ')[0];
+  }
   useEffect(() => {}, []);
 
   return (
     <aside className="w-72 bg-lightGreen min-h-full justify-between h-screen flex flex-col items-center pt-5 pb-2 space-y-7">
       <div className="w-full pr-3 flex flex-col gap-y-1 text-gray-500 fill-gray-500 text-md">
         <div className="font-poppins pl-4 text-off-white text-lg uppercase">
-          Olá, {nome}.
+          Olá, {FirstName}.
         </div>
         <div className="font-poppins pl-4 text-off-white text-2xl uppercase">
           Menu
