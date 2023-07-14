@@ -10,7 +10,7 @@ const cors = require('cors');
 const models_1 = __importDefault(require("./models"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var corsOptions = {
-    origin: "http://localhost:3000",
+    origin: "https://horta-solidaria.vercel.app",
 };
 const verificarToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
