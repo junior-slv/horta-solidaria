@@ -275,47 +275,46 @@ const FormularioPessoas: React.FC = () => {
   }
 
   return (
-    <div className="bg-beige w-full h-screen">
-      <div className="flex flex-col justify-between pt-4">
+      <div className="flex flex-col justify-between p-10 bg-beige">
         <div className="font-bold text-darkGreen flex justify-center items-center text-4xl p-4">
           <p>Cadastro de pessoa</p>
         </div>
-        <div className="flex flex-col rounded-2xl pl-28 pr-28 pt-2">
-          <div className="flex-grow">
+        <div className="flex flex-col rounded-2xl">
+          <div className=" flex-grow">
             <form
               id="formularioCadastro"
               className="flex flex-col min-w-full"
               onSubmit={handleAddDonation}
             >
-              <div className=" flex-col bg-white">
+              <div className="flex  flex-col bg-white">
                 <div className="">
                   <div className="flex items-center uppercase font-bold justify-center bg-lightGreen text-white">
                     <p>Dados pessoais</p>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="p-5">
+                  <div className="flex justify-start">
+                    <div className="p-2">
                       <InputFormulario
                         value={nome}
                         icon={faUser}
-                        className="w-full"
+                        className="w-[30rem]"
                         onChange={(e) => setNome(e.target.value)}
                         placeholder="Nome"
                       />
                     </div>
 
-                    <div className="p-5">
+                    <div className="p-2">
                       <InputFormulario
                         value={email}
                         icon={faMailBulk}
-                        className="w-full"
+                        className="w-[30rem]"
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="E-Mail"
                       />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="p-5">
+                  <div className="flex justify-around">
+                    <div className="p-2">
                       <InputFormulario
                         value={cpf}
                         icon={faIdCard}
@@ -324,7 +323,7 @@ const FormularioPessoas: React.FC = () => {
                       />
                     </div>
 
-                    <div className="p-5">
+                    <div className="p-2">
                       <InputFormulario
                         value={telefone}
                         icon={faPhone}
@@ -333,7 +332,7 @@ const FormularioPessoas: React.FC = () => {
                       />
                     </div>
 
-                    <div className="p-5">
+                    <div className="p-2">
                       <InputFormulario
                         value={telefonerecado}
                         icon={faPhoneSquare}
@@ -342,9 +341,8 @@ const FormularioPessoas: React.FC = () => {
                       />
                     </div>
                   </div>
-
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="p-5">
+                  <div className="flex justify-around">
+                    <div className="p-2">
                       <InputFormulario
                         value={dataNascimento}
                         icon={faCalendar}
@@ -354,7 +352,7 @@ const FormularioPessoas: React.FC = () => {
                       />
                     </div>
 
-                    <div className="p-5">
+                    <div className="p-2">
                       <InputFormulario
                         value={dependentes}
                         icon={faPerson}
@@ -365,20 +363,20 @@ const FormularioPessoas: React.FC = () => {
                         placeholder="Dependentes"
                       />
                     </div>
-
-                    <div className="p-5">
-                      <SelectFormulario
-                        placeholder="Etnia"
-                        icon={faEarth}
-                        options={optionsEtnia}
-                        value={etnia}
-                        onChange={(e) => setEtnia(e.target.value)}
-                      />
-                    </div>
+                    <div className="p-2">
+                    <SelectFormulario
+                      placeholder="Etnia"
+                      icon={faEarth}
+                      options={optionsEtnia}
+                      value={etnia}
+                      onChange={(e) => setEtnia(e.target.value)}
+                    />
+                  </div>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="p-5">
+
+                  <div className="flex justify-around">
+                    <div className="p-2">
                       <SelectFormulario
                         placeholder="Renda Familiar"
                         icon={faMoneyBills}
@@ -388,7 +386,7 @@ const FormularioPessoas: React.FC = () => {
                       />
                     </div>
 
-                    <div className="p-5">
+                    <div className="p-2">
                       <SelectFormulario
                         placeholder="Estado Civíl"
                         icon={faCaretDown}
@@ -398,7 +396,7 @@ const FormularioPessoas: React.FC = () => {
                       />
                     </div>
 
-                    <div className="p-5">
+                    <div className="p-2">
                       <SelectFormulario
                         placeholder="Gênero"
                         icon={faCaretDown}
@@ -409,86 +407,79 @@ const FormularioPessoas: React.FC = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="">
                   <div className="flex items-center uppercase font-bold  justify-center bg-lightGreen text-white">
                     <p>Endereço</p>
                   </div>
 
-                  <div className="grid grid-cols-4 gap-4">
-                    <div className="p-5">
+                  <div className="flex">
+                    <div className="p-2">
                       <InputFormulario
                         value={cep}
                         onChange={(e) => setCep(e.target.value)}
                         placeholder="CEP"
-                        className="w-full"
+                        className="w-[9rem]"
                         icon={faSearch}
                         onClickIcon={handleCompleteCep}
                       />
                     </div>
 
-                    <div className="p-5">
+                    <div className="p-2">
                       <InputFormulario
                         value={rua}
                         onChange={(e) => setRua(e.target.value)}
                         placeholder="Rua"
-                        className="w-full"
+                        className="w-[30rem]"
                       />
                     </div>
 
-                    <div className="p-5">
+                    <div className="p-2">
                       <InputFormulario
                         value={numero}
                         onChange={(e) => setNumero(e.target.value)}
                         placeholder="Numero"
-                        className="w-full"
+                        className="w-[8rem]"
                       />
                     </div>
 
-                    <div className="p-5">
+                    <div className="p-2">
                       <InputFormulario
                         value={bairro}
                         onChange={(e) => setBairro(e.target.value)}
                         placeholder="Bairro"
-                        className="w-full"
                       />
                     </div>
                   </div>
-
-                  <div className="grid grid-cols-4 gap-4">
-                    <div className="p-5">
+                  <div className="flex">
+                    <div className="p-2">
                       <InputFormulario
                         value={complemento}
                         onChange={(e) => setComplemento(e.target.value)}
                         placeholder="Complemento"
-                        className="w-full"
                       />
                     </div>
 
-                    <div className="p-5">
+                    <div className="p-2">
                       <InputFormulario
                         value={cidade}
                         onChange={(e) => setCidade(e.target.value)}
                         placeholder="Cidade"
-                        className="w-full"
                       />
                     </div>
 
-                    <div className="p-5">
+                    <div className="p-2">
                       <InputFormulario
                         value={estado}
                         onChange={(e) => setEstado(e.target.value)}
                         placeholder="Estado"
-                        className="w-full"
                       />
                     </div>
 
-                    <div className="p-5">
+                    <div className="p-2">
                       <InputFormulario
                         placeholder="Pais"
                         value={pais}
                         onChange={(e) => setPais(e.target.value)}
-                        className="w-full"
                       />
                     </div>
                   </div>
@@ -499,12 +490,12 @@ const FormularioPessoas: React.FC = () => {
                     <p>Horta</p>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="p-5">
+                  <div className="flex justify-around">
+                    <div className="p-2">
                       <div className="relative">
                         <select
                           value={selectedHorta}
-                          className={`pl-10 pr-4 py-2 bg-darkerGray/20 border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black`}
+                          className={`pl-10 pr-4 py-2 bg-darkerGray/20 border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black\\`}
                           onChange={(e) => setSelectedHorta(e.target.value)}
                         >
                           <option disabled value="">
@@ -524,7 +515,7 @@ const FormularioPessoas: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="p-5">
+                    <div className="p-2">
                       <SelectFormulario
                         placeholder="Tem capacitação ou experiência no cultivo de hortas?"
                         options={optionsCapacitacao}
@@ -535,8 +526,8 @@ const FormularioPessoas: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="p-5">
+                  <div className="flex justify-around">
+                    <div className="p-2">
                       <SelectFormulario
                         placeholder="Pretende comercializar?"
                         options={optionsComercializar}
@@ -546,7 +537,7 @@ const FormularioPessoas: React.FC = () => {
                       />
                     </div>
 
-                    <div className="p-5">
+                    <div className="p-2">
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                           <FontAwesomeIcon
@@ -556,7 +547,7 @@ const FormularioPessoas: React.FC = () => {
                         </div>
                         <select
                           value={selectedObjetivo}
-                          className={`pl-10 pr-4 py-2 bg-darkerGray/20 border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black`}
+                          className={`pl-10 pr-4 py-2 bg-darkerGray/20 border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black\\`}
                           onChange={(e) => setSelectedObjetivo(e.target.value)}
                         >
                           <option disabled value="">
@@ -574,7 +565,7 @@ const FormularioPessoas: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="justify-around flex pb-6 pt-8">
+                  <div className="justify-around flex p-2">
                     <Botao
                       type="button"
                       onClick={() => Router.replace("/pessoas/principal")}
@@ -612,7 +603,6 @@ const FormularioPessoas: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
