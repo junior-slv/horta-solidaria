@@ -28,20 +28,20 @@ const SidebarTest = () => {
   return (
     <aside
       className={`bg-lightGreen  text-white top-0 flex flex-col w-full overflow-clip ${
-        open ? "h-screen fixed" : "h-8 sticky"
+        open ? "h-screen fixed" : "h-20 sticky"
       } transition-all duration-500 ease-in-out z-50`}
     >
-      <div className="flex justify-start p-2 ">
+      <div className="flex justify-start p-6 pl-8">
         <button onClick={() => setOpen(!open)}>
-          <FontAwesomeIcon icon={faBars} className="text-xl" />
+          <FontAwesomeIcon icon={faBars} className="text-[1.9rem]" />
         </button>
       </div>
-      <div className={`w-full flex flex-col gap-y-1 text-gray-500 fill-gray-500 text-md ${open ? "" : "hidden"}`}>
-        <div className="bg-darkGreen text-off-white">
-          <div className="font-poppins pl-4 text-lg uppercase">
+      <div className={`w-full flex flex-col gap-y-2 text-gray-500 fill-gray-500 text-md ${open ? "" : "hidden"}`}>
+        <div className="bg-darkGreen h-[5.7rem] text-off-white select-none">
+          <div className="font-poppins pl-7 text-[1.9rem] pb-1 pt-1 up font-bold">
             Olá, {FirstName}.
           </div>
-          <div className="font-poppins pl-4 text-2xl uppercase">Menu</div>
+          <div className="font-poppins font-bold pl-7 text-2xl uppercase">Menu</div>
         </div>
         <SideBarItem
           icon={faLineChart}
@@ -65,8 +65,8 @@ const SidebarTest = () => {
             icon={faFileLines}
           />
         )}
-        <div className="w-full flex flex-col gap-y-1 text-gray-500 fill-gray-500 text-md">
-          <div className="font-poppins pl-4 text-off-white text-2xl uppercase flex bg-darkGreen">
+        <div className="w-full flex flex-col gap-y-2 text-gray-500 fill-gray-500 text-md select-none">
+          <div className="h-10 font-poppins font-bold pt-1 pl-7 text-off-white text-2xl uppercase flex bg-darkGreen">
             <p>Perfil</p>
           </div>
           <SideBarItem

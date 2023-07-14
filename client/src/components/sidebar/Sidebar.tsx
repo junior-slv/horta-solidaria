@@ -27,10 +27,10 @@ const Sidebar = () => {
     <aside className="w-72 bg-lightGreen min-h-full justify-between h-screen flex flex-col items-center pt-5 pb-2 space-y-7 absolute bottom-0 left-0">
       <div className="w-full flex flex-col gap-y-1 text-gray-500 fill-gray-500 text-md ">
         <div className="bg-darkGreen text-off-white">
-        <div className="font-poppins pl-4  text-lg uppercase">
+        <div className="font-poppins pl-4 text-lg uppercase">
           Olá, {FirstName}.
         </div>
-        <div className="font-poppins pl-4  text-2xl uppercase">
+        <div className="font-poppins pl-4 text-2xl uppercase">
           Menu
         </div>
         </div>
