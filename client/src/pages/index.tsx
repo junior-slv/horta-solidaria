@@ -55,7 +55,7 @@ const Login = () => {
   return (
     <div className="w-screen h-screen font-poppins flex items-stretch items-centes justify-center bg-darkGreen">
       <div className=" items-center justify-center sm:flex hidden">
-        <img src="/images/horta4.png" alt="" />
+        <img src="/images/hortaLogo.png" alt="" />
       </div>
       <form
         className="p-12 space-y-5 w-[32rem] h-[24rem] self-center block"
@@ -106,7 +106,7 @@ const Login = () => {
               onChange={(e) => setLembrarSenha(e.target.checked)}
             />
           </span>
-          <Botao type="submit">Enviar</Botao>
+          <Botao type="submit" className="bg-lightGreen hover:bg-lightGreenOpacity">Enviar</Botao>
         </div>
         <div className="flex items-center justify-center">
           {loading ? <LoadingAnimation /> : <div></div>}

@@ -34,7 +34,7 @@ module.exports = {
       'beige': '#DED8BC',
       'darkGreen': '#609B57',
       'lightGreen': '#72B854',
-      'lightGreenOpacity': '72b854cc',
+      'lightGreenOpacity': '#72b854cc',
       'transparent': 'rgba(0,0,0,0.0)',
       'lightBlue': '#7280FF',
       'darkBlue': 'rgba(17, 38, 146, 0.68)',

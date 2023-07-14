@@ -37,7 +37,7 @@ const SidebarTest = () => {
         </button>
       </div>
       <div className={`w-full flex flex-col gap-y-2 text-gray-500 fill-gray-500 text-md ${open ? "" : "hidden"}`}>
-        <div className="bg-darkGreen h-[5.7rem] text-off-white">
+        <div className="bg-darkGreen h-[5.7rem] text-off-white select-none">
           <div className="font-poppins pl-7 text-[1.9rem] pb-1 pt-1 up font-bold">
             Olá, {FirstName}.
           </div>
@@ -65,7 +65,7 @@ const SidebarTest = () => {
             icon={faFileLines}
           />
         )}
-        <div className="w-full flex flex-col gap-y-2 text-gray-500 fill-gray-500 text-md">
+        <div className="w-full flex flex-col gap-y-2 text-gray-500 fill-gray-500 text-md select-none">
           <div className="h-10 font-poppins font-bold pt-1 pl-7 text-off-white text-2xl uppercase flex bg-darkGreen">
             <p>Perfil</p>
           </div>
