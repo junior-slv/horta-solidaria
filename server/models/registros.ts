@@ -7,6 +7,7 @@ interface RegistrosAttributes {
   metodo: string;
   parametros: string;
   status: string;
+  ip: string;
   resposta: string;
   fk_Usuario_id: number;
 }
@@ -43,6 +44,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
         allowNull: false,
       },
       status: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+      },
+      ip: {
         type: DataTypes.STRING(50),
         allowNull: false,
       },

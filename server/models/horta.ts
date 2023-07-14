@@ -5,7 +5,7 @@ interface HortaAttributes {
   nome: string;
   tamanho: string;
   descricao: string;
-  fk_Pessoa_id: string; // Update the type to string for UUID
+  fk_Pessoa_id: string;
   fk_Endereco_id: number;
 }
 
@@ -29,11 +29,26 @@ module.exports = (sequelize: any, DataTypes: any) => {
         type: DataTypes.INTEGER,
         primaryKey: true,
       },
-      nome: DataTypes.STRING(100),
-      tamanho: DataTypes.STRING(100),
-      descricao: DataTypes.STRING(100),
-      fk_Pessoa_id: DataTypes.UUID,
-      fk_Endereco_id: DataTypes.INTEGER,
+      nome: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+      },
+      tamanho: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+      },
+      descricao: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      fk_Pessoa_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
+      fk_Endereco_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
     {
       sequelize,

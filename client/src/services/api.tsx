@@ -1,14 +1,13 @@
 
-import axios from "axios";
+import axios from "axios"; 
+import { parseCookies } from "nookies";
+const cookie  = parseCookies();
+const token = cookie['token']
 
 export const instance = axios.create({
-  baseURL: "https://horta-api-li7v.onrender.com/api/",
+  baseURL: "http://localhost:3001/api/",
 });
-let token: string | null = null;
 
-if (typeof window !== "undefined") {
-  token = localStorage.getItem("access_token");
-}
 export const fetchDoacoes = () => {
   return instance
     .get("doacao/todas")
@@ -20,10 +19,12 @@ export const fetchDoacoes = () => {
     });
 };
 export const fetchPessoas = () => {
-  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
   return instance
-    .get("pessoa/todas")
+    .get("pessoa/todas", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then((res) => {
       return res.data;
     })
@@ -31,6 +32,8 @@ export const fetchPessoas = () => {
       console.error(error);
     });
 };
+
+
 
 export const fetchPessoaById = (
   id: string | undefined,

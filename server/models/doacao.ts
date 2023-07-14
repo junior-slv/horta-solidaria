@@ -2,16 +2,16 @@ import { Model, DataTypes } from 'sequelize';
 
 interface DoacaoAttributes {
   id_doacao: number;
-  doador: string;
   produto: string;
   quantidade: number;
-  data: Date;
+  data: string;
+  fk_Pessoa_id: string
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
   class Doacao extends Model<DoacaoAttributes> {
     static associate(models: any) {
-      // Definir as associações aqui
+      Doacao.belongsTo(models.Pessoa, { foreignKey: "fk_Pessoa_id" });
     }
   }
 
@@ -20,10 +20,6 @@ module.exports = (sequelize: any, DataTypes: any) => {
       id_doacao: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-      },
-      doador: {
-        type: DataTypes.STRING(100),
-        allowNull: false,
       },
       produto: {
         type: DataTypes.STRING(100),
@@ -36,6 +32,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
       data: {
         type: DataTypes.DATE,
         allowNull: false,
+      },
+      fk_Pessoa_id: {
+        type: DataTypes.UUID,
+        allowNull: true,
       },
     },
     {

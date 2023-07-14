@@ -15,6 +15,9 @@ module.exports = {
       email: {
         type: Sequelize.STRING
       },
+      telefonerecado: {
+        type: Sequelize.STRING
+      },
       cpf: {
         type: Sequelize.STRING
       },

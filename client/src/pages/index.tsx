@@ -54,7 +54,7 @@ const Login = () => {
 
   return (
     <div className="w-screen h-screen font-poppins flex items-stretch items-centes justify-center bg-darkGreen">
-      <div className="flex items-center justify-center">
+      <div className=" items-center justify-center sm:flex hidden">
         <img src="/images/horta4.png" alt="" />
       </div>
       <form

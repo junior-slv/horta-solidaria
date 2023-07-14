@@ -22,7 +22,7 @@ interface Pessoa {
 
 const Tabela = () => {
   const [paginaAtual, setPaginaAtual] = useState(1);
-  const itensPorPagina = 11;
+  const itensPorPagina = 7;
   const paginaInicial = (paginaAtual - 1) * itensPorPagina;
   const paginaFinal = paginaInicial + itensPorPagina;
   const router = useRouter();
@@ -96,7 +96,7 @@ const Tabela = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 flex flex-col  min-w-full justify-center items-center">
+    <div className=" mx-auto p-4 flex flex-col justify-center items-center">
       <div className="flex justify-end mb-4">
         <div className="min-w-full">
           <input
@@ -138,14 +138,14 @@ const Tabela = () => {
           </Botao>
         </div>
       </div>
-      <table className="min-w-full bg-white rounded-md">
+      <table className="w-full bg-white rounded-md">
         <thead className="rounded-md">
           <tr className="text-off-white bg-lightGreen rounded-md">
-            <th className="px-4 py-2">Nome</th>
-            <th className="px-4 py-2">Email</th>
-            <th className="px-4 py-2">CPF</th>
-            <th className="px-4 py-2">Data de Nascimento</th>
-            <th className="px-4 py-2">Operações</th>
+            <th className="">Nome</th>
+            <th className="">Email</th>
+            <th className="">CPF</th>
+            <th className="">Data de Nascimento</th>
+            <th className="">Operações</th>
           </tr>
         </thead>
         <tbody>
@@ -154,10 +154,10 @@ const Tabela = () => {
               key={pessoa.id_pessoa}
               className={index % 2 !== 0 ? "bg-lightGreen" : ""}
             >
-              <td className="px-4 py-2">{pessoa.nome}</td>
-              <td className="px-4 py-2">{pessoa.email}</td>
-              <td className="px-4 py-2">{pessoa.cpf}</td>
-              <td className="px-4 py-2">{pessoa.dataNascimento}</td>
+              <td className="">{pessoa.nome}</td>
+              <td className="">{pessoa.email}</td>
+              <td className="">{pessoa.cpf}</td>
+              <td className="">{pessoa.dataNascimento}</td>
               <td className="flex justify-around px-4 py-2">
                 <FontAwesomeIcon
                   className="cursor-pointer"

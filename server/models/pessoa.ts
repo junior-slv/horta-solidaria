@@ -5,6 +5,7 @@ interface PessoaAttributes {
   id_pessoa: string;
   nome: string;
   email: string;
+  telefonerecado: string;
   cpf: string;
   dataNascimento: Date;
   dependentes: number;
@@ -17,6 +18,7 @@ interface PessoaAttributes {
   fk_Telefones_id: number;
   fk_Genero_id: number;
   fk_Endereco_id: number;
+  fk_Horta_id: number;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -70,56 +72,66 @@ module.exports = (sequelize: any, DataTypes: any) => {
       },
       nome: {
         type: DataTypes.STRING(255),
-        allowNull: true,
+        allowNull: false,
       },
       email: {
         type: DataTypes.STRING(255),
+        allowNull: false,
+      },
+      telefonerecado: {
+        type: DataTypes.STRING(20),
         allowNull: true,
       },
       cpf: {
         type: DataTypes.STRING(14),
-        allowNull: true,
+        allowNull: false,
+        unique: true,
       },
       dataNascimento: {
-        type: DataTypes.STRING(255),
-        allowNull: true,
+        type: DataTypes.STRING(10),
+        allowNull: false,
       },
       dependentes: {
         type: DataTypes.STRING(3),
-        allowNull: true,
+        allowNull: false,
       },
       rendaFamiliar: {
         type: DataTypes.STRING(100),
-        allowNull: true,
+        allowNull: false,
       },
       capacitacao: {
         type: DataTypes.STRING(10),
-        allowNull: true,
+        allowNull: false,
       },
       comercializar: {
-        type: DataTypes.STRING(100)
+        type: DataTypes.STRING(100),
+        allowNull: false,
       },
       fk_Objetivo_id: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
       },
       fk_Etnia_id: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
       },
       fk_Estado_Civil_id: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
       },
       fk_Telefones_id: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
       },
       fk_Genero_id: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
       },
       fk_Endereco_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      fk_Horta_id: {
         type: DataTypes.INTEGER,
         allowNull: true,
       },

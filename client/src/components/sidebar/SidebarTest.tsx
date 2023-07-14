@@ -1,51 +1,90 @@
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import React, { useContext, useEffect, useState } from "react";
+import Router, { useRouter } from "next/router";
+import {
+  faHome,
+  faUser,
+  faCog,
+  faSignOutAlt,
+  faPersonWalking,
+  faLineChart,
+  faFileCsv,
+  faFileLines,
+  faBars,
+  faSignOut,
+} from "@fortawesome/free-solid-svg-icons";
+import { AuthContext } from "@/contexts/AuthContext";
+import SideBarItem from "./SidebarItem";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-interface SidebarTesteProps {
-  items: SidebarTesteItem[];
-}
+const SidebarTest = () => {
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const { nome, signOut, isAuth, cargo } = useContext(AuthContext);
 
-interface SidebarTesteItem {
-  icon: any;
-  label: string;
-  onClick: () => void;
-}
+  const FirstName = nome.split(" ")[0];
 
-const SidebarTeste: React.FC<SidebarTesteProps> = ({ items }) => {
-  const [expanded, setExpanded] = useState(false);
-
-  const toggleSidebarTeste = () => {
-    setExpanded(!expanded);
-  };
+  useEffect(() => {}, []);
 
   return (
-    <div
-      className={`w-${expanded ? '1/5' : '1/20'} bg-gray-100 h-screen transition-width duration-300`}
+    <aside
+      className={`bg-lightGreen  text-white top-0 flex flex-col w-full overflow-clip ${
+        open ? "h-screen fixed" : "h-8 sticky"
+      } transition-all duration-500 ease-in-out z-50`}
     >
-      <div className="flex justify-end p-4">
-        <FontAwesomeIcon
-          icon={expanded ? faTimes : faBars}
-          onClick={toggleSidebarTeste}
-          className="cursor-pointer"
-        />
+      <div className="flex justify-start p-2 ">
+        <button onClick={() => setOpen(!open)}>
+          <FontAwesomeIcon icon={faBars} className="text-xl" />
+        </button>
       </div>
-      <ul className="list-none p-0">
-        {items.map((item, index) => (
-          <li
-            key={index}
-            className={`flex items-center p-4 cursor-pointer transition-bg ${
-              expanded ? 'bg-gray-300' : 'bg-transparent'
-            }`}
-            onClick={item.onClick}
-          >
-            <FontAwesomeIcon icon={item.icon} className="mr-2" />
-            {expanded && <span>{item.label}</span>}
-          </li>
-        ))}
-      </ul>
-    </div>
+      <div className={`w-full flex flex-col gap-y-1 text-gray-500 fill-gray-500 text-md ${open ? "" : "hidden"}`}>
+        <div className="bg-darkGreen text-off-white">
+          <div className="font-poppins pl-4 text-lg uppercase">
+            Olá, {FirstName}.
+          </div>
+          <div className="font-poppins pl-4 text-2xl uppercase">Menu</div>
+        </div>
+        <SideBarItem
+          icon={faLineChart}
+          onClick={() => {
+            router.push("/resumo/resumo");
+          }}
+          text="Resumo"
+        />
+        <SideBarItem
+          icon={faPersonWalking}
+          onClick={() => {
+            router.push("/pessoas/principal");
+          }}
+          text="Pessoas"
+        />
+        <SideBarItem icon={faCog} onClick={() => {}} text="Configurações" />
+        {cargo === "Administrador" && (
+          <SideBarItem
+            onClick={() => router.push("/registros/todos")}
+            text="Registros"
+            icon={faFileLines}
+          />
+        )}
+        <div className="w-full flex flex-col gap-y-1 text-gray-500 fill-gray-500 text-md">
+          <div className="font-poppins pl-4 text-off-white text-2xl uppercase flex bg-darkGreen">
+            <p>Perfil</p>
+          </div>
+          <SideBarItem
+            icon={faUser}
+            onClick={() => {}}
+            text="Visualizar perfil"
+          />
+          <SideBarItem
+            icon={faSignOutAlt}
+            onClick={() => {
+              signOut();
+            }}
+            text="Sair"
+          />
+        </div>
+      </div>
+    </aside>
   );
 };
 
-export default SidebarTeste;
+export default SidebarTest;

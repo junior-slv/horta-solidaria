@@ -174,8 +174,7 @@ const PessoaDetalhes = () => {
                 conteudo={`${pessoa.Endereco.rua}, ${pessoa.Endereco.numero}, ${
                   pessoa.Endereco.bairro
                 }${
-                  pessoa.Endereco.complemento === null ||
-                  pessoa.Endereco.complemento === undefined
+                  pessoa.Endereco.complemento === ""
                     ? ""
                     : `, ${pessoa.Endereco.complemento}`
                 }, ${pessoa.Endereco.cidade} - ${pessoa.Endereco.estado}, ${

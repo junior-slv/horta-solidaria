@@ -48,7 +48,6 @@ const adicionarPessoa = async (req: any, res: any) => {
       "datanascimento",
       "dependentes",
       "rendafamiliar",
-      "telefonerecado",
       "objetivo",
       "capacitacao",
       "comercializar",
@@ -163,6 +162,7 @@ const adicionarPessoa = async (req: any, res: any) => {
         metodo: "Adicionar",
         parametros: JSON.stringify(info),
         status: "200",
+        ip: req.ip,
         resposta: "Pessoa criada",
         fk_Usuario_id: req.body.usuario_id,
       };
@@ -184,9 +184,10 @@ const adicionarPessoa = async (req: any, res: any) => {
       const info_log = {
         data_hora: new Date(),
         endpoint: "/api/pessoa/adicionar",
-        metodo: `Adicionar ${req.ip}`,
+        metodo: "Adicionar",
         parametros: JSON.stringify(req.body),
         status: "500",
+        ip: req.ip,
         resposta: "Tentativa mal sucedida de adicionar uma nova pessoa",
         fk_Usuario_id: req.body.usuario_id,
       };
@@ -334,6 +335,7 @@ const deletarPessoa = async (req: any, res: any) => {
       metodo: "Deletar",
       parametros: `ID: ${pessoaId}`,
       status: "200",
+      ip: req.ip,
       resposta: "Pessoa deletada com sucesso",
       fk_Usuario_id: req.body.usuario_id,
     };
@@ -354,6 +356,7 @@ const deletarPessoa = async (req: any, res: any) => {
       metodo: "Deletar",
       parametros: `ID: ${req.params.id}`,
       status: "500",
+      ip: req.ip,
       resposta: "Tentativa mal sucedida de deletar a pessoa",
       fk_Usuario_id: req.body.usuario_id,
     };
@@ -405,10 +408,11 @@ const mostrarPessoaPorId = async (req: any, res: any) => {
     const info_log = {
       data_hora: new Date(),
       endpoint: "/api/pessoa/:id",
-      metodo: "GET",
+      metodo: "Busca",
       parametros: `ID: ${pessoaId}`,
       status: "200",
-      resposta: "Pessoa encontrada",
+      ip: req.ip,
+      resposta: "Tentativa bem sucedida de obter a pessoa por ID",
       fk_Usuario_id: usuarioId, // Usa o valor do usuário_id obtido do corpo da requisição
     };
     await db.Registros.create(info_log);
@@ -421,12 +425,12 @@ const mostrarPessoaPorId = async (req: any, res: any) => {
     const info_log = {
       data_hora: new Date(),
       endpoint: "/api/pessoa/:id",
-      metodo: "GET",
+      metodo: "Busca",
       parametros: `ID: ${req.params.id}`,
       status: "500",
-      resposta: "Tentativa mal sucedida de obter a pessoa por ID",
-      fk_Usuario_id: req.body.usuario_id, // Usa o valor do usuário_id obtido do corpo da requisição
       ip: req.ip,
+      resposta: "Tentativa mal sucedida de obter a pessoa por ID",
+      fk_Usuario_id: req.body.usuario_id,
     };
     await db.Registros.create(info_log);
 

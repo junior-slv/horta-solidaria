@@ -43,7 +43,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use((err:any, req:any, res:any, next:any) => {
   console.error(err.stack);
-  console.log("deu erro gordao")
   res.status(500).send('Ocorreu um erro no servidor');
 });
 
@@ -55,23 +54,26 @@ app.use((err:any, req:any, res:any, next:any) => {
 // createPessoas()
 
 //rotas
+const rotaAuth = require('./routes/authRotas');
+app.use('/api/auth', rotaAuth);
+
 const rotaDoacao = require('./routes/doacaoRotas');
-app.use('/api/doacao', rotaDoacao);
+app.use('/api/doacao',  rotaDoacao);
 
 const rotaPessoa = require('./routes/pessoa');
-app.use('/api/pessoa' ,rotaPessoa);
+app.use('/api/pessoa' , rotaPessoa);
 
 const rotaEndereco = require('./routes/endereco');
-app.use('/api/endereco', rotaEndereco);
+app.use('/api/endereco',  rotaEndereco);
 
 const rotaUsuario = require('./routes/rotaUsuario');
-app.use('/api/usuario', rotaUsuario);
+app.use('/api/usuario',  rotaUsuario);
 
 const rotaHorta = require('./routes/rotaHorta');
-app.use('/api/horta', rotaHorta);
+app.use('/api/horta', verificarToken,  rotaHorta);
 
 const rotaObjetivo = require('./routes/rotaObjetivo');
-app.use('/api/objetivo', rotaObjetivo);
+app.use('/api/objetivo', verificarToken,  rotaObjetivo);
 
 db.sequelize.sync().then(() =>{
   app.listen(port, () =>{

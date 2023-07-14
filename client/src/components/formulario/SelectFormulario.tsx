@@ -23,7 +23,7 @@ const SelectFormulario: React.FC<SelectFormularioProps> = ({
     <div className="relative">
       <select
         value={value}
-        className={`pl-10 pr-4 py-2 bg-lightGray border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black ${className}`}
+        className={`pl-10 pr-4 py-2 bg-darkerGray/20 border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black ${className}`}
         onChange={onChange}
       >
         {placeholder && (

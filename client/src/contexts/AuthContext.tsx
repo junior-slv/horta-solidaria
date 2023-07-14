@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 
 import { instance } from "@/services/api";
 
+
 type AuthContextType = {
   nome: string;
   isAuth: boolean;
@@ -52,7 +53,7 @@ export function AuthProvider({ children }: any) {
     try {
       const { login, password, lembrarSenha } = data;
       const res = await instance.post(
-        "usuario/logar",
+        "auth/logar",
         {
           login,
           senha: password,
@@ -77,6 +78,7 @@ export function AuthProvider({ children }: any) {
         localStorage.setItem("cargo", cargo);
         localStorage.setItem("usuario_id", String(usuario_id));
         localStorage.setItem("access_token", token);
+
 
         setLembrarSenha(lembrarSenha);
 

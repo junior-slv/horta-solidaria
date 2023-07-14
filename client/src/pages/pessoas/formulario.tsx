@@ -54,12 +54,12 @@ const schema = z.object({
   rua: z.string().nonempty(),
   numero: z.string().nonempty(),
   bairro: z.string().nonempty(),
-  complemento: z.string().nonempty(),
+  complemento: z.string(),
   cidade: z.string().nonempty(),
   pais: z.string().nonempty(),
   estado: z.string().nonempty(),
   telefone: z.string().nonempty(),
-  telefonerecado: z.string().nonempty(),
+  telefonerecado: z.string(),
   cep: z.string().nonempty(),
   selectedHorta: z.string().nonempty(),
   selectedObjetivo: z.string().nonempty(),
@@ -92,7 +92,7 @@ const FormularioPessoas: React.FC = () => {
   const [bairro, setBairro] = useState<string>("");
   const [complemento, setComplemento] = useState<string>("");
   const [cidade, setCidade] = useState<string>("");
-  const [pais, setPais] = useState<string>("");
+  const [pais, setPais] = useState<string>("Brasil");
   const [estado, setEstado] = useState<string>("");
   const [cep, setCep] = useState<string>("");
   //
@@ -210,7 +210,6 @@ const FormularioPessoas: React.FC = () => {
       );
       setFormSubmitted(true);
       setFormError(false);
-      // Resetando os valores após o envio
       setNome("");
       setEmail("");
       setCpf("");
@@ -223,7 +222,7 @@ const FormularioPessoas: React.FC = () => {
       setBairro("");
       setComplemento("");
       setCidade("");
-      setPais("");
+      setPais("Brasil");
       setEstado("");
       setCep("");
       setTelefone("");
@@ -276,11 +275,9 @@ const FormularioPessoas: React.FC = () => {
   }
 
   return (
-    <div className="flex min-h-screen">
-      <Sidebar />
-      <div className="flex flex-col relative w-4/5 bg-beige">
-        <div className="font-bold text-darkGreen text-4xl mb-10 ">
-          <p>Cadastrar Pessoa</p>
+      <div className="flex flex-col justify-between p-10 bg-beige">
+        <div className="font-bold text-darkGreen flex justify-center items-center text-4xl p-4">
+          <p>Cadastro de pessoa</p>
         </div>
         <div className="flex flex-col rounded-2xl">
           <div className=" flex-grow">
@@ -289,9 +286,9 @@ const FormularioPessoas: React.FC = () => {
               className="flex flex-col min-w-full"
               onSubmit={handleAddDonation}
             >
-              <div className="flex flex-col bg-white">
+              <div className="flex  flex-col bg-white">
                 <div className="">
-                  <div className="flex items-center w-full justify-center bg-lightGreen text-white">
+                  <div className="flex items-center uppercase font-bold justify-center bg-lightGreen text-white">
                     <p>Dados pessoais</p>
                   </div>
                   <div className="flex justify-start">
@@ -411,7 +408,7 @@ const FormularioPessoas: React.FC = () => {
                   </div>
                 </div>
                 <div className="">
-                  <div className="flex items-center justify-center bg-lightGreen text-white">
+                  <div className="flex items-center uppercase font-bold  justify-center bg-lightGreen text-white">
                     <p>Endereço</p>
                   </div>
 
@@ -489,7 +486,7 @@ const FormularioPessoas: React.FC = () => {
                 </div>
 
                 <div className="">
-                  <div className="flex items-center justify-center bg-lightGreen text-white">
+                  <div className="flex items-center justify-center uppercase font-bold  bg-lightGreen text-white">
                     <p>Horta</p>
                   </div>
 
@@ -498,7 +495,7 @@ const FormularioPessoas: React.FC = () => {
                       <div className="relative">
                         <select
                           value={selectedHorta}
-                          className={`pl-10 pr-4 py-2 bg-lightGray border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black\\`}
+                          className={`pl-10 pr-4 py-2 bg-darkerGray/20 border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black\\`}
                           onChange={(e) => setSelectedHorta(e.target.value)}
                         >
                           <option disabled value="">
@@ -550,7 +547,7 @@ const FormularioPessoas: React.FC = () => {
                         </div>
                         <select
                           value={selectedObjetivo}
-                          className={`pl-10 pr-4 py-2 bg-lightGray border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black\\`}
+                          className={`pl-10 pr-4 py-2 bg-darkerGray/20 border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black\\`}
                           onChange={(e) => setSelectedObjetivo(e.target.value)}
                         >
                           <option disabled value="">
@@ -606,7 +603,6 @@ const FormularioPessoas: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
