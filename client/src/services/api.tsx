@@ -5,7 +5,7 @@ const cookie  = parseCookies();
 const token = cookie['token']
 
 export const instance = axios.create({
-  baseURL: "http://localhost:3001/api/",
+  baseURL: "https://horta-api-li7v.onrender.com/api/",
 });
 
 export const fetchDoacoes = () => {
