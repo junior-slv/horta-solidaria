@@ -70,10 +70,10 @@ const rotaUsuario = require('./routes/rotaUsuario');
 app.use('/api/usuario',  rotaUsuario);
 
 const rotaHorta = require('./routes/rotaHorta');
-app.use('/api/horta', verificarToken,  rotaHorta);
+app.use('/api/horta',  rotaHorta);
 
 const rotaObjetivo = require('./routes/rotaObjetivo');
-app.use('/api/objetivo', verificarToken,  rotaObjetivo);
+app.use('/api/objetivo',  rotaObjetivo);
 
 db.sequelize.sync().then(() =>{
   app.listen(port, () =>{

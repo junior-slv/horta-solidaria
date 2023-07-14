@@ -4,8 +4,7 @@ import { Botao } from "../../components/buttons/Botao";
 import { useRouter } from "next/router";
 import { AuthContext } from "@/contexts/AuthContext";
 import Tabela from "./tabela";
-import { fetchPessoas } from "@/services/api";
-import SidebarTest from "@/components/sidebar/SidebarTest";
+
 
 const PessoasMain = () => {
   const { isAuth } = useContext(AuthContext);
@@ -14,7 +13,7 @@ const PessoasMain = () => {
   useEffect(() => {}, []);
   return (
     <div className="flex flex-col relative w-screen bg-beige ">
-      <SidebarTest />
+      <Sidebar/>
       <div className="flex justify-around p-2">
         <div>
           <p className="font-bold text-lightGreen text-4xl">Pessoas</p>

@@ -291,12 +291,12 @@ const FormularioPessoas: React.FC = () => {
                   <div className="flex items-center uppercase font-bold justify-center bg-lightGreen text-white">
                     <p>Dados pessoais</p>
                   </div>
-                  <div className="flex justify-start">
+                  <div className="flex justify-start flex-col sm:flex-row">
                     <div className="p-2">
                       <InputFormulario
                         value={nome}
                         icon={faUser}
-                        className="w-[30rem]"
+                        className="sm:w-[30rem]"
                         onChange={(e) => setNome(e.target.value)}
                         placeholder="Nome"
                       />
@@ -306,14 +306,14 @@ const FormularioPessoas: React.FC = () => {
                       <InputFormulario
                         value={email}
                         icon={faMailBulk}
-                        className="w-[30rem]"
+                        className="sm:w-[30rem]"
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="E-Mail"
                       />
                     </div>
                   </div>
 
-                  <div className="flex justify-around">
+                  <div className="flex justify-around flex-col sm:flex-row">
                     <div className="p-2">
                       <InputFormulario
                         value={cpf}
@@ -341,7 +341,7 @@ const FormularioPessoas: React.FC = () => {
                       />
                     </div>
                   </div>
-                  <div className="flex justify-around">
+                  <div className="flex justify-around flex-col sm:flex-row">
                     <div className="p-2">
                       <InputFormulario
                         value={dataNascimento}
@@ -375,7 +375,7 @@ const FormularioPessoas: React.FC = () => {
                   </div>
 
 
-                  <div className="flex justify-around">
+                  <div className="flex justify-around flex-col sm:flex-row">
                     <div className="p-2">
                       <SelectFormulario
                         placeholder="Renda Familiar"
@@ -412,7 +412,7 @@ const FormularioPessoas: React.FC = () => {
                     <p>Endereço</p>
                   </div>
 
-                  <div className="flex">
+                  <div className="flex flex-col sm:flex-row">
                     <div className="p-2">
                       <InputFormulario
                         value={cep}
@@ -429,7 +429,7 @@ const FormularioPessoas: React.FC = () => {
                         value={rua}
                         onChange={(e) => setRua(e.target.value)}
                         placeholder="Rua"
-                        className="w-[30rem]"
+                        className="sm:w-[30rem]"
                       />
                     </div>
 
@@ -450,7 +450,7 @@ const FormularioPessoas: React.FC = () => {
                       />
                     </div>
                   </div>
-                  <div className="flex">
+                  <div className="flex flex-col sm:flex-row">
                     <div className="p-2">
                       <InputFormulario
                         value={complemento}
@@ -490,7 +490,7 @@ const FormularioPessoas: React.FC = () => {
                     <p>Horta</p>
                   </div>
 
-                  <div className="flex justify-around">
+                  <div className="flex justify-around flex-col sm:flex-row">
                     <div className="p-2">
                       <div className="relative">
                         <select
@@ -517,7 +517,7 @@ const FormularioPessoas: React.FC = () => {
                     </div>
                     <div className="p-2">
                       <SelectFormulario
-                        placeholder="Tem capacitação ou experiência no cultivo de hortas?"
+                        placeholder="Capacitação?"
                         options={optionsCapacitacao}
                         value={capacitacao}
                         icon={faHand}
@@ -526,7 +526,7 @@ const FormularioPessoas: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="flex justify-around">
+                  <div className="flex justify-around flex-col sm:flex-row">
                     <div className="p-2">
                       <SelectFormulario
                         placeholder="Pretende comercializar?"
@@ -547,11 +547,11 @@ const FormularioPessoas: React.FC = () => {
                         </div>
                         <select
                           value={selectedObjetivo}
-                          className={`pl-10 pr-4 py-2 bg-darkerGray/20 border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black\\`}
+                          className={`pl-5 pr-4 py-2 bg-darkerGray/20 border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-black\\`}
                           onChange={(e) => setSelectedObjetivo(e.target.value)}
                         >
                           <option disabled value="">
-                            Qual objetivo com a horta?
+                            Objetivo
                           </option>
                           {objetivos.map((objetivo) => (
                             <option
