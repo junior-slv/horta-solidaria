@@ -90,7 +90,8 @@ const logarUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const usuario_id = user.id_usuario; // Corrigido para usuarioId
         const nome = pessoa.nome;
         const cargo = cargoId.cargo;
-        const token = jsonwebtoken_1.default.sign({ userId: user.id }, 'chave_secreta', { expiresIn: 300 });
+        const token = jsonwebtoken_1.default.sign({ userId: user.id_usuario }, 'chave_secreta', { expiresIn: 30000 });
+        res.set('Authorization', `Bearer ${token}`);
         res.status(200).json({ usuario_id, nome, cargo, auth: true, token });
     }
     catch (error) {

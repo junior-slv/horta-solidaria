@@ -60,7 +60,6 @@ const adicionarPessoa = (req, res) => __awaiter(void 0, void 0, void 0, function
             "datanascimento",
             "dependentes",
             "rendafamiliar",
-            "telefonerecado",
             "objetivo",
             "capacitacao",
             "comercializar",
@@ -139,6 +138,7 @@ const adicionarPessoa = (req, res) => __awaiter(void 0, void 0, void 0, function
                 metodo: "Adicionar",
                 parametros: JSON.stringify(info),
                 status: "200",
+                ip: req.ip,
                 resposta: "Pessoa criada",
                 fk_Usuario_id: req.body.usuario_id,
             };
@@ -157,9 +157,10 @@ const adicionarPessoa = (req, res) => __awaiter(void 0, void 0, void 0, function
             const info_log = {
                 data_hora: new Date(),
                 endpoint: "/api/pessoa/adicionar",
-                metodo: `Adicionar ${req.ip}`,
+                metodo: "Adicionar",
                 parametros: JSON.stringify(req.body),
                 status: "500",
+                ip: req.ip,
                 resposta: "Tentativa mal sucedida de adicionar uma nova pessoa",
                 fk_Usuario_id: req.body.usuario_id,
             };
@@ -270,6 +271,7 @@ const deletarPessoa = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             metodo: "Deletar",
             parametros: `ID: ${pessoaId}`,
             status: "200",
+            ip: req.ip,
             resposta: "Pessoa deletada com sucesso",
             fk_Usuario_id: req.body.usuario_id,
         };
@@ -288,6 +290,7 @@ const deletarPessoa = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             metodo: "Deletar",
             parametros: `ID: ${req.params.id}`,
             status: "500",
+            ip: req.ip,
             resposta: "Tentativa mal sucedida de deletar a pessoa",
             fk_Usuario_id: req.body.usuario_id,
         };
@@ -334,10 +337,11 @@ const mostrarPessoaPorId = (req, res) => __awaiter(void 0, void 0, void 0, funct
         const info_log = {
             data_hora: new Date(),
             endpoint: "/api/pessoa/:id",
-            metodo: "GET",
+            metodo: "Busca",
             parametros: `ID: ${pessoaId}`,
             status: "200",
-            resposta: "Pessoa encontrada",
+            ip: req.ip,
+            resposta: "Tentativa bem sucedida de obter a pessoa por ID",
             fk_Usuario_id: usuarioId, // Usa o valor do usuário_id obtido do corpo da requisição
         };
         yield models_1.default.Registros.create(info_log);
@@ -349,12 +353,12 @@ const mostrarPessoaPorId = (req, res) => __awaiter(void 0, void 0, void 0, funct
         const info_log = {
             data_hora: new Date(),
             endpoint: "/api/pessoa/:id",
-            metodo: "GET",
+            metodo: "Busca",
             parametros: `ID: ${req.params.id}`,
             status: "500",
+            ip: req.ip,
             resposta: "Tentativa mal sucedida de obter a pessoa por ID",
             fk_Usuario_id: req.body.usuario_id,
-            ip: req.ip,
         };
         yield models_1.default.Registros.create(info_log);
         return res.sendStatus(500);

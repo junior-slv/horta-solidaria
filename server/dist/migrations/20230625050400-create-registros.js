@@ -34,6 +34,9 @@ module.exports = {
                 status: {
                     type: Sequelize.STRING
                 },
+                ip: {
+                    type: Sequelize.STRING
+                },
                 resposta: {
                     type: Sequelize.TEXT
                 },

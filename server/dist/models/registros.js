@@ -34,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(50),
             allowNull: false,
         },
+        ip: {
+            type: DataTypes.STRING(50),
+            allowNull: false,
+        },
         resposta: {
             type: DataTypes.TEXT,
             allowNull: false,

@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         complemento: {
             type: DataTypes.STRING(100),
-            allowNull: false,
+            allowNull: true,
         },
         cidade: {
             type: DataTypes.STRING(50),

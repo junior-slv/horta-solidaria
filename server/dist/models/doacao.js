@@ -4,17 +4,13 @@ const sequelize_1 = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class Doacao extends sequelize_1.Model {
         static associate(models) {
-            // Definir as associações aqui
+            Doacao.belongsTo(models.Pessoa, { foreignKey: "fk_Pessoa_id" });
         }
     }
     Doacao.init({
         id_doacao: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-        },
-        doador: {
-            type: DataTypes.STRING(100),
-            allowNull: false,
         },
         produto: {
             type: DataTypes.STRING(100),
@@ -27,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
         data: {
             type: DataTypes.DATE,
             allowNull: false,
+        },
+        fk_Pessoa_id: {
+            type: DataTypes.UUID,
+            allowNull: true,
         },
     }, {
         sequelize,
