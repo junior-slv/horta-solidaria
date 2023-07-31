@@ -1,54 +1,46 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 
-interface AtributosDoacao {
-  id: number;
-  doador: string;
+interface DoacaoAttributes {
+  id_doacao: number;
   produto: string;
-  quantidade: string;
-  data: string,
+  quantidade: number;
+  data: string;
+  fk_Pessoa_id: string
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Doacao extends Model<AtributosDoacao> implements AtributosDoacao {
-    id!: number;
-    doador!: string;
-    produto!: string;
-    quantidade!: string;
-    data!: string;
-
+  class Doacao extends Model<DoacaoAttributes> {
     static associate(models: any) {
-
+      Doacao.belongsTo(models.Pessoa, { foreignKey: "fk_Pessoa_id" });
     }
   }
 
   Doacao.init(
     {
-      id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        autoIncrement: true,
+      id_doacao: {
+        type: DataTypes.INTEGER,
         primaryKey: true,
       },
-      doador: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
       produto: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.STRING(100),
+        allowNull: false,
       },
       quantidade: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
       data: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      fk_Pessoa_id: {
+        type: DataTypes.UUID,
+        allowNull: true,
       },
     },
     {
       sequelize,
       modelName: 'Doacao',
-      timestamps: false
     }
   );
 

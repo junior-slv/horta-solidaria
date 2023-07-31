@@ -39,7 +39,7 @@ import { Console } from "console";
       } else {
         // Carrega os dados das doações
         fetchDoacoes().then((data) => {
-          setDados(data);
+          setDados(data.reverse());
         });
       }
     }, []);
@@ -174,7 +174,7 @@ import { Console } from "console";
               <td>
                 {/* Botão para ir para a página anterior */}
                 <button
-                  className="py-1.5 px-1.5 font-medium outline-black hover:text-sm"
+                  className="relative py-1.5 px-1.5 font-medium outline-black hover:text-sm"
                   onClick={handlePaginaAnterior}
                   disabled={paginaAtual === 1}
                 >
@@ -191,7 +191,7 @@ import { Console } from "console";
               <td>
                 {/* Botão para ir para a próxima página */}
                 <button
-                  className="py-1.5 px-1.5 font-medium outline-black hover:text-sm"
+                  className="py-1.5 px-1.5 font-medium outline-black hover:text-lightGreen"
                   onClick={handleProximaPagina}
                   disabled={paginaAtual === totalPaginas}
                 >

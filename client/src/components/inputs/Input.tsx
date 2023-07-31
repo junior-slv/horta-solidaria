@@ -1,6 +1,7 @@
 import React from "react";
 
 type InputProps = {
+  className?: string;
   type?: string;
   placeholder?: string;
   value?: string;
@@ -8,7 +9,7 @@ type InputProps = {
   error?: any; // Adicionado o tipo para a propriedade error
 };
 
-const Input = ({ type, placeholder, value, onChange, error }: InputProps) => {
+const Input = ({ type, placeholder, value, onChange, error, className }: InputProps) => {
   return (
     <div>
       <input
@@ -16,9 +17,7 @@ const Input = ({ type, placeholder, value, onChange, error }: InputProps) => {
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className={`w-full bg-white border ${
-          error ? "border-red" : "border-gray"
-        } focus:border-lightGreen rounded px-3 py-3 text-lg text-black placeholder-black focus:outline-none transition duration-200 ease-in-out`}
+        className={`w-full ${className} border focus:border-lightGreen rounded px-3 py-3 text-lg text-black placeholder-black focus:outline-none transition duration-200 ease-in-out `}
       />
       {error && <p className="text-red">Erro: {error}</p>}
     </div>

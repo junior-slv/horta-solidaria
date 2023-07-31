@@ -1,31 +1,28 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 
-interface AtributosGenero {
-  id: number;
+interface GeneroAttributes {
+  id_genero: number;
   genero: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Genero extends Model<AtributosGenero> implements AtributosGenero {
-    id!: number;
-    genero!: string;
-
+  class Genero extends Model<GeneroAttributes> {
     static associate(models: any) {
-      Genero.hasMany(models.Pessoa, { foreignKey: 'genero_id' });
+      Genero.hasMany(models.Pessoa, {
+        foreignKey: 'fk_Genero_id',
+        onDelete: 'CASCADE',
+      });
     }
   }
 
   Genero.init(
     {
-      id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        autoIncrement: true,
+      id_genero: {
+        type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
       },
-      genero: {
-        type: DataTypes.STRING(15),
-        allowNull: false,
-      }
+      genero: DataTypes.STRING(50),
     },
     {
       sequelize,

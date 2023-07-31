@@ -22,6 +22,9 @@ const adicionarDoacao = async (req:any, res: any) => {
             quantidade: req.body.quantidade,
             data: req.body.data,
         }
+        if (info.data.lenght > 10){
+          res.sendStatus(412)
+        }
         const doacao = await db.Doacao.create(info);
         res.status(200).send(info)
     } catch(error) {

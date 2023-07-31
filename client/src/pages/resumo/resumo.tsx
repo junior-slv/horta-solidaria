@@ -1,34 +1,44 @@
-import { useContext, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { AuthContext } from '@/contexts/AuthContext';
-import { Botao } from '@/components/buttons/Botao';
+import React, { useContext, useEffect, useState } from 'react';
+import { format, subDays } from 'date-fns';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import Sidebar from '@/components/sidebar/Sidebar';
+import SidebarTeste from '@/components/sidebar/SidebarTest';
 
 const Resumo = () => {
-  const { isAuth } = useContext(AuthContext);
-  const router = useRouter();
+  const [data, setData] = useState<{ name: string; value: number; }[]>([]);
 
   useEffect(() => {
-    // Verificar se o usuário está autenticado
-    if (!isAuth) {
-      router.push('/'); // Redirecionar para a página de login se não estiver autenticado
-    }
-  }, [isAuth, router]);
+    const generateData = () => {
+      const today = new Date();
+      const data = [];
 
-  if (!isAuth) {
-    return null; // Ou pode exibir uma mensagem de carregamento ou redirecionar para a página de login diretamente
-  }
+      for (let i = 30; i >= 1; i--) {
+        const date = subDays(today, i);
+        const formattedDate = format(date, 'dd/MM');
+        const value = Math.floor(Math.random() * 100); // Valor aleatório para exemplo
+
+        data.push({ name: formattedDate, value });
+      }
+
+      setData(data);
+    };
+
+    generateData();
+  }, []);
 
   return (
-    <div className="overflow-y-hidden flex">
-      {/* Div Para sideBar */}
-      <div className="z-50">
-        <Sidebar />
-      </div>
-      {/* Div para content */}
-      <div className="flex justify-center z-0 bg-beige items-center flex-col relative w-full">
-        {/* Conteúdo da rota protegida */}
-      </div>
+    <div className="flex">
+      <SidebarTeste/>
+      <div>
+      {/* <BarChart width={500} height={300} data={data}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="value" fill="#8884d8" />
+      </BarChart> */}
+    </div>
     </div>
   );
 };

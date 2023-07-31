@@ -1,34 +1,54 @@
-import { Model } from 'sequelize';
+import { Model, Sequelize, DataTypes } from 'sequelize';
 
-interface AtributosHorta {
-  id: number;
-  horta: string;
+interface HortaAttributes {
+  id_horta: number;
+  nome: string;
+  tamanho: string;
+  descricao: string;
+  fk_Pessoa_id: string;
+  fk_Endereco_id: number;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Horta extends Model<AtributosHorta> implements AtributosHorta {
-    id!: number;
-    horta!: string;
-
-    readonly createdAt!: string;
-    readonly updatedAt!: string;
-
+  class Horta extends Model<HortaAttributes> {
     static associate(models: any) {
-      Horta.hasMany(models.Pessoa, { foreignKey: 'horta_id' });
+      Horta.belongsTo(models.Pessoa, {
+        foreignKey: 'fk_Pessoa_id',
+        onDelete: 'CASCADE',
+      });
+      Horta.belongsTo(models.Endereco, {
+        foreignKey: 'fk_Endereco_id',
+        onDelete: 'CASCADE',
+      });
     }
   }
 
   Horta.init(
     {
-      id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        autoIncrement: true,
+      id_horta: {
+        type: DataTypes.INTEGER,
         primaryKey: true,
       },
-      horta: {
-        type: DataTypes.STRING(30),
+      nome: {
+        type: DataTypes.STRING(255),
         allowNull: false,
-      }
+      },
+      tamanho: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+      },
+      descricao: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
+      fk_Pessoa_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
+      fk_Endereco_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
     {
       sequelize,

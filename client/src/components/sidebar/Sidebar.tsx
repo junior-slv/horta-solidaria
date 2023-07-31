@@ -1,101 +1,80 @@
-// Imports para o componente
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; //importação do componente
+import React, { useContext, useEffect, useState } from "react";
+import Router, { useRouter } from "next/router";
 import {
-  faArrowRightToBracket,
-  faHouse,
-  faMagnifyingGlass,
-  faArrowRight,
-  faGauge,
-  faTree,
-  faDiagramProject,
-  faBoxArchive,
-  faPeopleGroup,
+  faHome,
   faUser,
-  faAddressCard,
-} from "@fortawesome/free-solid-svg-icons"; // importação do icone individual
-import React, { useState } from "react";
-import Router from "next/router";
-import SidebarItem from "./SidebarItem";
-// componente SideBar
-const Sidebar = () => {
-  //varíavel para armazenar o estado atual da side bar
-  const [open, setOpen] = useState(true);
-  const [subMenuOpen, setSubMenuOpen] = useState(false);
-  //Componente
-  return (
-    // Side Bar
-    <div className="flex">
-      <div
-        className={`${
-          open ? "w-72" : "w-20"
-        } bg-lightGreen h-screen p-5 pt-8 duration-300 relative`}
-      >
-        {/* Recolher icone */}
-        <FontAwesomeIcon
-          icon={faArrowRight}
-          className={`${
-            open && "rotate-180"
-          } bg-white text-lightGreen text-xl rounded-full absolute -right-3 top-9 border border-lightGreen cursor-pointer p-1 duration-200`}
-          onClick={() => setOpen(!open)}
-        />
-        {/* Links */}
-        {/* fist item */}
-        <div className="inline-flex duration-200">
-          <FontAwesomeIcon
-            icon={faHouse}
-            className={`${
-              open && "rotate-[360deg]"
-            } text-3xl rounded cursor-pointer block float-left mr-2 duration 500 text-white`}
-          />
-          <h1
-            className={`${
-              !open && "scale-0"
-            } text-white origin-left font-medium text-2xl duration-300 ml-2`}
-          >
-            Olá, Junior.
-          </h1>
-        </div>
+  faCog,
+  faSignOutAlt,
+  faPersonWalking,
+  faLineChart,
+  faFileCsv,
+  faFileLines,
+} from "@fortawesome/free-solid-svg-icons";
+import { AuthContext } from "@/contexts/AuthContext";
+import SideBarItem from "./SidebarItem";
 
-        {/* Search Item */}
-        <div
-          className={`${
-            !open ? "px-2.5" : "px-4"
-          } py-2 my-5 flex items-center rounded-md bg-darkGreen`}
-        >
-          <FontAwesomeIcon
-            icon={faMagnifyingGlass}
-            className={`${
-              open && "mr-2"
-            } text-white text-lg block float-left cursor-pointer`}
-          />
-          <input
-            type={"search"}
-            placeholder="Pesquisar..."
-            className={`${
-              !open && "hidden"
-            } text-base bg-transparent w-full text-white focus:outline-none border-none placeholder-white`}
-          />
+const Sidebar = () => {
+  const [open, setOpen] = useState(true);
+  const router = useRouter();
+  const { nome, signOut, isAuth, cargo } = useContext(AuthContext);
+
+
+    const FirstName = nome.split(' ')[0];
+
+  useEffect(() => {}, []);
+
+  return (
+    <aside className="w-72 bg-lightGreen min-h-full justify-between h-screen flex flex-col items-center pt-5 pb-2 space-y-7 absolute bottom-0 left-0">
+      <div className="w-full flex flex-col gap-y-1 text-gray-500 fill-gray-500 text-md ">
+        <div className="bg-darkGreen text-off-white">
+        <div className="font-poppins pl-4 text-lg uppercase">
+          Olá, {FirstName}.
         </div>
-        {/* All itens */}
-        <ul className="pt-2">
-          <SidebarItem onClick={() => Router.push("/")} label="Resumo" children={<FontAwesomeIcon icon={faGauge} />} className={`${!open && "hidden"}`}/>
-          <SidebarItem onClick={() => Router.push("/")} label="Hortas" children={<FontAwesomeIcon icon={faTree} />} className={`${!open && "hidden"}`}/>
-          <SidebarItem onClick={() => Router.push("/pessoas/principal")} label="Pessoas" children={<FontAwesomeIcon icon={faPeopleGroup} />} className={`${!open && "hidden"}`}/>
-          <SidebarItem onClick={() => Router.push("/doacao/principal")} label="Doações" children={<FontAwesomeIcon icon={faBoxArchive} />} className={`${!open && "hidden"}`}/>
-          <SidebarItem onClick={() => Router.push("/")} label="Projetos" children={<FontAwesomeIcon icon={faDiagramProject} />} className={`${!open && "hidden"}`}/>
-          <SidebarItem onClick={() => Router.push("/")} label="Usuários" children={<FontAwesomeIcon icon={faUser} />} className={`${!open && "hidden"}`}/>
-          <SidebarItem onClick={() => Router.push("/")} label="Registros" children={<FontAwesomeIcon icon={faAddressCard} />} className={`${!open && "hidden"}`}/>
-        </ul>
-        <div className="bottom-0 flex fixed">
-          <div>
-            <span onClick={() => Router.push("/")} className=" mt-9 mb-4 text-white flex items-center gap-x-4 curson-pointer p-2 hover:bg-darkGreen rounded-md text-xl font-medium flex-1 duration-200">
-              <FontAwesomeIcon icon={faArrowRightToBracket} />
-              <span className={`${!open && "hidden"}`}>Sair</span>
-            </span>
-          </div>
+        <div className="font-poppins pl-4 text-2xl uppercase">
+          Menu
         </div>
+        </div>
+        <SideBarItem
+          icon={faLineChart}
+          onClick={() => {
+            router.push("/resumo/resumo");
+          }}
+          text="Resumo"
+        />
+        <SideBarItem
+          icon={faPersonWalking}
+          onClick={() => {
+            router.push("/pessoas/principal");
+          }}
+          text="Pessoas"
+        />
+        <SideBarItem icon={faCog} onClick={() => {}} text="Configurações" />
+        {cargo === "Administrador" && (
+          <SideBarItem
+            onClick={() => router.push("/registros/todos")}
+            text="Registros"
+            icon={faFileLines}
+          />
+        )}
       </div>
-    </div>
+      <div className="w-full flex flex-col gap-y-1 text-gray-500 fill-gray-500 text-md">
+        <div className="font-poppins pl-4 text-off-white text-2xl uppercase flex bg-darkGreen">
+         <p>Perfil</p>
+        </div>
+        <SideBarItem
+          icon={faUser}
+          onClick={() => {}}
+          text="Visualizar perfil"
+        />
+        <SideBarItem
+          icon={faSignOutAlt}
+          onClick={() => {
+            signOut();
+          }}
+          text="Sair"
+        />
+      </div>
+    </aside>
   );
 };
 

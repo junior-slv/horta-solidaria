@@ -7,6 +7,7 @@ export const endereco = [
       complemento: 'Complemento 1',
       bairro: 'Bairro 1',
       cidade: 'Cidade 1',
+      cep: '86020-420',
       estado_id: 1,
     },
     {
@@ -15,6 +16,7 @@ export const endereco = [
       complemento: 'Complemento 1',
       bairro: 'Bairro 1',
       cidade: 'Cidade 1',
+      cep: '86020-420',
       estado_id: 2,
     },
     {
@@ -23,6 +25,7 @@ export const endereco = [
       complemento: 'Complemento 1',
       bairro: 'Bairro 1',
       cidade: 'Cidade 1',
+      cep: '86020-420',
       estado_id: 1,
     },
     {
@@ -31,6 +34,7 @@ export const endereco = [
       complemento: 'Complemento 1',
       bairro: 'Bairro 1',
       cidade: 'Cidade 1',
+      cep: '86020-420',
       estado_id: 4,
     },
     {
@@ -39,6 +43,7 @@ export const endereco = [
       complemento: 'Complemento 1',
       bairro: 'Bairro 1',
       cidade: 'Cidade 1',
+      cep: '86020-420',
       estado_id: 1,
     },
     {
@@ -47,6 +52,7 @@ export const endereco = [
       complemento: 'Complemento 1',
       bairro: 'Bairro 1',
       cidade: 'Cidade 1',
+      cep: '86020-420',
       estado_id: 12,
     },
     
