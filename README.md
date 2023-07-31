@@ -60,7 +60,7 @@ git clone https://github.com/p1nheiros/projetoIpen.git
     </td>
       <td>
       <a href="#">
-        <img src="https://avatars.githubusercontent.com/u/108402999?v=4" width="100px;" alt="Lucas Pinheiro"/><br>
+        <img src="https://avatars.githubusercontent.com/u/108402999?v=4" width="100px;" alt="Dirceu Júnior"/><br>
         <sub>
           <b>Lucas Pinheiro</b>
         </sub>
